@@ -9,7 +9,7 @@
 [codeclimate]: https://codeclimate.com/github/peter-murach/tty-spinner
 [coverage]: https://coveralls.io/r/peter-murach/tty-spinner
 
-A terminal spinner for tasks that have non-deterministic time frame.
+> A terminal spinner for tasks that have non-deterministic time frame.
 
 **TTY::Spinner** provides independent spinner component for [TTY](https://github.com/peter-murach/tty) toolkit.
 
@@ -40,7 +40,7 @@ Or install it yourself as:
 
 ## 1. Usage
 
-**TTY::ProgressBar** by default uses `:spin_1` type of formatter and requires no paramters:
+**TTY::Spinner** by default uses `:spin_1` type of formatter and requires no paramters:
 
 ```ruby
 spinner = TTY::Spinner.new
