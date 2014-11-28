@@ -3,16 +3,16 @@
 module TTY
   module Formats
     FORMATS = {
-      spin_1: "|/-\\",
-      spin_2: '⎺⎻⎼⎽⎼⎻',
-      spin_3: '◴◷◶◵',
-      spin_4: '◐◓◑◒',
-      spin_5: '◰◳◲◱',
-      spin_6: '▉▊▋▌▍▎▏▎▍▌▋▊▉',
-      spin_7: '▌▄▐▀',
-      spin_8: '■□▪▫',
-      spin_9: '←↑→↓',
-      spin_10: '╫╪'
+      spin_1: "|/-\\".freeze,
+      spin_2: '⎺⎻⎼⎽⎼⎻'.freeze,
+      spin_3: '◴◷◶◵'.freeze,
+      spin_4: '◐◓◑◒'.freeze,
+      spin_5: '◰◳◲◱'.freeze,
+      spin_6: '▉▊▋▌▍▎▏▎▍▌▋▊▉'.freeze,
+      spin_7: '▌▄▐▀'.freeze,
+      spin_8: '■□▪▫'.freeze,
+      spin_9: '←↑→↓'.freeze,
+      spin_10: '╫╪'.freeze
     }
   end # Formats
 end # TTY
