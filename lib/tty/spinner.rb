@@ -9,13 +9,13 @@ module TTY
   # @api public
   class Spinner
     include Formats
-    ECMA_ESC = "\x1b"
-    ECMA_CSI = "\x1b["
-    ECMA_CHA = 'G'
+    ECMA_ESC = "\x1b".freeze
+    ECMA_CSI = "\x1b[".freeze
+    ECMA_CHA = 'G'.freeze
 
-    DEC_RST = 'l'
-    DEC_SET = 'h'
-    DEC_TCEM = '?25'
+    DEC_RST = 'l'.freeze
+    DEC_SET = 'h'.freeze
+    DEC_TCEM = '?25'.freeze
 
     # The object that responds to print call defaulting to stderr
     #
