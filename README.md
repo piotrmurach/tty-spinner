@@ -104,20 +104,7 @@ There are number of configuration options that can be provided:
 
 ## 3. Formatting
 
-**TTY::Spinner** supports the following formatting for its spinners:
-
-| Type     | Animation   |
-| -------- | ----------- |
-| :spin_1  |             |
-| :spin_2  |             |
-| :spin_3  |             |
-| :spin_4  |             |
-| :spin_5  |             |
-| :spin_6  |             |
-| :spin_7  |             |
-| :spin_8  |             |
-| :spin_9  |             |
-| :spin_10 |             |
+**TTY::Spinner** accepts `:spin_1` to `:spin_15` as spinner formats.
 
 ## Contributing
 
