@@ -56,7 +56,7 @@ spinner = TTY::Spinner.new('Loading ... ', format: :spin_2)
 end
 ```
 
-This would product animation in your terminal:
+This would produce animation in your terminal:
 
 ```ruby
 Loading ... ⎺
@@ -116,4 +116,4 @@ There are number of configuration options that can be provided:
 
 ## Copyright
 
-Copyright (c) 2014 Piotr Murach. See LICENSE for further details.
+Copyright (c) 2014-2016 Piotr Murach. See LICENSE for further details.
