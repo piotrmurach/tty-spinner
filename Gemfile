@@ -3,11 +3,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'rake',    '~> 10.3.2'
-  gem 'rspec',   '~> 3.1.0'
+  gem 'rspec',   '~> 3.4.0'
   gem 'yard',    '~> 0.8.7'
   gem 'timecop', '~> 0.7.1'
-  gem 'pastel',  '~> 0.3.0'
+  gem 'pastel',  '~> 0.6.0'
 end
 
 group :metrics do
