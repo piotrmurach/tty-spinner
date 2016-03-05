@@ -1,13 +1,15 @@
 # TTY::Spinner
-[![Gem Version](https://badge.fury.io/rb/tty-spinner.png)][gem]
-[![Build Status](https://secure.travis-ci.org/peter-murach/tty-spinner.png?branch=master)][travis]
-[![Code Climate](https://codeclimate.com/github/peter-murach/tty-spinner.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/peter-murach/tty-spinner/badge.png)][coverage]
+[![Gem Version](https://badge.fury.io/rb/tty-spinner.svg)][gem]
+[![Build Status](https://secure.travis-ci.org/peter-murach/tty-spinner.svg?branch=master)][travis]
+[![Code Climate](https://codeclimate.com/github/peter-murach/tty-spinner/badges/gpa.png)][codeclimate]
+[![Coverage Status](https://coveralls.io/repos/peter-murach/tty-spinner/badge.svg)][coverage]
+[![Inline docs](http://inch-ci.org/github/peter-murach/tty-spinner.svg?branch=master)][inchpages]
 
 [gem]: http://badge.fury.io/rb/tty-spinner
 [travis]: http://travis-ci.org/peter-murach/tty-spinner
 [codeclimate]: https://codeclimate.com/github/peter-murach/tty-spinner
 [coverage]: https://coveralls.io/r/peter-murach/tty-spinner
+[inchpages]: http://inch-ci.org/github/peter-murach/tty-spinner
 
 > A terminal spinner for tasks that have non-deterministic time frame.
 
