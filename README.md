@@ -53,20 +53,27 @@ Or install it yourself as:
 spinner = TTY::Spinner.new
 ```
 
-In addition you can provide a message and format type you would like for the spinning display like so:
+In addition you can provide a message with `:spinner` token and format type you would like for the spinning display:
 
 ```ruby
-spinner = TTY::Spinner.new('Loading ... ', format: :spin_2)
+spinner = TTY::Spinner.new("Loading ... :spinner", format: :spin_2)
 30.times do
   spinner.spin
   sleep(0.1)
 end
+spinner.stop('Done!')
 ```
 
 This would produce animation in your terminal:
 
 ```ruby
 Loading ... ⎺
+```
+
+and when finished output:
+
+```ruby
+Loading ... _ Done!
 ```
 
 ## 2. API
