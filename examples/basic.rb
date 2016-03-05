@@ -7,3 +7,4 @@ spinner = TTY::Spinner.new("Loading ... ", format: :spin_2)
   spinner.spin
   sleep(0.1)
 end
+spinner.stop
