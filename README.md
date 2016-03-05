@@ -34,11 +34,15 @@ Or install it yourself as:
 ## Contents
 
 * [1. Usage](#1-usage)
-  * [1.1 spin](#11-spin)
-  * [1.2 stop](#12-stop)
-  * [1.3 reset](#13-reset)
-* [2. Configuration](#2-configuration)
-* [3. Formatting](#3-formatting)
+* [2. API](#2-api)
+  * [1.1 spin](#21-spin)
+  * [1.2 stop](#22-stop)
+  * [1.3 reset](#23-reset)
+* [3. Configuration](#3-configuration)
+  * [3.1 :format](#31-format)
+  * [3.2 :frames](#32-frames)
+  * [3.2 :hide_cursor](#33-hide-cursor)
+  * [3.4 :output](#34-output)
 
 ## 1. Usage
 
@@ -64,11 +68,13 @@ This would produce animation in your terminal:
 Loading ... ⎺
 ```
 
-### 1.1 spin
+## 2. API
+
+### 2.1 spin
 
 The main workhorse of the spinner is the `spin` method. Looping over `spin` method will animate a given spinner.
 
-### 1.2 stop
+### 2.2 stop
 
 In order to stop the spinner call `stop`. This will finish drawing the spinning and return to new line.
 
@@ -88,7 +94,7 @@ which would produce for the above example the following:
 Loading ... Done!
 ```
 
-### 1.3 reset
+### 2.3 reset
 
 In order to reset the spinner to its initial frame do:
 
@@ -96,17 +102,48 @@ In order to reset the spinner to its initial frame do:
 spinner.reset
 ```
 
-## 2. Configuration
+## 3. Configuration
 
-There are number of configuration options that can be provided:
+There are number of configuration options that can be provided to customise the behaviour of a spinner.
 
-* `format` the formatting token (see [Formatting](#3-formatting))
-* `output` the output stream defaulting to `stderr`
 * `hide_cursor` to hide display cursor defaulting to `false`
+* `color`
 
-## 3. Formatting
+### 3.1 :format
+
+Use one of the predefined spinner styles by passing the formatting token `:format`
+
+```ruby
+spinner = TTY::Spinner.new(format: :spin_1)
+```
 
 **TTY::Spinner** accepts `:spin_1` to `:spin_15` as spinner formats.
+
+### 3.2 :frames
+
+If you wish to use custom formatting use the `:frames` option with either `array` or `string` of characters.
+
+```ruby
+spinner = TTY::Spinner.new(frames: [".", "o", "0", "@", "*"])
+```
+
+### 3.3 :hide_cursor
+
+Hides cursor when spinning animation performs. Defaults to `false`.
+
+```ruby
+spinner = TTY::Spinner.new(hide_cursor: true)
+```
+
+### 3.4 :output
+
+To change where data is streamed use `:output` option like so:
+
+```
+spinner = TTY::Spinner.new(output: $stdout)
+```
+
+The output stream defaults to `stderr`.
 
 ## Contributing
 
