@@ -73,7 +73,19 @@ module TTY
       @length      = @frames.length
       @current     = 0
       @done        = false
-      @spinning    = false
+      @state       = :stopped
+    end
+
+    def spinning?
+      @state == :spinning
+    end
+
+    def success?
+      @state == :success
+    end
+
+    def failure?
+      @state == :failure
     end
 
     # Perform a spin
@@ -85,14 +97,14 @@ module TTY
     def spin
       return if @done
 
-      if @hide_cursor && !@spinning
+      if @hide_cursor && !spinning?
         write(ECMA_CSI + DEC_TCEM + DEC_RST)
       end
 
       data = message + @frames[@current]
       write(data, true)
       @current  = (@current + 1) % @length
-      @spinning = true
+      @state = :spinning
       data
     end
 
@@ -103,10 +115,12 @@ module TTY
     #
     # @api public
     def stop(stop_message = '')
-      if @hide_cursor && @spinning
+      if @hide_cursor && spinning?
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
       @done = true
+      @state = :success
+
       return if message.empty? && stop_message.empty?
       write(message + stop_message, true)
     end
@@ -116,6 +130,7 @@ module TTY
     # @api public
     def reset
       @current = 0
+      @state   = :stopped
     end
 
     private
