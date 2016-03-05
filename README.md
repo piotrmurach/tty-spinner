@@ -41,8 +41,9 @@ Or install it yourself as:
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
-  * [3.2 :hide_cursor](#33-hide-cursor)
-  * [3.4 :output](#34-output)
+  * [3.3 :hide_cursor](#33-hide_cursor)
+  * [3.4 :clear](#34-clear)
+  * [3.5 :output](#35-output)
 
 ## 1. Usage
 
@@ -135,7 +136,15 @@ Hides cursor when spinning animation performs. Defaults to `false`.
 spinner = TTY::Spinner.new(hide_cursor: true)
 ```
 
-### 3.4 :output
+### 3.4 :clear
+
+After spinner is finished clears its output. Defaults to `false`.
+
+```ruby
+spinner = TTY::Spinner.new(clear: true)
+```
+
+### 3.5 :output
 
 To change where data is streamed use `:output` option like so:
 
