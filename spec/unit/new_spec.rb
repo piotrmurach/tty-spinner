@@ -1,8 +1,6 @@
 # coding: utf-8
 
-require 'spec_helper'
-
-RSpec.describe TTY::Spinner, '.new' do
+RSpec.describe TTY::Spinner, '#new' do
 
   it "creates spinner with default format" do
     spinner = TTY::Spinner.new

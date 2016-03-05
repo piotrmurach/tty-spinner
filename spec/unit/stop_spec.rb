@@ -1,8 +1,6 @@
 # coding: utf-8
 
-require 'spec_helper'
-
-RSpec.describe TTY::Spinner, '.stop' do
+RSpec.describe TTY::Spinner, '#stop' do
   let(:output) { StringIO.new('', 'w+') }
 
   it "stops after 2 spins" do

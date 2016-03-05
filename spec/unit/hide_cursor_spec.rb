@@ -1,8 +1,6 @@
 # coding: utf-8
 
-require 'spec_helper'
-
-RSpec.describe TTY::Spinner, 'hide_cursor' do
+RSpec.describe TTY::Spinner, ':hide_cursor' do
   let(:output) { StringIO.new('', 'w+') }
 
   it "hides cursor" do
