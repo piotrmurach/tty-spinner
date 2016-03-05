@@ -30,15 +30,14 @@ RSpec.describe TTY::Spinner, '#spin' do
   end
 
   it "spins with message" do
-    message = "Loading ... "
-    spinner = TTY::Spinner.new(message, output: output)
+    spinner = TTY::Spinner.new("Loading ... :spinner", output: output)
     4.times { spinner.spin }
     output.rewind
     expect(output.read).to eq([
-      "\e[1G#{message}|",
-      "\e[1G#{message}/",
-      "\e[1G#{message}-",
-      "\e[1G#{message}\\"
+      "\e[1GLoading ... |",
+      "\e[1GLoading ... /",
+      "\e[1GLoading ... -",
+      "\e[1GLoading ... \\"
     ].join)
   end
 end

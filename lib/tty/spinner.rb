@@ -18,6 +18,8 @@ module TTY
     DEC_SET = 'h'.freeze
     DEC_TCEM = '?25'.freeze
 
+    MATCHER = /:spinner/.freeze
+
     # The object that responds to print call defaulting to stderr
     #
     # @api public
@@ -66,7 +68,7 @@ module TTY
     # @api public
     def initialize(*args)
       options  = args.last.is_a?(::Hash) ? args.pop : {}
-      @message = args.empty? ? '' : args.pop
+      @message = args.empty? ? ':spinner' : args.pop
 
       @format      = options.fetch(:format) { :spin_1 }
       @output      = options.fetch(:output) { $stderr }
@@ -105,9 +107,9 @@ module TTY
         write(ECMA_CSI + DEC_TCEM + DEC_RST)
       end
 
-      data = message + @frames[@current]
+      data = message.gsub(MATCHER, @frames[@current])
       write(data, true)
-      @current  = (@current + 1) % @length
+      @current = (@current + 1) % @length
       @state = :spinning
       data
     end
@@ -125,12 +127,13 @@ module TTY
       @done = true
       @state = :success
 
-      clear_line if @clear
-      if message.empty? && stop_message.empty?
-        write("\n", false)
-      else
-        write(message + stop_message, true)
+      return clear_line if @clear
+
+      data = message.gsub(MATCHER, @frames[@current - 1])
+      if !stop_message.empty?
+        write(data + stop_message, true)
       end
+      write("\n", false) unless @clear
     end
 
     # Clear current line

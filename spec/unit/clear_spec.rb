@@ -12,8 +12,7 @@ RSpec.describe TTY::Spinner, ':clear' do
       "\e[1G|",
       "\e[1G/",
       "\e[1G-",
-      "\e[0m\e[1000D\e[K",
-      "\e[1GDone!"
+      "\e[0m\e[1000D\e[K"
     ].join)
   end
 end

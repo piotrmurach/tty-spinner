@@ -26,22 +26,21 @@ RSpec.describe TTY::Spinner, '#stop' do
     expect(output.read).to eq([
       "\e[1G|",
       "\e[1G/",
-      "\e[1GDone!"
+      "\e[1G/Done!\n"
     ].join)
   end
 
   it "stops after 2 spins with message and prints stop message" do
-    message = "Loading ... "
-    spinner = TTY::Spinner.new(message, output: output)
+    spinner = TTY::Spinner.new("Loading ... :spinner", output: output)
     5.times do |n|
       spinner.spin
       spinner.stop('Done!') if n == 1
     end
     output.rewind
     expect(output.read).to eq([
-      "\e[1G#{message}|",
-      "\e[1G#{message}/",
-      "\e[1G#{message}Done!"
+      "\e[1GLoading ... |",
+      "\e[1GLoading ... /",
+      "\e[1GLoading ... /Done!\n"
     ].join)
   end
 end

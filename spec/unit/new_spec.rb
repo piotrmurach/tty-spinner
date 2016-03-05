@@ -7,9 +7,9 @@ RSpec.describe TTY::Spinner, '#new' do
     expect(spinner.format).to eq(:spin_1)
   end
 
-  it "allows to pass message in" do
-    spinner = TTY::Spinner.new("Initializing...")
-    expect(spinner.message).to eq("Initializing...")
+  it "creates spinner with custom format" do
+    spinner = TTY::Spinner.new("Initializing... :spinner ")
+    expect(spinner.message).to eq("Initializing... :spinner ")
   end
 
   it "allows to set default output" do
