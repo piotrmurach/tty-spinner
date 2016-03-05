@@ -69,7 +69,7 @@ module TTY
       @output      = options.fetch(:output) { $stderr }
       @hide_cursor = options.fetch(:hide_cursor) { false }
 
-      @frames      = FORMATS[@format.to_sym]
+      @frames      = options.fetch(:frames) { FORMATS[@format.to_sym] }
       @length      = @frames.length
       @current     = 0
       @done        = false
