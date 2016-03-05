@@ -12,7 +12,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G|",
-      "\e[1G/"
+      "\e[1G/\n"
     ].join)
   end
 

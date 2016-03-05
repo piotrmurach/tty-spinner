@@ -12,6 +12,7 @@ module TTY
     ECMA_ESC = "\x1b".freeze
     ECMA_CSI = "\x1b[".freeze
     ECMA_CHA = 'G'.freeze
+    ECMA_CLR = 'K'.freeze
 
     DEC_RST = 'l'.freeze
     DEC_SET = 'h'.freeze
@@ -59,6 +60,8 @@ module TTY
     #   the object that responds to print call defaulting to stderr
     # @option options [Boolean] :hide_cursor
     #   display or hide cursor
+    # @option options [Boolean] :clear
+    #   clear ouptut when finished
     #
     # @api public
     def initialize(*args)
@@ -68,8 +71,9 @@ module TTY
       @format      = options.fetch(:format) { :spin_1 }
       @output      = options.fetch(:output) { $stderr }
       @hide_cursor = options.fetch(:hide_cursor) { false }
-
       @frames      = options.fetch(:frames) { FORMATS[@format.to_sym] }
+      @clear       = options.fetch(:clear) { false }
+
       @length      = @frames.length
       @current     = 0
       @done        = false
@@ -121,8 +125,19 @@ module TTY
       @done = true
       @state = :success
 
-      return if message.empty? && stop_message.empty?
-      write(message + stop_message, true)
+      clear_line if @clear
+      if message.empty? && stop_message.empty?
+        write("\n", false)
+      else
+        write(message + stop_message, true)
+      end
+    end
+
+    # Clear current line
+    #
+    # @api public
+    def clear_line
+      output.print(ECMA_CSI + '0m' + ECMA_CSI + '1000D' + ECMA_CSI + ECMA_CLR)
     end
 
     # Reset the spinner to initial frame
