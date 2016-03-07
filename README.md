@@ -35,9 +35,11 @@ Or install it yourself as:
 
 * [1. Usage](#1-usage)
 * [2. API](#2-api)
-  * [1.1 spin](#21-spin)
-  * [1.2 stop](#22-stop)
-  * [1.3 reset](#23-reset)
+  * [2.1 spin](#21-spin)
+  * [2.2 stop](#22-stop)
+  * [2.3 success](#23-success)
+  * [2.4 error](#24-error)
+  * [2.5 reset](#25-reset)
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
@@ -84,25 +86,49 @@ The main workhorse of the spinner is the `spin` method. Looping over `spin` meth
 
 ### 2.2 stop
 
-In order to stop the spinner call `stop`. This will finish drawing the spinning and return to new line.
+In order to stop the spinner call `stop`. This will finish drawing the spinning animation and return to new line.
 
 ```ruby
 spinner.stop
 ```
 
-You can further pass a stop message to print in place of spinning animation:
+You can further pass a message to print when animation is finished.
 
 ```ruby
 spinner.stop('Done!')
 ```
 
-which would produce for the above example the following:
+### 2.3 success
+
+Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
 
 ```ruby
-Loading ... Done!
+spinner = TTY::Spinner.new("[:spinner] Task name")
+spinner.success('(successful)')
 ```
 
-### 2.3 reset
+This will produce:
+
+```
+[✔] Task name (successful)
+```
+
+### 2.4 error
+
+Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
+
+```ruby
+spinner = TTY::Spinner.new("[:spinner] Task name")
+spinner.error('(error)')
+```
+
+This will produce:
+
+```ruby
+[✖] Task name (error)
+```
+
+### 2.5 reset
 
 In order to reset the spinner to its initial frame do:
 
