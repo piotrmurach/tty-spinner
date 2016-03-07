@@ -78,6 +78,8 @@ module TTY
       @hide_cursor = options.fetch(:hide_cursor) { false }
       @frames      = options.fetch(:frames) { FORMATS[@format.to_sym] }
       @clear       = options.fetch(:clear) { false }
+      @success_mark= options.fetch(:success_mark) { TICK }
+      @error_mark  = options.fetch(:error_mark) { CROSS }
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
@@ -141,9 +143,9 @@ module TTY
       return clear_line if @clear
 
       char = if success?
-               TICK
+               @success_mark
              elsif error?
-               CROSS
+               @error_mark
              else
                @frames[@current - 1]
              end

@@ -28,4 +28,11 @@ RSpec.describe TTY::Spinner, '#success' do
       "\e[1G#{TTY::Spinner::TICK} Successful\n"
     ].join)
   end
+
+  it "changes success spinner marker" do
+    spinner = TTY::Spinner.new(success_mark: '*', output: output)
+    spinner.success('(successful)')
+    output.rewind
+    expect(output.read).to eq("\e[1G* (successful)\n")
+  end
 end
