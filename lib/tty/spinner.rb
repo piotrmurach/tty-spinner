@@ -137,6 +137,7 @@ module TTY
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
       @done = true
+      emit(:done)
       return clear_line if @clear
 
       char = if success?
