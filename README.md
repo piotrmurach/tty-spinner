@@ -46,6 +46,10 @@ Or install it yourself as:
   * [3.3 :hide_cursor](#33-hide_cursor)
   * [3.4 :clear](#34-clear)
   * [3.5 :output](#35-output)
+* [4. Events](#4-events)
+  * [4.1 done](#41-done)
+  * [4.2 success](#42-success)
+  * [4.3 error](#43-error)
 
 ## 1. Usage
 
@@ -140,9 +144,6 @@ spinner.reset
 
 There are number of configuration options that can be provided to customise the behaviour of a spinner.
 
-* `hide_cursor` to hide display cursor defaulting to `false`
-* `color`
-
 ### 3.1 :format
 
 Use one of the predefined spinner styles by passing the formatting token `:format`
@@ -186,6 +187,22 @@ spinner = TTY::Spinner.new(output: $stdout)
 ```
 
 The output stream defaults to `stderr`.
+
+## 4. Events
+
+**TTY::Spinner** emits `:done`, `:success` and `:error` event types when spinner is stopped.
+
+### 4.1 done
+
+This event is emitted irrespective of the completion method.
+
+### 4.2 success
+
+This event is fired when `success` call is made.
+
+### 4.3 error
+
+This event is fired when `error` completion is called.
 
 ## Contributing
 
