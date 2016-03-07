@@ -13,7 +13,7 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
       "\e[1G/",
       "\e[1G-",
       "\e[1G\\",
-      "\e[?25h\n"
+      "\e[?25h\e[1G\\\n"
     ].join)
   end
 end

@@ -12,6 +12,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G|",
+      "\e[1G/",
       "\e[1G/\n"
     ].join)
   end
@@ -26,7 +27,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     expect(output.read).to eq([
       "\e[1G|",
       "\e[1G/",
-      "\e[1G/Done!\n"
+      "\e[1G/ Done!\n"
     ].join)
   end
 
@@ -40,7 +41,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     expect(output.read).to eq([
       "\e[1GLoading ... |",
       "\e[1GLoading ... /",
-      "\e[1GLoading ... /Done!\n"
+      "\e[1GLoading ... / Done!\n"
     ].join)
   end
 end

@@ -9,6 +9,7 @@ module TTY
   # @api public
   class Spinner
     include Formats
+
     ECMA_ESC = "\x1b".freeze
     ECMA_CSI = "\x1b[".freeze
     ECMA_CHA = 'G'.freeze
@@ -19,6 +20,8 @@ module TTY
     DEC_TCEM = '?25'.freeze
 
     MATCHER = /:spinner/.freeze
+    TICK = '✔'.freeze
+    CROSS = '✖'.freeze
 
     # The object that responds to print call defaulting to stderr
     #
@@ -76,6 +79,7 @@ module TTY
       @frames      = options.fetch(:frames) { FORMATS[@format.to_sym] }
       @clear       = options.fetch(:clear) { false }
 
+      @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
       @current     = 0
       @done        = false
@@ -90,8 +94,16 @@ module TTY
       @state == :success
     end
 
-    def failure?
-      @state == :failure
+    def error?
+      @state == :error
+    end
+
+    # Register callback
+    #
+    # @api public
+    def on(name, &block)
+      @callbacks[name] << block
+      self
     end
 
     # Perform a spin
@@ -125,15 +137,42 @@ module TTY
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
       @done = true
-      @state = :success
-
       return clear_line if @clear
 
-      data = message.gsub(MATCHER, @frames[@current - 1])
+      char = if success?
+               TICK
+             elsif error?
+               CROSS
+             else
+               @frames[@current - 1]
+             end
+      data = message.gsub(MATCHER, char)
+
       if !stop_message.empty?
-        write(data + stop_message, true)
+        data << ' ' + stop_message
       end
+
+      write(data, true)
       write("\n", false) unless @clear
+      reset
+    end
+
+    # Finish spinning and set state to :success
+    #
+    # @api public
+    def success(stop_message = '')
+      @state = :success
+      stop(stop_message)
+      emit(:success)
+    end
+
+    # Finish spinning and set state to :error
+    #
+    # @api public
+    def error(stop_message = '')
+      @state = :error
+      stop(stop_message)
+      emit(:error)
     end
 
     # Clear current line
@@ -162,6 +201,15 @@ module TTY
       output.print(ECMA_CSI + '1' + ECMA_CHA) if clear_first
       output.print(data)
       output.flush
+    end
+
+    # Emit callback
+    #
+    # @api private
+    def emit(name, *args)
+      @callbacks[name].each do |block|
+        block.call(*args)
+      end
     end
   end # Spinner
 end # TTY
