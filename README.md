@@ -45,7 +45,9 @@ Or install it yourself as:
   * [3.2 :frames](#32-frames)
   * [3.3 :hide_cursor](#33-hide_cursor)
   * [3.4 :clear](#34-clear)
-  * [3.5 :output](#35-output)
+  * [3.5 :success_mark](#35-success_mark)
+  * [3.6 :error_mark](#36-error_mark)
+  * [3.7 :output](#37-output)
 * [4. Events](#4-events)
   * [4.1 done](#41-done)
   * [4.2 success](#42-success)
@@ -62,7 +64,7 @@ spinner = TTY::Spinner.new
 In addition you can provide a message with `:spinner` token and format type you would like for the spinning display:
 
 ```ruby
-spinner = TTY::Spinner.new("Loading ... :spinner", format: :spin_2)
+spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :spin_2)
 30.times do
   spinner.spin
   sleep(0.1)
@@ -73,14 +75,16 @@ spinner.stop('Done!')
 This would produce animation in your terminal:
 
 ```ruby
-Loading ... ⎺
+⎺ Loading ...
 ```
 
 and when finished output:
 
 ```ruby
-Loading ... _ Done!
+_ Loading ... Done!
 ```
+
+For more usage examples please see [examples directory](https://github.com/peter-murach/tty-spinner/tree/master/examples)
 
 ## 2. API
 
@@ -178,7 +182,23 @@ After spinner is finished clears its output. Defaults to `false`.
 spinner = TTY::Spinner.new(clear: true)
 ```
 
-### 3.5 :output
+### 3.5 :success_mark
+
+To change marker indicating successful completion use the `:success_mark` option:
+
+```ruby
+spinner = TTY::Spinner.new(success_mark: '+')
+```
+
+### 3.6 :error_mark
+
+To change marker indicating error completion use the `:error_mark` option:
+
+```ruby
+spinner = TTY::Spinner.new(error_mark: 'x')
+```
+
+### 3.7 :output
 
 To change where data is streamed use `:output` option like so:
 
