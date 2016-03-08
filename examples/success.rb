@@ -2,10 +2,10 @@
 
 require 'tty-spinner'
 
-spinner = TTY::Spinner.new("[:spinner] Task")
+spinner = TTY::Spinner.new("[:spinner] Task name")
 20.times do
   spinner.spin
   sleep(0.1)
 end
 
-spinner.success('Successful')
+spinner.success('(successful)')
