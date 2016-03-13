@@ -73,10 +73,10 @@ module TTY
       options  = args.last.is_a?(::Hash) ? args.pop : {}
       @message = args.empty? ? ':spinner' : args.pop
 
-      @format      = options.fetch(:format) { :spin_1 }
+      @format      = options.fetch(:format) { :classic }
       @output      = options.fetch(:output) { $stderr }
       @hide_cursor = options.fetch(:hide_cursor) { false }
-      @frames      = options.fetch(:frames) { FORMATS[@format.to_sym] }
+      @frames      = options.fetch(:frames) { fetch_frames(@format.to_sym) }
       @clear       = options.fetch(:clear) { false }
       @success_mark= options.fetch(:success_mark) { TICK }
       @error_mark  = options.fetch(:error_mark) { CROSS }
@@ -212,6 +212,22 @@ module TTY
     def emit(name, *args)
       @callbacks[name].each do |block|
         block.call(*args)
+      end
+    end
+
+    # Find frames by token name
+    #
+    # @param [Symbol] token
+    #   the name for the frames
+    #
+    # @return [Array, String]
+    #
+    # @api private
+    def fetch_frames(token)
+      if FORMATS.key?(token)
+        FORMATS[token][:frames]
+      else
+        raise ArgumentError, "Unknown format token `:#{token}`"
       end
     end
   end # Spinner

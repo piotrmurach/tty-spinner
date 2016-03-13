@@ -17,7 +17,7 @@ RSpec.describe TTY::Spinner, '#spin' do
   end
 
   it "spins chosen frame" do
-    spinner = TTY::Spinner.new(output: output, format: :spin_3)
+    spinner = TTY::Spinner.new(output: output, format: :spin)
     5.times { spinner.spin }
     output.rewind
     expect(output.read).to eq([
