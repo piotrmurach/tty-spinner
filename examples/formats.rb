@@ -2,10 +2,9 @@
 
 require 'tty-spinner'
 
-TTY::Formats::FORMATS.size.times do |i|
-  format = "spin_#{i+1}"
-  options = {format: format.to_sym, hide_cursor: true}
-  spinner = TTY::Spinner.new("#{format}: :spinner", options)
+TTY::Formats::FORMATS.keys.each do |token|
+  options = {format: token, hide_cursor: true}
+  spinner = TTY::Spinner.new("#{token}: :spinner", options)
   20.times do
     spinner.spin
     sleep(0.1)
