@@ -36,18 +36,21 @@ Or install it yourself as:
 * [1. Usage](#1-usage)
 * [2. API](#2-api)
   * [2.1 spin](#21-spin)
-  * [2.2 stop](#22-stop)
-  * [2.3 success](#23-success)
-  * [2.4 error](#24-error)
-  * [2.5 reset](#25-reset)
+  * [2.2 start](#22-start)
+  * [2.3 stop](#23-stop)
+  * [2.4 success](#24-success)
+  * [2.5 error](#25-error)
+  * [2.6 reset](#26-reset)
+  * [2.7 join](#27-join)
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
-  * [3.3 :hide_cursor](#33-hide_cursor)
-  * [3.4 :clear](#34-clear)
-  * [3.5 :success_mark](#35-success_mark)
-  * [3.6 :error_mark](#36-error_mark)
-  * [3.7 :output](#37-output)
+  * [3.3 :interval](#33-interval)
+  * [3.4 :hide_cursor](#34-hide_cursor)
+  * [3.5 :clear](#35-clear)
+  * [3.6 :success_mark](#36-success_mark)
+  * [3.7 :error_mark](#37-error_mark)
+  * [3.8 :output](#38-output)
 * [4. Events](#4-events)
   * [4.1 done](#41-done)
   * [4.2 success](#42-success)
@@ -92,7 +95,17 @@ For more usage examples please see [examples directory](https://github.com/peter
 
 The main workhorse of the spinner is the `spin` method. Looping over `spin` method will animate a given spinner.
 
-### 2.2 stop
+### 2.2 start
+
+To perform automatic spinning call `start` method like so:
+
+```ruby
+spinner.start
+```
+
+The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified [see](https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
+
+### 2.3 stop
 
 In order to stop the spinner call `stop`. This will finish drawing the spinning animation and return to new line.
 
@@ -106,7 +119,7 @@ You can further pass a message to print when animation is finished.
 spinner.stop('Done!')
 ```
 
-### 2.3 success
+### 2.4 success
 
 Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
 
@@ -121,7 +134,7 @@ This will produce:
 [✔] Task name (successful)
 ```
 
-### 2.4 error
+### 2.5 error
 
 Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
 
@@ -136,12 +149,26 @@ This will produce:
 [✖] Task name (error)
 ```
 
-### 2.5 reset
+### 2.6 reset
 
 In order to reset the spinner to its initial frame do:
 
 ```ruby
 spinner.reset
+```
+
+### 2.7 join
+
+One way to wait while the spinning animates is to join the thread started with `start` method:
+
+```ruby
+spinner.join
+```
+
+Optionally you can provide timeout:
+
+```ruby
+spinner.join(0.5)
 ```
 
 ## 3. Configuration
@@ -172,7 +199,15 @@ If you wish to use custom formatting use the `:frames` option with either `array
 spinner = TTY::Spinner.new(frames: [".", "o", "0", "@", "*"])
 ```
 
-### 3.3 :hide_cursor
+### 3.3 :interval
+
+The `:interval` option  accepts `integer` representing number of `Hz` units, for instance, frequency of 10 will mean that the spinning animation will be displayed 10 times per second.
+
+```ruby
+spinner = TTY::Spinner.new(interval: 20) # 20 Hz (20 times per second)
+```
+
+### 3.4 :hide_cursor
 
 Hides cursor when spinning animation performs. Defaults to `false`.
 
@@ -180,7 +215,7 @@ Hides cursor when spinning animation performs. Defaults to `false`.
 spinner = TTY::Spinner.new(hide_cursor: true)
 ```
 
-### 3.4 :clear
+### 3.5 :clear
 
 After spinner is finished clears its output. Defaults to `false`.
 
@@ -188,7 +223,7 @@ After spinner is finished clears its output. Defaults to `false`.
 spinner = TTY::Spinner.new(clear: true)
 ```
 
-### 3.5 :success_mark
+### 3.6 :success_mark
 
 To change marker indicating successful completion use the `:success_mark` option:
 
@@ -196,7 +231,7 @@ To change marker indicating successful completion use the `:success_mark` option
 spinner = TTY::Spinner.new(success_mark: '+')
 ```
 
-### 3.6 :error_mark
+### 3.7 :error_mark
 
 To change marker indicating error completion use the `:error_mark` option:
 
@@ -204,7 +239,7 @@ To change marker indicating error completion use the `:error_mark` option:
 spinner = TTY::Spinner.new(error_mark: 'x')
 ```
 
-### 3.7 :output
+### 3.8 :output
 
 To change where data is streamed use `:output` option like so:
 
