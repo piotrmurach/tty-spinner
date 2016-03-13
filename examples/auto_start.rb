@@ -2,7 +2,7 @@
 
 require 'tty-spinner'
 
-spinner = TTY::Spinner.new("Loading :spinner ...", format: :spin_2)
+spinner = TTY::Spinner.new("Loading :spinner ...", format: :bouncing_ball)
 spinner.start
 
 sleep 1 # Some long task
