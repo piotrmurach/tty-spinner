@@ -67,6 +67,8 @@ module TTY
     #   display or hide cursor
     # @option options [Boolean] :clear
     #   clear ouptut when finished
+    # @option options [Float] :interval
+    #   the interval for auto spinning
     #
     # @api public
     def initialize(*args)
@@ -80,6 +82,7 @@ module TTY
       @clear       = options.fetch(:clear) { false }
       @success_mark= options.fetch(:success_mark) { TICK }
       @error_mark  = options.fetch(:error_mark) { CROSS }
+      @interval    = options.fetch(:interval) { 0.1 }
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
@@ -106,6 +109,47 @@ module TTY
     def on(name, &block)
       @callbacks[name] << block
       self
+    end
+
+    # Start automatic spinning
+    #
+    #
+    # @api public
+    def start
+      @started_at = Time.now
+      @interval = 0.1
+
+      @thread = Thread.new do
+        while @started_at do
+          spin
+          sleep(@interval)
+        end
+      end
+    end
+
+    def duration
+      @started_at ? Time.now - @started_at : nil
+    end
+
+    # Join running spinner
+    #
+    # @param [Float] timeout
+    #   the timeout for join
+    #
+    # @api public
+    def join(timeout = nil)
+      fail NotSpinningError.new(
+        "Cannot join spinner that is not running"
+      ) unless @thread
+
+      timeout ? @thread.join(timeout) : @thread.join
+    end
+
+    # Kill running spinner
+    #
+    # @api public
+    def kill
+      @thread.kill if @thread
     end
 
     # Perform a spin
@@ -139,6 +183,7 @@ module TTY
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
       @done = true
+      @started_at = nil
       emit(:done)
       return clear_line if @clear
 
