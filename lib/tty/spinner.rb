@@ -78,11 +78,13 @@ module TTY
       @format      = options.fetch(:format) { :classic }
       @output      = options.fetch(:output) { $stderr }
       @hide_cursor = options.fetch(:hide_cursor) { false }
-      @frames      = options.fetch(:frames) { fetch_frames(@format.to_sym) }
+      @frames      = options.fetch(:frames) {
+                       fetch_format(@format.to_sym, :frames) }
       @clear       = options.fetch(:clear) { false }
       @success_mark= options.fetch(:success_mark) { TICK }
       @error_mark  = options.fetch(:error_mark) { CROSS }
-      @interval    = options.fetch(:interval) { 0.1 }
+      @interval    = options.fetch(:interval) {
+                       fetch_format(@format.to_sym, :interval) }
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
@@ -117,15 +119,21 @@ module TTY
     # @api public
     def start
       @started_at = Time.now
+      sleep_time = 1.0 / @interval
 
       @thread = Thread.new do
         while @started_at do
           spin
-          sleep(@interval)
+          sleep(sleep_time)
         end
       end
     end
 
+    # Duration of the spinning animation
+    #
+    # @return [Numeric]
+    #
+    # @api public
     def duration
       @started_at ? Time.now - @started_at : nil
     end
@@ -267,9 +275,9 @@ module TTY
     # @return [Array, String]
     #
     # @api private
-    def fetch_frames(token)
+    def fetch_format(token, property)
       if FORMATS.key?(token)
-        FORMATS[token][:frames]
+        FORMATS[token][property]
       else
         raise ArgumentError, "Unknown format token `:#{token}`"
       end
