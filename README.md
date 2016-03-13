@@ -156,7 +156,7 @@ Use one of the predefined spinner styles by passing the formatting token `:forma
 spinner = TTY::Spinner.new(format: :pulse_2)
 ```
 
-All spinner formats that **TTY::Spinner** accepts are defined in (/lib/tty/spinner/formats.rb)[https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb]
+All spinner formats that **TTY::Spinner** accepts are defined in [/lib/tty/spinner/formats.rb](https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
 
 If you wish to see all available formats in action run the `formats.rb` file in examples folder like so:
 
@@ -220,15 +220,27 @@ The output stream defaults to `stderr`.
 
 ### 4.1 done
 
-This event is emitted irrespective of the completion method.
+This event is emitted irrespective of the completion method. In order to listen for this event you need to register callback:
+
+```ruby
+spinner.on(:done) { ... }
+```
 
 ### 4.2 success
 
-This event is fired when `success` call is made.
+This event is fired when `success` call is made. In order to respond to the event, you need to register callback:
+
+```ruby
+spinner.on(:success) { ... }
+```
 
 ### 4.3 error
 
-This event is fired when `error` completion is called.
+This event is fired when `error` completion is called. In order to respond to the event, you need to register callback:
+
+```ruby
+spinner.on(:error) { ... }
+```
 
 ## Contributing
 
