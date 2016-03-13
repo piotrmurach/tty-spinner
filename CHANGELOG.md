@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.2.0] - unreleased
+## [v0.2.0] - 2016-03-13
 
 ### Added
 * Add new spinner formats by @rlqualls
@@ -9,9 +9,12 @@
 * Add #success and #error calls for stopping spinner
 * Add :done, :success, :error completion events
 * Add :success_mark & :error_mark to allow changing markers
+* Add :interval for automatic spinning duration
+* Add #start, #join and #kill for automatic spinner animation
 
 ### Changed
 * Change message formatting, use :spinner token to customize message
+* Change format for definining spinner formats and intervals
 
 ## [v0.1.0] - 2014-11-15
 
