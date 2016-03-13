@@ -117,7 +117,6 @@ module TTY
     # @api public
     def start
       @started_at = Time.now
-      @interval = 0.1
 
       @thread = Thread.new do
         while @started_at do
