@@ -55,7 +55,7 @@ Or install it yourself as:
 
 ## 1. Usage
 
-**TTY::Spinner** by default uses `:spin_1` type of formatter and requires no paramters:
+**TTY::Spinner** by default uses `:classic` type of formatter and requires no paramters:
 
 ```ruby
 spinner = TTY::Spinner.new
@@ -64,7 +64,7 @@ spinner = TTY::Spinner.new
 In addition you can provide a message with `:spinner` token and format type you would like for the spinning display:
 
 ```ruby
-spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :spin_2)
+spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
 30.times do
   spinner.spin
   sleep(0.1)
@@ -153,10 +153,16 @@ There are number of configuration options that can be provided to customise the 
 Use one of the predefined spinner styles by passing the formatting token `:format`
 
 ```ruby
-spinner = TTY::Spinner.new(format: :spin_1)
+spinner = TTY::Spinner.new(format: :pulse_2)
 ```
 
-**TTY::Spinner** accepts `:spin_1` to `:spin_15` as spinner formats.
+All spinner formats that **TTY::Spinner** accepts are defined in (/lib/tty/spinner/formats.rb)[https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb]
+
+If you wish to see all available formats in action run the `formats.rb` file in examples folder like so:
+
+```ruby
+bundle exec ruby examples/formats.rb
+```
 
 ### 3.2 :frames
 
