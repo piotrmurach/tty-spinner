@@ -15,6 +15,8 @@
 
 **TTY::Spinner** provides independent spinner component for [TTY](https://github.com/peter-murach/tty) toolkit.
 
+![](examples/demo.gif)
+
 ## Installation
 
 Add this line to your application's Gemfile:
