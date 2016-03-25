@@ -1,19 +1,19 @@
 # TTY::Spinner
 [![Gem Version](https://badge.fury.io/rb/tty-spinner.svg)][gem]
-[![Build Status](https://secure.travis-ci.org/peter-murach/tty-spinner.svg?branch=master)][travis]
-[![Code Climate](https://codeclimate.com/github/peter-murach/tty-spinner/badges/gpa.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/peter-murach/tty-spinner/badge.svg)][coverage]
-[![Inline docs](http://inch-ci.org/github/peter-murach/tty-spinner.svg?branch=master)][inchpages]
+[![Build Status](https://secure.travis-ci.org/piotrmurach/tty-spinner.svg?branch=master)][travis]
+[![Code Climate](https://codeclimate.com/github/piotrmurach/tty-spinner/badges/gpa.png)][codeclimate]
+[![Coverage Status](https://coveralls.io/repos/piotrmurach/tty-spinner/badge.svg)][coverage]
+[![Inline docs](http://inch-ci.org/github/piotrmurach/tty-spinner.svg?branch=master)][inchpages]
 
 [gem]: http://badge.fury.io/rb/tty-spinner
-[travis]: http://travis-ci.org/peter-murach/tty-spinner
-[codeclimate]: https://codeclimate.com/github/peter-murach/tty-spinner
-[coverage]: https://coveralls.io/r/peter-murach/tty-spinner
-[inchpages]: http://inch-ci.org/github/peter-murach/tty-spinner
+[travis]: http://travis-ci.org/piotrmurach/tty-spinner
+[codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner
+[coverage]: https://coveralls.io/r/piotrmurach/tty-spinner
+[inchpages]: http://inch-ci.org/github/piotrmurach/tty-spinner
 
 > A terminal spinner for tasks that have non-deterministic time frame.
 
-**TTY::Spinner** provides independent spinner component for [TTY](https://github.com/peter-murach/tty) toolkit.
+**TTY::Spinner** provides independent spinner component for [TTY](https://github.com/piotrmurach/tty) toolkit.
 
 ## Installation
 
@@ -87,7 +87,7 @@ and when finished output:
 _ Loading ... Done!
 ```
 
-For more usage examples please see [examples directory](https://github.com/peter-murach/tty-spinner/tree/master/examples)
+For more usage examples please see [examples directory](https://github.com/piotrmurach/tty-spinner/tree/master/examples)
 
 ## 2. API
 
@@ -103,7 +103,7 @@ To perform automatic spinning call `start` method like so:
 spinner.start
 ```
 
-The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified [see](https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
+The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified [see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
 
 ### 2.3 stop
 
@@ -183,7 +183,7 @@ Use one of the predefined spinner styles by passing the formatting token `:forma
 spinner = TTY::Spinner.new(format: :pulse_2)
 ```
 
-All spinner formats that **TTY::Spinner** accepts are defined in [/lib/tty/spinner/formats.rb](https://github.com/peter-murach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
+All spinner formats that **TTY::Spinner** accepts are defined in [/lib/tty/spinner/formats.rb](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)
 
 If you wish to see all available formats in action run the `formats.rb` file in examples folder like so:
 
@@ -279,7 +279,7 @@ spinner.on(:error) { ... }
 
 ## Contributing
 
-1. Fork it ( https://github.com/peter-murach/tty-spinner/fork )
+1. Fork it ( https://github.com/piotrmurach/tty-spinner/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
