@@ -1,10 +1,11 @@
-# TTY::Spinner
+# TTY::Spinner [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
 [![Gem Version](https://badge.fury.io/rb/tty-spinner.svg)][gem]
 [![Build Status](https://secure.travis-ci.org/piotrmurach/tty-spinner.svg?branch=master)][travis]
 [![Code Climate](https://codeclimate.com/github/piotrmurach/tty-spinner/badges/gpa.png)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/piotrmurach/tty-spinner/badge.svg)][coverage]
 [![Inline docs](http://inch-ci.org/github/piotrmurach/tty-spinner.svg?branch=master)][inchpages]
 
+[gitter]: https://gitter.im/piotrmurach/tty
 [gem]: http://badge.fury.io/rb/tty-spinner
 [travis]: http://travis-ci.org/piotrmurach/tty-spinner
 [codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner
