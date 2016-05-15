@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.3.0] - 2016-x-x
+
+### Fixed
+* Fixed cursor hiding for success and error calls by @m-o-e
+
 ## [v0.2.0] - 2016-03-13
 
 ### Added
