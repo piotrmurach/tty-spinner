@@ -186,7 +186,7 @@ module TTY
     #
     # @api public
     def stop(stop_message = '')
-      if @hide_cursor && spinning?
+      if @hide_cursor
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
       @done = true
