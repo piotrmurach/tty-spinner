@@ -120,12 +120,12 @@ module TTY
     # @param [String] stop_message
     #   If you provide a block, this is the stop message given when the block finishes
     # @yield Provide a block to be executed and have the spinner automatically animate for you
-    def start stop_message=nil
+    def start(stop_message=nil,&block)
       @started_at = Time.now
       sleep_time = 1.0 / @interval
       if block_given?
-        @thread = Thead.new &block
-        until @thread.status == false  do
+        @thread = Thread.new(&block)
+        until(@thread.status == false)  do
           spin
           sleep(sleep_time)
         end
@@ -139,7 +139,6 @@ module TTY
           end
         end
       end
-
     end
 
     # Duration of the spinning animation
