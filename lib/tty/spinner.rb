@@ -123,21 +123,19 @@ module TTY
     def start(stop_message=nil,&block)
       @started_at = Time.now
       sleep_time = 1.0 / @interval
-      if block_given?
-        @thread = Thread.new(&block)
-        until(@thread.status == false)  do
+      @thread =
+      Thread.new do
+        while @started_at do
           spin
           sleep(sleep_time)
         end
-        stop(stop_message)
-      else
-        @thread =
-        Thread.new do
-          while @started_at do
-            spin
-            sleep(sleep_time)
-          end
+      end
+      if block_given?
+        @thread = Thread.new(&block)
+        until(@thread.status == false)  do
+          sleep(sleep_time)
         end
+        stop(stop_message)
       end
     end
 
