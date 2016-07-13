@@ -91,6 +91,7 @@ module TTY
       @current     = 0
       @done        = false
       @state       = :stopped
+      @thread      = nil
     end
 
     def spinning?
@@ -113,18 +114,15 @@ module TTY
       self
     end
 
-    # Start automatic spinning
-    #
+    # Start automatic spinning animation
     #
     # @api public
-    # @param [String] stop_message
-    #   If you provide a block, this is the stop message given when the block finishes
-    # @yield Provide a block to be executed and have the spinner automatically animate for you
-    def start(stop_message=nil,&block)
+    def start
       @started_at = Time.now
+      @done = false
       sleep_time = 1.0 / @interval
-      @thread =
-      Thread.new do
+
+      @thread = Thread.new do
         while @started_at do
           spin
           sleep(sleep_time)
@@ -199,9 +197,6 @@ module TTY
       if @hide_cursor
         write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
       end
-      @done = true
-      @started_at = nil
-      emit(:done)
       return clear_line if @clear
 
       char = if success?
@@ -219,7 +214,12 @@ module TTY
 
       write(data, true)
       write("\n", false) unless @clear
-      reset
+    ensure
+      @state      = :stopped
+      @done       = true
+      @started_at = nil
+      emit(:done)
+      kill
     end
 
     # Finish spinning and set state to :success
@@ -252,7 +252,6 @@ module TTY
     # @api public
     def reset
       @current = 0
-      @state   = :stopped
     end
 
     private
