@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'rspec',     '~> 3.4.0'
+  gem 'rspec',     '~> 3.5.0'
   gem 'timecop',   '~> 0.7.1'
   gem 'pastel',    '~> 0.6.0'
   gem 'simplecov', '~> 0.11.2'
