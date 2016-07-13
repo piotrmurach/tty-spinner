@@ -128,13 +128,25 @@ module TTY
           sleep(sleep_time)
         end
       end
-      if block_given?
-        @thread = Thread.new(&block)
-        until(@thread.status == false)  do
-          sleep(sleep_time)
-        end
-        stop(stop_message)
-      end
+    end
+
+    # Run spinner while executing job
+    #
+    # @param [String] stop_message
+    #   the message displayed when block is finished
+    #
+    # @yield automatically animate and finish spinner
+    #
+    # @example
+    #   spinner.run('Migrated DB') { ... }
+    #
+    # @api public
+    def run(stop_message = nil, &block)
+      start
+      @work = Thread.new(&block)
+      @work.join
+    ensure
+      stop(stop_message)
     end
 
     # Duration of the spinning animation
