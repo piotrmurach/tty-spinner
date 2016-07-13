@@ -211,15 +211,7 @@ module TTY
       end
       return clear_line if @clear
 
-      char = if success?
-               @success_mark
-             elsif error?
-               @error_mark
-             else
-               @frames[@current - 1]
-             end
-      data = message.gsub(MATCHER, char)
-
+      data = message.gsub(MATCHER, next_char)
       if !stop_message.empty?
         data << ' ' + stop_message
       end
@@ -232,6 +224,21 @@ module TTY
       @started_at = nil
       emit(:done)
       kill
+    end
+
+    # Retrieve next character
+    #
+    # @return [String]
+    #
+    # @api private
+    def next_char
+      if success?
+        @success_mark
+      elsif error?
+        @error_mark
+      else
+        @frames[@current - 1]
+      end
     end
 
     # Finish spinning and set state to :success
