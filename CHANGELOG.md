@@ -8,6 +8,8 @@
 
 ### Fixed
 * Fixed cursor hiding for success and error calls by @m-o-e
+* Fix #join call to define actual error
+* Fix #stop to print only once when finished
 
 ## [v0.2.0] - 2016-03-13
 
