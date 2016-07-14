@@ -43,8 +43,9 @@ Or install it yourself as:
   * [2.3 stop](#23-stop)
   * [2.4 success](#24-success)
   * [2.5 error](#25-error)
-  * [2.6 reset](#26-reset)
-  * [2.7 join](#27-join)
+  * [2.6 update](#26-update)
+  * [2.7 reset](#27-reset)
+  * [2.8 join](#28-join)
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
@@ -152,7 +153,37 @@ This will produce:
 [✖] Task name (error)
 ```
 
-### 2.6 reset
+### 2.6 update
+
+Use `update` call to dynamically change label name(s).
+
+Provide an arbitrary token name in the message string, such as `:title`
+
+```ruby
+spinner = TTY::Spinner.new("[:spinner] :title")
+```
+
+and then pass token name and value:
+
+```ruby
+spinner.update(title: 'Downloading file1')
+```
+
+next start animation:
+
+```ruby
+spinner.run { ... }
+# => | Downloading file1
+```
+
+Once animation finishes you can kick start another one with different name:
+
+```ruby
+spinner.update(title: 'Downloading file2')
+spinner.run { ... }
+```
+
+### 2.7 reset
 
 In order to reset the spinner to its initial frame do:
 
@@ -160,7 +191,7 @@ In order to reset the spinner to its initial frame do:
 spinner.reset
 ```
 
-### 2.7 join
+### 2.8 join
 
 One way to wait while the spinning animates is to join the thread started with `start` method:
 
