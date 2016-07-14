@@ -50,6 +50,14 @@ module TTY
     # @api public
     attr_reader :message
 
+    # Tokens for the message
+    #
+    # @return [Hash[Symbol, Object]]
+    #   the current tokens
+    #
+    # @api public
+    attr_reader :tokens
+
     # Initialize a spinner
     #
     # @example
@@ -74,6 +82,7 @@ module TTY
     def initialize(*args)
       options  = args.last.is_a?(::Hash) ? args.pop : {}
       @message = args.empty? ? ':spinner' : args.pop
+      @tokens  = {}
 
       @format      = options.fetch(:format) { :classic }
       @output      = options.fetch(:output) { $stderr }
@@ -193,6 +202,7 @@ module TTY
       end
 
       data = message.gsub(MATCHER, @frames[@current])
+      data = replace_tokens(data)
       write(data, true)
       @current = (@current + 1) % @length
       @state = :spinning
@@ -212,6 +222,7 @@ module TTY
       return clear_line if @clear
 
       data = message.gsub(MATCHER, next_char)
+      data = replace_tokens(data)
       if !stop_message.empty?
         data << ' ' + stop_message
       end
@@ -266,6 +277,16 @@ module TTY
       output.print(ECMA_CSI + '0m' + ECMA_CSI + '1000D' + ECMA_CSI + ECMA_CLR)
     end
 
+    # Update string formatting tokens
+    #
+    # @param [Hash[Symbol]] tokens
+    #   the tokens used in formatting string
+    #
+    # @api public
+    def update(tokens)
+      @tokens.merge!(tokens)
+    end
+
     # Reset the spinner to initial frame
     #
     # @api public
@@ -309,6 +330,22 @@ module TTY
       else
         raise ArgumentError, "Unknown format token `:#{token}`"
       end
+    end
+
+    # Replace any token inside string
+    #
+    # @param [String] string
+    #   the string containing tokens
+    #
+    # @return [String]
+    #
+    # @api private
+    def replace_tokens(string)
+      data = string.dup
+      @tokens.each do |name, val|
+        data.gsub!(/\:#{name}/, val)
+      end
+      data
     end
   end # Spinner
 end # TTY
