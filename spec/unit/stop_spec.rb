@@ -3,6 +3,17 @@
 RSpec.describe TTY::Spinner, '#stop' do
   let(:output) { StringIO.new('', 'w+') }
 
+  it "doesn't reprint stop message" do
+    spinner = TTY::Spinner.new(output: output)
+    spinner.spin
+    3.times { spinner.stop }
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1G|",
+      "\e[1G|\n",
+    ].join)
+  end
+
   it "stops after 2 spins" do
     spinner = TTY::Spinner.new(output: output)
     5.times do |n|
