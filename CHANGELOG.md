@@ -1,6 +1,10 @@
 # Change log
 
-## [v0.3.0] - 2016-x-x
+## [v0.3.0] - 2016-07-14
+
+### Added
+* Add #run to automatically execute job with spinning animation by @Thermatix
+* Add #update to allow for dynamic label name replacement
 
 ### Fixed
 * Fixed cursor hiding for success and error calls by @m-o-e
