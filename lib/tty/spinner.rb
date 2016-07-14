@@ -10,6 +10,9 @@ module TTY
   class Spinner
     include Formats
 
+    # @raised when attempting to join dead thread
+    NotSpinningError = Class.new(StandardError)
+
     ECMA_ESC = "\x1b".freeze
     ECMA_CSI = "\x1b[".freeze
     ECMA_CHA = 'G'.freeze
@@ -19,7 +22,7 @@ module TTY
     DEC_SET = 'h'.freeze
     DEC_TCEM = '?25'.freeze
 
-    MATCHER = /:spinner/.freeze
+    MATCHER = /:spinner/
     TICK = '✔'.freeze
     CROSS = '✖'.freeze
 
@@ -87,13 +90,15 @@ module TTY
       @format      = options.fetch(:format) { :classic }
       @output      = options.fetch(:output) { $stderr }
       @hide_cursor = options.fetch(:hide_cursor) { false }
-      @frames      = options.fetch(:frames) {
-                       fetch_format(@format.to_sym, :frames) }
+      @frames      = options.fetch(:frames) do
+                       fetch_format(@format.to_sym, :frames)
+                     end
       @clear       = options.fetch(:clear) { false }
       @success_mark= options.fetch(:success_mark) { TICK }
       @error_mark  = options.fetch(:error_mark) { CROSS }
-      @interval    = options.fetch(:interval) {
-                       fetch_format(@format.to_sym, :interval) }
+      @interval    = options.fetch(:interval) do
+                       fetch_format(@format.to_sym, :interval)
+                     end
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
@@ -132,7 +137,7 @@ module TTY
       sleep_time = 1.0 / @interval
 
       @thread = Thread.new do
-        while @started_at do
+        while @started_at
           spin
           sleep(sleep_time)
         end
@@ -174,9 +179,9 @@ module TTY
     #
     # @api public
     def join(timeout = nil)
-      fail NotSpinningError.new(
-        "Cannot join spinner that is not running"
-      ) unless @thread
+      unless @thread
+        raise(NotSpinningError, 'Cannot join spinner that is not running')
+      end
 
       timeout ? @thread.join(timeout) : @thread.join
     end
