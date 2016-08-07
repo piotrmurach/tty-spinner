@@ -39,14 +39,15 @@ Or install it yourself as:
 * [1. Usage](#1-usage)
 * [2. API](#2-api)
   * [2.1 spin](#21-spin)
-  * [2.2 start](#22-start)
-  * [2.3 stop](#23-stop)
-    * [2.3.1 success](#231-success)
-    * [2.3.2 error](#232-error)
-  * [2.4 run](#24-run)
-  * [2.5 update](#25-update)
-  * [2.6 reset](#26-reset)
-  * [2.7 join](#27-join)
+  * [2.2 auto_spin](#22-auto_spin)
+  * [2.3 run](#23-run)
+  * [2.4 start](#24-start)
+  * [2.5 stop](#25-stop)
+    * [2.5.1 success](#251-success)
+    * [2.5.2 error](#252-error)
+  * [2.6 update](#26-update)
+  * [2.7 reset](#27-reset)
+  * [2.8 join](#28-join)
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
@@ -108,17 +109,33 @@ loop do
 end
 ```
 
-### 2.2 start
+### 2.2 auto_spin
 
-To perform automatic spinning call `start` method like so:
+To perform automatic spinning animation use `auto_spin` method like so:
+
+```ruby
+spinner.auto_spin
+```
+
+The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
+
+### 2.3 run
+
+Use `run` with a code block that will automatically display spinning animation while the block executes and finish animation when the block terminates. Optionally you can provide a stop message to display when animation is finished.
+
+```ruby
+spinner.run('Done!') { ... }
+```
+
+### 2.4 start
+
+In order to set start time or reuse the same spinner after it has stopped, call `start` method:
 
 ```ruby
 spinner.start
 ```
 
-The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
-
-### 2.3 stop
+### 2.5 stop
 
 In order to stop the spinner call `stop`. This will finish drawing the spinning animation and return to new line.
 
@@ -132,7 +149,7 @@ You can further pass a message to print when animation is finished.
 spinner.stop('Done!')
 ```
 
-#### 2.3.1 success
+#### 2.5.1 success
 
 Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
 
@@ -147,7 +164,7 @@ This will produce:
 [✔] Task name (successful)
 ```
 
-#### 2.3.2 error
+#### 2.5.2 error
 
 Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
 
@@ -162,15 +179,8 @@ This will produce:
 [✖] Task name (error)
 ```
 
-### 2.4 run
 
-Use `run` with a code block that will automatically display spinning animation while the block executes and finish animation when the block terminates. Optionally you can provide a stop message to display when animation is finished.
-
-```ruby
-spinner.run('Done!') { ... }
-```
-
-### 2.5 update
+### 2.6 update
 
 Use `update` call to dynamically change label name(s).
 
@@ -200,7 +210,7 @@ spinner.update(title: 'Downloading file2')
 spinner.run { ... }
 ```
 
-### 2.6 reset
+### 2.7 reset
 
 In order to reset the spinner to its initial frame do:
 
@@ -208,7 +218,7 @@ In order to reset the spinner to its initial frame do:
 spinner.reset
 ```
 
-### 2.7 join
+### 2.8 join
 
 One way to wait while the spinning animates is to join the thread started with `start` method:
 
