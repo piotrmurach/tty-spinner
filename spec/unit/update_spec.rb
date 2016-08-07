@@ -28,9 +28,11 @@ RSpec.describe TTY::Spinner, '#update' do
     2.times { spinner.spin }
     spinner.stop('done')
     output.rewind
+
     expect(output.read).to eq([
       "\e[1Gtask_a |",
       "\e[1Gtask_a /",
+      "\e[0m\e[1000D\e[K",
       "\e[1Gtask_b -",
       "\e[1Gtask_b \\",
       "\e[1Gtask_b \\ done\n"

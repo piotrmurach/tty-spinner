@@ -300,6 +300,7 @@ module TTY
     #
     # @api public
     def update(tokens)
+      clear_line if spinning?
       @tokens.merge!(tokens)
     end
 
