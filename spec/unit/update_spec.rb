@@ -19,6 +19,47 @@ RSpec.describe TTY::Spinner, '#update' do
     ].join)
   end
 
+  it "updates message many times before stopping" do
+    spinner = TTY::Spinner.new(":title :spinner", output: output)
+
+    spinner.update(title: 'task_a')
+    2.times { spinner.spin }
+    spinner.update(title: 'task_b')
+    2.times { spinner.spin }
+    spinner.stop('done')
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1Gtask_a |",
+      "\e[1Gtask_a /",
+      "\e[1Gtask_b -",
+      "\e[1Gtask_b \\",
+      "\e[1Gtask_b \\ done\n"
+    ].join)
+  end
+
+  it "updates message after stopping" do
+    spinner = TTY::Spinner.new(":title :spinner", output: output)
+
+    spinner.update(title: 'task_a')
+    2.times { spinner.spin }
+    spinner.stop('done')
+
+    spinner.start
+    spinner.update(title: 'task_b')
+    2.times { spinner.spin }
+    spinner.stop('done')
+
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1Gtask_a |",
+      "\e[1Gtask_a /",
+      "\e[1Gtask_a / done\n",
+      "\e[1Gtask_b |",
+      "\e[1Gtask_b /",
+      "\e[1Gtask_b / done\n"
+    ].join)
+  end
+
   it "maintains current tokens" do
     spinner = TTY::Spinner.new(":foo :bar", output: output)
     expect(spinner.tokens).to eq({})

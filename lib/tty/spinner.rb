@@ -128,12 +128,20 @@ module TTY
       self
     end
 
-    # Start automatic spinning animation
+    # Start timer and unlock spinner
     #
     # @api public
     def start
       @started_at = Time.now
       @done = false
+      reset
+    end
+
+    # Start automatic spinning animation
+    #
+    # @api public
+    def auto_spin
+      start
       sleep_time = 1.0 / @interval
 
       @thread = Thread.new do
@@ -155,8 +163,9 @@ module TTY
     #   spinner.run('Migrated DB') { ... }
     #
     # @api public
-    def run(stop_message = nil, &block)
-      start
+    def run(stop_message = '', &block)
+      auto_spin
+
       @work = Thread.new(&block)
       @work.join
     ensure
