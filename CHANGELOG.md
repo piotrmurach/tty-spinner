@@ -1,5 +1,13 @@
 # Change log
 
+## [v0.4.0] - 2016-08-07
+
+### Added
+* Add #auto_spin to automatically displaying spinning animation
+
+### Changed
+* Change #start to setup timer and reset done state
+
 ## [v0.3.0] - 2016-07-14
 
 ### Added
@@ -31,5 +39,7 @@
 
 * Initial implementation and release
 
+[v0.4.0]: https://github.com/peter-murach/tty-spinner/compare/v0.3.0...v0.4.0
+[v0.3.0]: https://github.com/peter-murach/tty-spinner/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/peter-murach/tty-spinner/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/peter-murach/tty-spinner/compare/v0.1.0
