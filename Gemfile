@@ -8,6 +8,7 @@ group :test do
   gem 'pastel',    '~> 0.6.0'
   gem 'simplecov', '~> 0.12.0'
   gem 'coveralls', '~> 0.8.17'
+  gem 'json',      '~> 1.8.3'
 end
 
 group :metrics do
