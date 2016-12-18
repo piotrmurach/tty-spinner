@@ -10,19 +10,14 @@ rvm:
   - 2.2.5
   - 2.3.1
   - ruby-head
+  - jruby-9000
+  - jruby-head
+  - rbx-2
 matrix:
-  include:
-    - rvm: jruby-19mode
-    - rvm: jruby-20mode
-    - rvm: jruby-21mode
-    - rvm: jruby-head
-    - rvm: rbx-2
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: jruby-19mode
-    - rvm: jruby-20mode
-    - rvm: jruby-21mode
+    - rvm: rbx-2
   fast_finish: true
 branches:
   only: master
