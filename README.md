@@ -20,6 +20,8 @@
 
 ![](demo.gif)
 
+![](examples/demo.gif)
+
 ## Installation
 
 Add this line to your application's Gemfile:
