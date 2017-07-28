@@ -41,18 +41,26 @@ module TTY
         spinner
       end
 
-      # Used to calculate and return how many lines above the current cursor
-      # position the spinner at a given index in the @spinners array can be
-      # found
+      # Find relative offset position to which to move the current cursor
+      #
+      # The position is found among the registered spinners given the current
+      # position the spinner is at provided its index
+      #
+      # @param [Integer] index
+      #   the position to search from
+      #
+      # @return [Integer]
+      #   the current position
+      #
+      # @api public
       def count_line_offset(index)
-        count = 0
-        @spinners.each_with_index do |spinner, i|
-          next if i < index
-
-          count += 1 if spinner.spinning? || spinner.success? || spinner.error? || spinner.done?
+        Array(@spinners[index..-1]).reduce(0) do |acc, spinner|
+          if spinner.spinning? || spinner.success? ||
+             spinner.error? || spinner.done?
+            acc += 1
+          end
+          acc
         end
-
-        count
       end
 
       def all_done?
