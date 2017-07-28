@@ -1,5 +1,6 @@
 # coding: utf-8
 
+require 'tty-cursor'
 require 'tty/spinner/version'
 require 'tty/spinner/formats'
 
@@ -106,6 +107,23 @@ module TTY
       @done        = false
       @state       = :stopped
       @thread      = nil
+      @multispinner= nil
+      @index       = nil
+      @succeeded   = false
+      @first_run  = true
+    end
+
+    def add_multispinner(multispinner, index)
+      @multispinner = multispinner
+      @index = index
+    end
+
+    def succeeded?
+      done? && @succeeded
+    end
+
+    def errored?
+      done? && !@succeeded
     end
 
     def spinning?
@@ -118,6 +136,10 @@ module TTY
 
     def error?
       @state == :error
+    end
+
+    def done?
+      @done
     end
 
     # Register callback
@@ -137,17 +159,19 @@ module TTY
       reset
     end
 
+    SPINNER_START_LOCK = Mutex.new
     # Start automatic spinning animation
     #
     # @api public
     def auto_spin
-      start
-      sleep_time = 1.0 / @interval
-
-      @thread = Thread.new do
-        while @started_at
-          spin
-          sleep(sleep_time)
+      SPINNER_START_LOCK.synchronize do
+        start
+        sleep_time = 1.0 / @interval
+        @thread = Thread.new do
+          while @started_at
+            spin
+            sleep(sleep_time)
+          end
         end
       end
     end
@@ -273,6 +297,7 @@ module TTY
     # @api public
     def success(stop_message = '')
       @state = :success
+      @succeeded = true
       stop(stop_message)
       emit(:success)
     end
@@ -290,7 +315,7 @@ module TTY
     #
     # @api public
     def clear_line
-      output.print(ECMA_CSI + '0m' + ECMA_CSI + '1000D' + ECMA_CSI + ECMA_CLR)
+      write(ECMA_CSI + '0m' + ECMA_CSI + '1000D' + ECMA_CSI + ECMA_CLR)
     end
 
     # Update string formatting tokens
@@ -309,9 +334,33 @@ module TTY
     # @api public
     def reset
       @current = 0
+      @first_run = true
     end
 
     private
+
+    LOCK = Mutex.new
+
+    def execute_on_line
+      if @multispinner
+        LOCK.synchronize do
+          lines_up = @multispinner.count_line_offset(@index)
+
+          if @first_run
+            yield if block_given?
+            output.print "\n"
+            @first_run = false
+          else
+            output.print TTY::Cursor.save
+            output.print TTY::Cursor.up lines_up
+            yield if block_given?
+            output.print TTY::Cursor.restore
+          end
+        end
+      else
+        yield if block_given?
+      end
+    end
 
     # Write data out to output
     #
@@ -319,9 +368,11 @@ module TTY
     #
     # @api private
     def write(data, clear_first = false)
-      output.print(ECMA_CSI + '1' + ECMA_CHA) if clear_first
-      output.print(data)
-      output.flush
+      execute_on_line do
+        output.print(ECMA_CSI + '1' + ECMA_CHA) if clear_first
+        output.print(data)
+        output.flush
+      end
     end
 
     # Emit callback

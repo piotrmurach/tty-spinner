@@ -40,6 +40,8 @@ RSpec.describe TTY::Spinner, '#stop' do
       "\e[1G/",
       "\e[1G/ Done!\n"
     ].join)
+
+    expect(spinner.done?).to eq(true)
   end
 
   it "stops after 2 spins with message and prints stop message" do
