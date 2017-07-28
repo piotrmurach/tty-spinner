@@ -109,13 +109,21 @@ module TTY
       @thread      = nil
       @multispinner= nil
       @index       = nil
-
+      @succeeded   = false
       @first_run  = true
     end
 
     def add_multispinner(multispinner, index)
       @multispinner = multispinner
       @index = index
+    end
+
+    def succeeded?
+      done? && @succeeded
+    end
+
+    def errored?
+      done? && !@succeeded
     end
 
     def spinning?
@@ -289,6 +297,7 @@ module TTY
     # @api public
     def success(stop_message = '')
       @state = :success
+      @succeeded = true
       stop(stop_message)
       emit(:success)
     end

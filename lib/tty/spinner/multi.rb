@@ -12,6 +12,11 @@ module TTY
         @options = options
 
         @spinners = []
+        @callbacks = {
+          success: [],
+          error:   [],
+          done:    [],
+        }
       end
 
       def register(message, options = {})
@@ -34,6 +39,46 @@ module TTY
         end
 
         count
+      end
+
+      def all_done?
+        @spinners.all? { |s| s.done? }
+      end
+
+      def all_success?
+        @spinners.all? { |s| s.succeeded? }
+      end
+
+      def any_error?
+        @spinners.any? { |s| s.errored? }
+      end
+
+      def stop
+        emit :done
+      end
+
+      def success
+        stop
+        emit :success
+      end
+
+      def error
+        stop
+        emit :error
+      end
+
+      def on(key, &block)
+        raise "The event #{key} does not exist. Use :success, :error, or :done instead" unless @callbacks.key?(key)
+
+        @callbacks[key].push(block)
+      end
+
+      private
+
+      def emit(key)
+        @callbacks[key].each do |method|
+          method.call
+        end
       end
     end # MultiSpinner
   end # Spinner

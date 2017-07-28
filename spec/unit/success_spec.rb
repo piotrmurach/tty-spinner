@@ -14,6 +14,8 @@ RSpec.describe TTY::Spinner, '#success' do
       "\e[1G-",
       "\e[1G#{TTY::Spinner::TICK}\n"
     ].join)
+
+    expect(spinner.succeeded?).to be(true)
   end
 
   it "marks spinner as success with message" do
@@ -27,6 +29,8 @@ RSpec.describe TTY::Spinner, '#success' do
       "\e[1G-",
       "\e[1G#{TTY::Spinner::TICK} Successful\n"
     ].join)
+
+    expect(spinner.succeeded?).to be(true)
   end
 
   it "changes success spinner marker" do
@@ -34,5 +38,7 @@ RSpec.describe TTY::Spinner, '#success' do
     spinner.success('(successful)')
     output.rewind
     expect(output.read).to eq("\e[1G* (successful)\n")
+
+    expect(spinner.succeeded?).to be(true)
   end
 end
