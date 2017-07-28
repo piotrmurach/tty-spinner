@@ -22,4 +22,16 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
     expect(sp2.errored?).to eq(true)
     expect(callbacks).to eq([:error])
   end
+
+  it '#error? returns true when any spinner failed' do
+    spinners = TTY::Spinner::Multi.new(output: output)
+    mock = double("spinner", add_multispinner: nil)
+    allow(mock).to receive(:errored?).and_return(true, false)
+    allow(TTY::Spinner).to receive(:new).and_return(mock)
+
+    spinners.register("")
+    spinners.register("")
+
+    expect(spinners.error?).to eq(true)
+  end
 end

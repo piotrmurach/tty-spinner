@@ -63,16 +63,31 @@ module TTY
         end
       end
 
-      def all_done?
-        @spinners.all? { |s| s.done? }
+      # Check if all spinners are done
+      #
+      # @return [Boolean]
+      #
+      # @api public
+      def done?
+        @spinners.all?(&:done?)
       end
 
-      def all_success?
-        @spinners.all? { |s| s.succeeded? }
+      # Check if all spinners succeeded
+      #
+      # @return [Boolean]
+      #
+      # @api public
+      def success?
+        @spinners.all?(&:succeeded?)
       end
 
-      def any_error?
-        @spinners.any? { |s| s.errored? }
+      # Check if any spinner errored
+      #
+      # @return [Boolean]
+      #
+      # @api public
+      def error?
+        @spinners.any?(&:errored?)
       end
 
       # Stop all spinners
