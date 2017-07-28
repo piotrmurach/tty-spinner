@@ -1,4 +1,9 @@
-require 'tty/spinner'
+# encoding: utf-8
+# frozen_string_literal: true
+
+require 'forwardable'
+
+require_relative '../spinner'
 
 module TTY
   class Spinner
@@ -6,7 +11,11 @@ module TTY
     #
     # @api public
     class Multi
-      attr_reader :spinners
+      include Enumerable
+
+      extend Forwardable
+
+      def_delegators :@spinners, :each, :empty?, :length
 
       def initialize(options = {})
         @options = options
@@ -19,12 +28,17 @@ module TTY
         }
       end
 
-      def register(message, options = {})
-        new_spinner = TTY::Spinner.new(message, @options.merge(options))
-        new_spinner.add_multispinner(self, @spinners.length)
-        @spinners.push new_spinner
-
-        new_spinner
+      # Register a new spinner
+      #
+      # @param [String] pattern
+      #   the pattern used for creating spinner
+      #
+      # @api public
+      def register(pattern, options = {})
+        spinner = TTY::Spinner.new(pattern, @options.merge(options))
+        spinner.add_multispinner(self, @spinners.length)
+        @spinners << spinner
+        spinner
       end
 
       # Used to calculate and return how many lines above the current cursor

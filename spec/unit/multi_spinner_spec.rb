@@ -1,20 +1,6 @@
 # coding: utf-8
 
 RSpec.describe TTY::Spinner::Multi do
-  describe '#register' do
-    let(:output) { StringIO.new('', 'w+') }
-
-    it "creates a TTY::Spinner" do
-      spinner = TTY::Spinner::Multi.new(output: output, interval: 100)
-      allow_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
-      expect_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
-
-      sp = spinner.register ""
-      expect(sp).to be_instance_of TTY::Spinner
-      expect(spinner.spinners.length).to eq(1)
-    end
-  end
-
   describe '#count_line_offset' do
     let(:output) { StringIO.new('', 'w+') }
 
