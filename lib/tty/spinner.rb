@@ -27,6 +27,8 @@ module TTY
     TICK = '✔'.freeze
     CROSS = '✖'.freeze
 
+    CURSOR_USAGE_LOCK = Monitor.new
+
     # The object that responds to print call defaulting to stderr
     #
     # @api public
@@ -159,20 +161,17 @@ module TTY
       reset
     end
 
-    SPINNER_START_LOCK = Mutex.new
     # Start automatic spinning animation
     #
     # @api public
     def auto_spin
-      # TODO: this should probably be the same lock (will need to be a Monitor
-      #   rather than a Mutex) as execute_on_line, so that a spinner starts
-      #   completely before another tries to redraw itself. Also, spin needs to
-      #   run once before a spinner is fully started, so we should probably run
-      #   it once, and then start the Thread.
-      SPINNER_START_LOCK.synchronize do
+      CURSOR_USAGE_LOCK.synchronize do
         start
         sleep_time = 1.0 / @interval
+
+        spin
         @thread = Thread.new do
+          sleep(sleep_time)
           while @started_at
             spin
             sleep(sleep_time)
@@ -344,11 +343,9 @@ module TTY
 
     private
 
-    LOCK = Mutex.new
-
     def execute_on_line
       if @multispinner
-        LOCK.synchronize do
+        CURSOR_USAGE_LOCK.synchronize do
           lines_up = @multispinner.count_line_offset(@index)
 
           if @first_run
