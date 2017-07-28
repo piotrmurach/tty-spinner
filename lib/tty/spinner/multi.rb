@@ -36,6 +36,8 @@ module TTY
       # @api public
       def register(pattern, options = {})
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
+
+        # TODO: If two threads add a spinner at the same time, @spinners.length will be the same for both
         spinner.add_multispinner(self, @spinners.length)
         @spinners << spinner
         spinner

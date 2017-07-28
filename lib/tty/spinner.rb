@@ -164,6 +164,11 @@ module TTY
     #
     # @api public
     def auto_spin
+      # TODO: this should probably be the same lock (will need to be a Monitor
+      #   rather than a Mutex) as execute_on_line, so that a spinner starts
+      #   completely before another tries to redraw itself. Also, spin needs to
+      #   run once before a spinner is fully started, so we should probably run
+      #   it once, and then start the Thread.
       SPINNER_START_LOCK.synchronize do
         start
         sleep_time = 1.0 / @interval
