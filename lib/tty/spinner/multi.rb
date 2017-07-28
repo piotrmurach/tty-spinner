@@ -75,31 +75,47 @@ module TTY
         @spinners.any? { |s| s.errored? }
       end
 
+      # Stop all spinners
+      #
+      # @api public
       def stop
+        @spinners.dup.each(&:stop)
         emit :done
       end
 
+      # Stop all spinners with success status
+      #
+      # @api public
       def success
-        stop
+        @spinners.dup.each(&:success)
         emit :success
       end
 
+      # Stop all spinners with error status
+      #
+      # @api public
       def error
-        stop
+        @spinners.dup.each(&:error)
         emit :error
       end
 
-      def on(key, &block)
-        raise "The event #{key} does not exist. Use :success, :error, or :done instead" unless @callbacks.key?(key)
-
-        @callbacks[key].push(block)
+      # Listen on event
+      #
+      # @api public
+      def on(key, &callback)
+        unless @callbacks.key?(key)
+          raise ArgumentError, "The event #{key} does not exist. "\
+                               " Use :success, :error, or :done instead"
+        end
+        @callbacks[key] << callback
+        self
       end
 
       private
 
-      def emit(key)
-        @callbacks[key].each do |method|
-          method.call
+      def emit(key, *args)
+        @callbacks[key].each do |block|
+          block.call(*args)
         end
       end
     end # MultiSpinner

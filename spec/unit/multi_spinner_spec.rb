@@ -1,40 +1,6 @@
 # coding: utf-8
 
 RSpec.describe TTY::Spinner::Multi do
-  describe '#on' do
-    it 'registers method with a valid event' do
-      spinner = TTY::Spinner::Multi.new(output: output)
-      expect { spinner.on(:done) { true } }.not_to raise_exception
-    end
-
-    it 'refuses to register a method with an invalid event' do
-      spinner = TTY::Spinner::Multi.new(output: output)
-      expect { spinner.on(:not_a_real_event) { true } }.to raise_exception
-    end
-  end
-
-  describe '#success' do
-    it 'emits a success message' do
-      spinner = TTY::Spinner::Multi.new(output: output)
-      allow(spinner).to receive(:emit)
-
-      expect(spinner).to receive(:emit).with(:done).once
-      expect(spinner).to receive(:emit).with(:success).once
-      spinner.success
-    end
-  end
-
-  describe '#error' do
-    it 'emits an error message' do
-      spinner = TTY::Spinner::Multi.new(output: output)
-      allow(spinner).to receive(:emit)
-
-      expect(spinner).to receive(:emit).with(:done).once
-      expect(spinner).to receive(:emit).with(:error).once
-      spinner.error
-    end
-  end
-
   describe 'end state functions' do
     it '#all_success? returns true when all spinners succeeded' do
       spinner = TTY::Spinner::Multi.new(output: output)
