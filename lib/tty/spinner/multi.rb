@@ -20,6 +20,8 @@ module TTY
       def initialize(options = {})
         @options = options
 
+        @create_spinner_lock = Mutex.new
+
         @spinners = []
         @callbacks = {
           success: [],
@@ -36,8 +38,12 @@ module TTY
       # @api public
       def register(pattern, options = {})
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
-        spinner.add_multispinner(self, @spinners.length)
-        @spinners << spinner
+
+        @create_spinner_lock.synchronize do
+          spinner.add_multispinner(self, @spinners.length)
+          @spinners << spinner
+        end
+
         spinner
       end
 
