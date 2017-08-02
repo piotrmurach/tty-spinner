@@ -18,11 +18,16 @@ module TTY
       def_delegators :@spinners, :each, :empty?, :length
 
       def initialize(options = {})
+        message = options.delete(:message)
         @options = options
 
         @create_spinner_lock = Mutex.new
 
         @spinners = []
+        unless message.nil?
+          @top_level_spinner = register(message)
+        end
+
         @callbacks = {
           success: [],
           error:   [],
@@ -47,6 +52,18 @@ module TTY
         spinner
       end
 
+      def top_level_spinner
+        raise "No top level spinner" if @top_level_spinner.nil?
+
+        @top_level_spinner
+      end
+
+      def auto_spin
+        raise "No top level spinner" if @top_level_spinner.nil?
+
+        @top_level_spinner.auto_spin
+      end
+
       # Find relative offset position to which to move the current cursor
       #
       # The position is found among the registered spinners given the current
@@ -67,6 +84,16 @@ module TTY
           end
           acc
         end
+      end
+
+      # Find the number of characters to move into the line before printing the
+      # spinner
+      #
+      # @api public
+      def line_inset(spinner)
+        return "    " if @top_level_spinner && spinner != @top_level_spinner
+
+        ""
       end
 
       # Check if all spinners are done
@@ -108,6 +135,7 @@ module TTY
       #
       # @api public
       def success
+        @top_level_spinner.success if @top_level_spinner
         @spinners.dup.each(&:success)
         emit :success
       end
@@ -116,6 +144,7 @@ module TTY
       #
       # @api public
       def error
+        @top_level_spinner.error if @top_level_spinner
         @spinners.dup.each(&:error)
         emit :error
       end

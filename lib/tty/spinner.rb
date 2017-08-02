@@ -272,7 +272,7 @@ module TTY
       end
 
       write(data, true)
-      write("\n", false) unless @clear
+      write("\n", false) unless @clear || @multispinner
     ensure
       @state      = :stopped
       @done       = true
@@ -354,7 +354,7 @@ module TTY
             @first_run = false
           else
             output.print TTY::Cursor.save
-            output.print TTY::Cursor.up lines_up
+            output.print TTY::Cursor.up(lines_up)
             yield if block_given?
             output.print TTY::Cursor.restore
           end
@@ -372,7 +372,11 @@ module TTY
     def write(data, clear_first = false)
       execute_on_line do
         output.print(ECMA_CSI + '1' + ECMA_CHA) if clear_first
-        output.print(data)
+
+        # If there's a top level spinner, print with inset
+        characters_in = @multispinner.nil? ? "" : @multispinner.line_inset(self)
+
+        output.print(characters_in + data)
         output.flush
       end
     end
