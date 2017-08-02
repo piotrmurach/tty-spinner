@@ -20,10 +20,9 @@ module TTY
       def initialize(options = {})
         message = options.delete(:message)
         @options = options
-
         @create_spinner_lock = Mutex.new
-
         @spinners = []
+        @top_level_spinner = nil
         unless message.nil?
           @top_level_spinner = register(message)
         end
