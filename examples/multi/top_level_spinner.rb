@@ -2,7 +2,7 @@
 
 require 'tty-spinner'
 
-spinners = TTY::Spinner::Multi.new(message: "[:spinner] Top level spinner")
+spinners = TTY::Spinner::Multi.new("[:spinner] Top level spinner")
 
 sp1 = spinners.register "[:spinner] one"
 sp2 = spinners.register "[:spinner] two"

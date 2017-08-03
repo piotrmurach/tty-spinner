@@ -14,7 +14,7 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
   end
 
   it "returns the empty string for the top level spinner" do
-    spinners = TTY::Spinner::Multi.new(output: output, message: "Top level spinner")
+    spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
     allow_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
 
     spinners.register ""
@@ -23,12 +23,12 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
   end
 
   it "returns four spaces when there is a top level spinner" do
-    spinners = TTY::Spinner::Multi.new(output: output, message: "Top level spinner")
+    spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
     allow_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
 
     spinner = spinners.register ""
 
-    expect(spinners.line_inset(spinner)).to eq('    ')
+    expect(spinners.line_inset(spinner)).to eq("  ")
   end
 end
 
@@ -45,7 +45,7 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
   end
 
   it "doesn't raise exception" do
-    spinners = TTY::Spinner::Multi.new(output: output, message: "Top level spinner")
+    spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
     allow_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
     allow_any_instance_of(TTY::Spinner).to receive(:auto_spin)
 

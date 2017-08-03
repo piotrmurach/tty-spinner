@@ -17,9 +17,25 @@ module TTY
 
       def_delegators :@spinners, :each, :empty?, :length
 
-      def initialize(options = {})
-        message = options.delete(:message)
-        @options = options
+      # @api private
+      def init_indent_opts
+        @indentation_opts = {}
+        @indentation_opts[:indent] = @options.delete(:indent) { 2 }
+        @indentation_opts[:style] = @options.delete(:style) {
+          {
+            top: '',
+            middle: '',
+            bottom: '',
+          }
+        }
+      end
+
+      def initialize(*args)
+        @options = args.last.is_a?(::Hash) ? args.pop : {}
+        message = args.empty? ? nil : args.pop
+
+        init_indent_opts
+
         @create_spinner_lock = Mutex.new
         @spinners = []
         @top_level_spinner = nil
@@ -90,9 +106,16 @@ module TTY
       #
       # @api public
       def line_inset(spinner)
-        return "    " if @top_level_spinner && spinner != @top_level_spinner
+        return '' if @top_level_spinner.nil?
 
-        ""
+        return @indentation_opts[:style][:top] if spinner == @top_level_spinner
+
+        min_indent = @indentation_opts[:indent]
+        if spinner == @spinners.last
+          return @indentation_opts[:style][:bottom].ljust(min_indent)
+        end
+
+        @indentation_opts[:style][:middle].ljust(min_indent)
       end
 
       # Check if all spinners are done
