@@ -30,6 +30,31 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
 
     expect(spinners.line_inset(spinner)).to eq("  ")
   end
+
+  it "defaults to the empty string for the top level spinner" do
+    spinners = TTY::Spinner::Multi.new("Top level spinner")
+
+    expect(spinners.line_inset(spinners.top_level_spinner)).to eq('')
+  end
+
+  it "allows customization" do
+    opts = {
+        output: output,
+        indent: 4,
+        style: {
+          top: ". ",
+          middle: "--",
+          bottom: "---",
+        }
+      }
+    spinners = TTY::Spinner::Multi.new("Top level spinner", opts)
+    middle_spinner = spinners.register ""
+    bottom_spinner = spinners.register ""
+
+    expect(spinners.line_inset(spinners.top_level_spinner)).to eq(". ")
+    expect(spinners.line_inset(middle_spinner)).to eq("--  ")
+    expect(spinners.line_inset(bottom_spinner)).to eq("--- ")
+  end
 end
 
 RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
