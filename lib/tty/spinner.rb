@@ -115,33 +115,71 @@ module TTY
       @first_run  = true
     end
 
+    # Notifies the TTY::Spinner that it is running under a multispinner
+    #
+    # @param [TTY::Spinner::Multi] the multispinner that it is running under
+    # @param [Integer] the index of this spinner in the multispinner
+    #
+    # @api private
     def add_multispinner(multispinner, index)
       @multispinner = multispinner
       @index = index
     end
 
+    # Whether the spinner has succeeded
+    #
+    # @return [Boolean] whether or not the spinner succeeded
+    #
+    # @api public
     def succeeded?
       done? && @succeeded
     end
 
+    # Whether the spinner has errored
+    #
+    # @return [Boolean] whether or not the spinner errored
+    #
+    # @api public
     def errored?
       done? && !@succeeded
     end
 
+    # Whether the spinner has completed spinning
+    #
+    # @return [Boolean] whether or not the spinner has finished
+    #
+    # @api public
+    def done?
+      @done
+    end
+
+    # Whether the spinner is spinner
+    #
+    # @return [Boolean] whether or not the spinner is spinning
+    #
+    # @api public
     def spinning?
       @state == :spinning
     end
 
+    # Whether the spinner is in the success state. This is only true
+    # temporarily while it is being marked with a success mark.
+    #
+    # @return [Boolean] whether or not the spinner is succeeding
+    #
+    # @api private
     def success?
       @state == :success
     end
 
+    # Whether the spinner is in the error state. This is only true
+    # temporarily while it is being marked with a failure mark.
+    #
+    # @return [Boolean] whether or not the spinner is erroring
+    #
+    # @api private
     def error?
       @state == :error
-    end
-
-    def done?
-      @done
     end
 
     # Register callback
@@ -343,6 +381,10 @@ module TTY
 
     private
 
+    # Execute a block on the proper terminal line if the spinner is running
+    # under a multispinner. Otherwise, execute the block on the current line.
+    #
+    # @api private
     def execute_on_line
       if @multispinner
         CURSOR_USAGE_LOCK.synchronize do

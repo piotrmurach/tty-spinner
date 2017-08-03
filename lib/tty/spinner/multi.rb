@@ -17,6 +17,9 @@ module TTY
 
       def_delegators :@spinners, :each, :empty?, :length
 
+      # Initialize the indentation options and remove them from the default
+      # spinner options
+      #
       # @api private
       def init_indent_opts
         @indentation_opts = {}
@@ -30,6 +33,31 @@ module TTY
         }
       end
 
+      # Initialize a multispinner
+      #
+      # @example
+      #   spinner = TTY::Spinner::Multi.new
+      #
+      # @param [String] message
+      #   the optional message to print in front of the top level spinner
+      #
+      # @param [Hash] options
+      # @option options [Integer] :indent
+      #   the minimum number of characters to indent sub-spinners by.
+      #   Ignored if message is blank
+      # @option options [Hash] :style
+      #   keys :top :middle and :bottom can contain Strings that are used to
+      #   indent the spinners. Ignored if message is blank
+      # @option options [Object] :output
+      #   the object that responds to print call defaulting to stderr
+      # @option options [Boolean] :hide_cursor
+      #   display or hide cursor
+      # @option options [Boolean] :clear
+      #   clear ouptut when finished
+      # @option options [Float] :interval
+      #   the interval for auto spinning
+      #
+      # @api public
       def initialize(*args)
         @options = args.last.is_a?(::Hash) ? args.pop : {}
         message = args.empty? ? nil : args.pop
@@ -67,12 +95,20 @@ module TTY
         spinner
       end
 
+      # Get the top level spinner if it exists
+      #
+      # @return [TTY::Spinner] the top level spinner
+      #
+      # @api public
       def top_level_spinner
         raise "No top level spinner" if @top_level_spinner.nil?
 
         @top_level_spinner
       end
 
+      # Auto spin the top level spinner
+      #
+      # @api public
       def auto_spin
         raise "No top level spinner" if @top_level_spinner.nil?
 

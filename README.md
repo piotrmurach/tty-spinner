@@ -97,7 +97,7 @@ _ Loading ... Done!
 
 For more usage examples please see [examples directory](https://github.com/piotrmurach/tty-spinner/tree/master/examples)
 
-## 2. API
+## 2. TTY::Spinner API
 
 ### 2.1 spin
 
@@ -338,6 +338,58 @@ This event is fired when `error` completion is called. In order to respond to th
 
 ```ruby
 spinner.on(:error) { ... }
+```
+
+## 5. TTY::Spinner::Multi API
+
+### 5.1 register
+
+Create and register a `TTY::Spinner` under the multispinner
+
+```ruby
+new_spinner = multi_spinner.register("[:spinner] Task 1 name", options)
+```
+
+If no options are given it will use the options given to the multi_spinner when it was initialized to create the new spinner.
+If options are passed, they will override any options given to the multi spinner.
+
+### 5.2 auto_spin
+
+The multispinner has to have been given a message on initialization.
+To perform automatic spinning animation use `auto_spin` method like so:
+
+```ruby
+multi_spinner = TTY::Spinner::Multi.new("[:spinner] Top level spinner")
+multi_spinner.auto_spin
+```
+
+The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
+
+### 5.3 stop
+
+In order to stop the multi spinner call `stop`. This will stop the top level spinner, if it exists, and any sub-spinners still spinning.
+
+```ruby
+multi_spinner.stop
+```
+
+#### 5.3.1 success
+
+Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
+This will also call `#success` on any sub-spinners that are still spinning.
+
+```ruby
+multi_spinner.success
+```
+
+
+#### 5.3.2 error
+
+Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
+This will also call `#error` on any sub-spinners that are still spinning.
+
+```ruby
+multi_spinner.error
 ```
 
 ## Contributing
