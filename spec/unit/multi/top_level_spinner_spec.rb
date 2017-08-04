@@ -66,7 +66,7 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
 
     spinners.register ""
 
-    expect { spinners.auto_spin }.to raise_exception
+    expect { spinners.auto_spin }.to raise_exception(RuntimeError, /No top level spinner/)
   end
 
   it "doesn't raise exception" do
