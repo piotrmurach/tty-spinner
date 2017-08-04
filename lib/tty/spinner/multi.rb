@@ -90,6 +90,7 @@ module TTY
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
           @spinners << spinner
+          @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? } unless @top_level_spinner.nil?
         end
 
         spinner

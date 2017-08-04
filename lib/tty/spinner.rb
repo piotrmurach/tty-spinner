@@ -289,6 +289,17 @@ module TTY
       data
     end
 
+    # Redraw the indent for this spinner, if it exists
+    #
+    # @api private
+    def redraw_indent
+      if @hide_cursor && !spinning?
+        write(ECMA_CSI + DEC_TCEM + DEC_RST)
+      end
+
+      write("", false)
+    end
+
     # Finish spining
     #
     # @param [String] stop_message
