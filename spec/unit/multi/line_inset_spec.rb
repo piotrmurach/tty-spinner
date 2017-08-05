@@ -49,7 +49,7 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
     bottom_spinner = spinners.register ""
 
     expect(spinners.line_inset(spinners.top_spinner)).to eq(". ")
-    expect(spinners.line_inset(middle_spinner)).to eq("--  ")
-    expect(spinners.line_inset(bottom_spinner)).to eq("--- ")
+    expect(spinners.line_inset(middle_spinner)).to eq("--")
+    expect(spinners.line_inset(bottom_spinner)).to eq("---")
   end
 end

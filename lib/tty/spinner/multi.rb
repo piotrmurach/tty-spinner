@@ -17,21 +17,11 @@ module TTY
 
       def_delegators :@spinners, :each, :empty?, :length
 
-      # Initialize the indentation options and remove them from the default
-      # spinner options
-      #
-      # @api private
-      def init_indent_opts
-        @indentation_opts = {}
-        @indentation_opts[:indent] = @options.delete(:indent) { 2 }
-        @indentation_opts[:style] = @options.delete(:style) {
-          {
-            top: '',
-            middle: '',
-            bottom: '',
-          }
-        }
-      end
+      DEFAULT_INSET = {
+        top: '',
+        middle: '  ',
+        bottom: '  '
+      }.freeze
 
       # Initialize a multispinner
       #
@@ -42,9 +32,6 @@ module TTY
       #   the optional message to print in front of the top level spinner
       #
       # @param [Hash] options
-      # @option options [Integer] :indent
-      #   the minimum number of characters to indent sub-spinners by.
-      #   Ignored if message is blank
       # @option options [Hash] :style
       #   keys :top :middle and :bottom can contain Strings that are used to
       #   indent the spinners. Ignored if message is blank
@@ -61,11 +48,9 @@ module TTY
       def initialize(*args)
         @options = args.last.is_a?(::Hash) ? args.pop : {}
         message = args.empty? ? nil : args.pop
-
-        init_indent_opts
-
+        @inset_opts = @options.delete(:style) { DEFAULT_INSET }
         @create_spinner_lock = Mutex.new
-        @spinners = []
+        @spinners    = []
         @top_spinner = nil
         unless message.nil?
           @top_spinner = register(message)
@@ -74,7 +59,7 @@ module TTY
         @callbacks = {
           success: [],
           error:   [],
-          done:    [],
+          done:    []
         }
       end
 
@@ -151,15 +136,13 @@ module TTY
       def line_inset(spinner)
         return '' if @top_spinner.nil?
 
-        min_indent = @indentation_opts[:indent]
-
         case spinner
         when @top_spinner
-          @indentation_opts[:style][:top]
+          @inset_opts[:top]
         when @spinners.last
-          @indentation_opts[:style][:bottom].ljust(min_indent)
+          @inset_opts[:bottom]
         else
-          @indentation_opts[:style][:middle].ljust(min_indent)
+          @inset_opts[:middle]
         end
       end
 
