@@ -16,14 +16,8 @@ module TTY
     # @raised when attempting to join dead thread
     NotSpinningError = Class.new(StandardError)
 
-    ECMA_ESC = "\x1b".freeze
     ECMA_CSI = "\x1b[".freeze
-    ECMA_CHA = 'G'.freeze
     ECMA_CLR = 'K'.freeze
-
-    DEC_RST = 'l'.freeze
-    DEC_SET = 'h'.freeze
-    DEC_TCEM = '?25'.freeze
 
     MATCHER = /:spinner/
     TICK = '✔'.freeze
@@ -280,7 +274,7 @@ module TTY
       return if @done
 
       if @hide_cursor && !spinning?
-        write(ECMA_CSI + DEC_TCEM + DEC_RST)
+        write(TTY::Cursor.hide)
       end
 
       data = message.gsub(MATCHER, @frames[@current])
@@ -312,7 +306,7 @@ module TTY
       return if @done
 
       if @hide_cursor
-        write(ECMA_CSI + DEC_TCEM + DEC_SET, false)
+        write(TTY::Cursor.show, false)
       end
       return clear_line if @clear
 
@@ -426,7 +420,7 @@ module TTY
     # @api private
     def write(data, clear_first = false)
       execute_on_line do
-        output.print(ECMA_CSI + '1' + ECMA_CHA) if clear_first
+        output.print(TTY::Cursor.column(1)) if clear_first
 
         # If there's a top level spinner, print with inset
         characters_in = @multispinner.nil? ? "" : @multispinner.line_inset(self)
