@@ -2,9 +2,8 @@
 
 RSpec.describe TTY::Spinner, '#spin' do
   let(:output) { StringIO.new('', 'w+') }
-  let(:save) { Gem.win_platform? ? "\e[s" : "\e7" }
-  let(:restore) { Gem.win_platform? ? "\e[u" : "\e8" }
-
+  let(:save)    { TTY::Cursor.save }
+  let(:restore) { TTY::Cursor.restore }
 
   it "spins default frames" do
     spinner = TTY::Spinner.new(output: output)
