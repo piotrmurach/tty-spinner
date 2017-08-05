@@ -138,21 +138,29 @@ module TTY
         end
       end
 
-      # Find the number of characters to move into the line before printing the
-      # spinner
+      # Find the number of characters to move into the line
+      # before printing the spinner
+      #
+      # @param [TTY::Spinner] spinner
+      #   the spinner for which line inset is calculated
+      #
+      # @return [String]
+      #   the inset
       #
       # @api public
       def line_inset(spinner)
         return '' if @top_spinner.nil?
 
-        return @indentation_opts[:style][:top] if spinner == @top_spinner
-
         min_indent = @indentation_opts[:indent]
-        if spinner == @spinners.last
-          return @indentation_opts[:style][:bottom].ljust(min_indent)
-        end
 
-        @indentation_opts[:style][:middle].ljust(min_indent)
+        case spinner
+        when @top_spinner
+          @indentation_opts[:style][:top]
+        when @spinners.last
+          @indentation_opts[:style][:bottom].ljust(min_indent)
+        else
+          @indentation_opts[:style][:middle].ljust(min_indent)
+        end
       end
 
       # Check if all spinners are done
