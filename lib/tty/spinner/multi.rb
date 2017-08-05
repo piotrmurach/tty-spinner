@@ -66,9 +66,9 @@ module TTY
 
         @create_spinner_lock = Mutex.new
         @spinners = []
-        @top_level_spinner = nil
+        @top_spinner = nil
         unless message.nil?
-          @top_level_spinner = register(message)
+          @top_spinner = register(message)
         end
 
         @callbacks = {
@@ -90,7 +90,7 @@ module TTY
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
           @spinners << spinner
-          @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? } unless @top_level_spinner.nil?
+          @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? } unless @top_spinner.nil?
         end
 
         spinner
@@ -101,19 +101,19 @@ module TTY
       # @return [TTY::Spinner] the top level spinner
       #
       # @api public
-      def top_level_spinner
-        raise "No top level spinner" if @top_level_spinner.nil?
+      def top_spinner
+        raise "No top level spinner" if @top_spinner.nil?
 
-        @top_level_spinner
+        @top_spinner
       end
 
       # Auto spin the top level spinner
       #
       # @api public
       def auto_spin
-        raise "No top level spinner" if @top_level_spinner.nil?
+        raise "No top level spinner" if @top_spinner.nil?
 
-        @top_level_spinner.auto_spin
+        @top_spinner.auto_spin
       end
 
       # Find relative offset position to which to move the current cursor
@@ -143,9 +143,9 @@ module TTY
       #
       # @api public
       def line_inset(spinner)
-        return '' if @top_level_spinner.nil?
+        return '' if @top_spinner.nil?
 
-        return @indentation_opts[:style][:top] if spinner == @top_level_spinner
+        return @indentation_opts[:style][:top] if spinner == @top_spinner
 
         min_indent = @indentation_opts[:indent]
         if spinner == @spinners.last
@@ -194,7 +194,7 @@ module TTY
       #
       # @api public
       def success
-        @top_level_spinner.success if @top_level_spinner
+        @top_spinner.success if @top_spinner
         @spinners.dup.each(&:success)
         emit :success
       end
@@ -203,7 +203,7 @@ module TTY
       #
       # @api public
       def error
-        @top_level_spinner.error if @top_level_spinner
+        @top_spinner.error if @top_spinner
         @spinners.dup.each(&:error)
         emit :error
       end
