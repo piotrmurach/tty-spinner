@@ -1,8 +1,10 @@
-# coding: utf-8
+# encoding: utf-8
+# frozen_string_literal: true
 
 require 'tty-cursor'
-require 'tty/spinner/version'
-require 'tty/spinner/formats'
+
+require_relative 'spinner/version'
+require_relative 'spinner/formats'
 
 module TTY
   # Used for creating terminal spinner

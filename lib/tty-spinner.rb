@@ -1,2 +1,4 @@
-require 'tty/spinner'
-require 'tty/spinner/multi'
+# encoding: utf-8
+
+require_relative 'tty/spinner'
+require_relative 'tty/spinner/multi'
