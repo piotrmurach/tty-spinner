@@ -17,9 +17,53 @@ module TTY
 
       def_delegators :@spinners, :each, :empty?, :length
 
-      def initialize(options = {})
-        message = options.delete(:message)
-        @options = options
+      # Initialize the indentation options and remove them from the default
+      # spinner options
+      #
+      # @api private
+      def init_indent_opts
+        @indentation_opts = {}
+        @indentation_opts[:indent] = @options.delete(:indent) { 2 }
+        @indentation_opts[:style] = @options.delete(:style) {
+          {
+            top: '',
+            middle: '',
+            bottom: '',
+          }
+        }
+      end
+
+      # Initialize a multispinner
+      #
+      # @example
+      #   spinner = TTY::Spinner::Multi.new
+      #
+      # @param [String] message
+      #   the optional message to print in front of the top level spinner
+      #
+      # @param [Hash] options
+      # @option options [Integer] :indent
+      #   the minimum number of characters to indent sub-spinners by.
+      #   Ignored if message is blank
+      # @option options [Hash] :style
+      #   keys :top :middle and :bottom can contain Strings that are used to
+      #   indent the spinners. Ignored if message is blank
+      # @option options [Object] :output
+      #   the object that responds to print call defaulting to stderr
+      # @option options [Boolean] :hide_cursor
+      #   display or hide cursor
+      # @option options [Boolean] :clear
+      #   clear ouptut when finished
+      # @option options [Float] :interval
+      #   the interval for auto spinning
+      #
+      # @api public
+      def initialize(*args)
+        @options = args.last.is_a?(::Hash) ? args.pop : {}
+        message = args.empty? ? nil : args.pop
+
+        init_indent_opts
+
         @create_spinner_lock = Mutex.new
         @spinners = []
         @top_level_spinner = nil
@@ -46,17 +90,26 @@ module TTY
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
           @spinners << spinner
+          @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? } unless @top_level_spinner.nil?
         end
 
         spinner
       end
 
+      # Get the top level spinner if it exists
+      #
+      # @return [TTY::Spinner] the top level spinner
+      #
+      # @api public
       def top_level_spinner
         raise "No top level spinner" if @top_level_spinner.nil?
 
         @top_level_spinner
       end
 
+      # Auto spin the top level spinner
+      #
+      # @api public
       def auto_spin
         raise "No top level spinner" if @top_level_spinner.nil?
 
@@ -90,9 +143,16 @@ module TTY
       #
       # @api public
       def line_inset(spinner)
-        return "    " if @top_level_spinner && spinner != @top_level_spinner
+        return '' if @top_level_spinner.nil?
 
-        ""
+        return @indentation_opts[:style][:top] if spinner == @top_level_spinner
+
+        min_indent = @indentation_opts[:indent]
+        if spinner == @spinners.last
+          return @indentation_opts[:style][:bottom].ljust(min_indent)
+        end
+
+        @indentation_opts[:style][:middle].ljust(min_indent)
       end
 
       # Check if all spinners are done
