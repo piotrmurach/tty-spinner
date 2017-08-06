@@ -1,5 +1,17 @@
 # Change log
 
+## [v0.5.0] - 2017-08-xx
+
+### Added
+* Add TTY::Spinner::Multi to allow for parallel spinners executation by Austin Blatt[@austb]
+* Add formatting for multi spinner display by Austin Blatt[@austb]
+* Add abilty to register multi spinners with async jobs
+
+### Changed
+* Change to unify success category to mark spinner as succeded or errored
+
+### Fixed
+
 ## [v0.4.1] - 2016-08-07
 
 ### Changed
@@ -44,6 +56,7 @@
 
 * Initial implementation and release
 
+[v0.5.0]: https://github.com/peter-murach/tty-spinner/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/peter-murach/tty-spinner/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/peter-murach/tty-spinner/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/peter-murach/tty-spinner/compare/v0.2.0...v0.3.0
