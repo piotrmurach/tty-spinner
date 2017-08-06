@@ -11,6 +11,7 @@
 * Change to unify success category to mark spinner as succeded or errored
 
 ### Fixed
+* Stop firing events when a spinner is stopped
 
 ## [v0.4.1] - 2016-08-07
 
