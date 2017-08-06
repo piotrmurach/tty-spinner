@@ -125,8 +125,7 @@ module TTY
       # @api public
       def count_line_offset(index)
         Array(@spinners[index..-1]).reduce(0) do |acc, spinner|
-          if spinner.spinning? || spinner.success? ||
-             spinner.error? || spinner.done?
+          if spinner.spinning? || spinner.done?
             acc += 1
           end
           acc
