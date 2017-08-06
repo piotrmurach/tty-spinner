@@ -39,7 +39,7 @@ Or install it yourself as:
 ## Contents
 
 * [1. Usage](#1-usage)
-* [2. API](#2-api)
+* [2. TTY::Spinner API](#2-ttyspinner-api)
   * [2.1 spin](#21-spin)
   * [2.2 auto_spin](#22-auto_spin)
   * [2.3 run](#23-run)
@@ -63,6 +63,13 @@ Or install it yourself as:
   * [4.1 done](#41-done)
   * [4.2 success](#42-success)
   * [4.3 error](#43-error)
+* [5. TTY::Spinner::Multi API](#5-ttyspinnermulti-api)
+  * [5.1 reigster](#51-register)
+  * [5.2 auto_spin](#52-auto_spin)
+    * [5.2.1 async tasks](#521-async-tasks)
+  * [5.3 stop](#53-stop)
+    * [5.3.1 success](#531-success)
+    * [5.3.2 error](#532-error)
 
 ## 1. Usage
 
@@ -76,11 +83,12 @@ In addition you can provide a message with `:spinner` token and format type you 
 
 ```ruby
 spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
-30.times do
-  spinner.spin
-  sleep(0.1)
-end
-spinner.stop('Done!')
+
+spinner.auto_spin # Automatic animation with default interval
+
+sleep(2) # Perform task
+
+spinner.stop('Done!') # Stop animation
 ```
 
 This would produce animation in your terminal:
@@ -93,6 +101,23 @@ and when finished output:
 
 ```ruby
 _ Loading ... Done!
+```
+
+Use **TTY::Spinner::Multi** to synchornize multiple spinners:
+
+```ruby
+spinners = TTY::Spinner::Multi.new
+
+sp1 = spinners.register "[:spinner] one"
+sp2 = spinners.register "[:spinner] two"
+
+sp1.auto_spin
+sp2.auto_spin
+
+sleep(2) # Perform work
+
+sp1.stop
+sp2.stop
 ```
 
 For more usage examples please see [examples directory](https://github.com/piotrmurach/tty-spinner/tree/master/examples)
@@ -363,7 +388,32 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] Top level spinner")
 multi_spinner.auto_spin
 ```
 
+If you register spinners without any tasks then you will have to manually control when the `multi_spinner` finishes by calling `stop`, `success` or `error`. Alternatively you can register spinners with tasks (see [async tasks](#521-async-tasks))
+
 The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
+
+#### 5.2.1 async tasks
+
+In case when you wish to execute async tasks and update individual spinners automatically, in any order, about their task status use `#register` and pass additional block parameter with the job to be executed.
+
+For example, create a multi spinner that will track status of all registered spinners:
+
+```ruby
+spinners = TTY::Spinner::Multi.new("[:spinner] top")
+```
+
+and then register spinners with their respective tasks:
+
+```ruby
+spinners.register("[:spinner] one") { |sp| sleep(2); sp.success('yes 2') }
+spinners.register("[:spinner] two") { |sp| sleep(3); sp.error('no 2') }
+```
+
+Finally, call `#auto_spin` to kick things off:
+
+```ruby
+spinners.auto_spin
+```
 
 ### 5.3 stop
 
@@ -381,7 +431,6 @@ This will also call `#success` on any sub-spinners that are still spinning.
 ```ruby
 multi_spinner.success
 ```
-
 
 #### 5.3.2 error
 
