@@ -33,6 +33,6 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
 
     # Ensure that top level is successful as well if all jobs run
     # expect(spinners.success?).to eq(true)
-    expect(jobs).to eq(['one', 'two'])
+    expect(jobs).to match_array(['one', 'two'])
   end
 end
