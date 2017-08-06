@@ -308,7 +308,7 @@ module TTY
     #
     # @api public
     def stop(stop_message = '')
-      return if @done
+      return if done?
 
       if @hide_cursor
         write(TTY::Cursor.show, false)
@@ -350,6 +350,8 @@ module TTY
     #
     # @api public
     def success(stop_message = '')
+      return if done?
+
       @succeeded = :success
       stop(stop_message)
       emit(:success)
@@ -359,6 +361,8 @@ module TTY
     #
     # @api public
     def error(stop_message = '')
+      return if done?
+
       @succeeded = :error
       stop(stop_message)
       emit(:error)
