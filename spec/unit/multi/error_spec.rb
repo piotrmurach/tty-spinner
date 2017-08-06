@@ -34,4 +34,17 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
 
     expect(spinners.error?).to eq(true)
   end
+
+  it "updates top spinner error state baed on child spinners jobs failure" do
+    spinners = TTY::Spinner::Multi.new("top", output: output)
+
+    spinners.register("one") { |sp| sp.success }
+    spinners.register("two") { |sp| sp.error }
+
+    expect(spinners.error?).to eq(false)
+
+    spinners.auto_spin
+
+    expect(spinners.error?).to eq(true)
+  end
 end

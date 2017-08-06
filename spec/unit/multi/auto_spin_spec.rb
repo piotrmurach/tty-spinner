@@ -27,12 +27,8 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
     spinners.register("one") { |sp| jobs << 'one'; sp.success }
     spinners.register("two") { |sp| jobs << 'two'; sp.success }
 
-    expect(spinners.success?).to eq(false)
-
     spinners.auto_spin
 
-    # Ensure that top level is successful as well if all jobs run
-    # expect(spinners.success?).to eq(true)
     expect(jobs).to match_array(['one', 'two'])
   end
 end

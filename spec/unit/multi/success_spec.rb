@@ -45,4 +45,17 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
 
     expect(spinner.success?).to eq(false)
   end
+
+  it "updates top spinner success state based on child spinners jobs status" do
+    spinners = TTY::Spinner::Multi.new("top", output: output)
+
+    spinners.register("one") { |sp| sp.success }
+    spinners.register("two") { |sp| sp.success }
+
+    expect(spinners.success?).to eq(false)
+
+    spinners.auto_spin
+
+    expect(spinners.success?).to eq(true)
+  end
 end

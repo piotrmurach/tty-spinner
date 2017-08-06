@@ -73,6 +73,7 @@ module TTY
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
           spinner.job(&job) if block_given?
+          observe_events(spinner) if @top_spinner
           @spinners << spinner
           if @top_spinner
             @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? }
@@ -80,6 +81,18 @@ module TTY
         end
 
         spinner
+      end
+
+      # Observe all child events to notify top spinner of current state
+      #
+      # @param [TTY::Spinner] spinner
+      #   the spinner to listen to for events
+      #
+      # @api private
+      def observe_events(spinner)
+        spinner.on(:success) { @top_spinner.success if success? }
+               .on(:error)   { @top_spinner.error if error? }
+               .on(:done)    { @top_spinner.stop if done? && !success? && !error? }
       end
 
       # Get the top level spinner if it exists
@@ -161,7 +174,7 @@ module TTY
       #
       # @api public
       def done?
-        @spinners.all?(&:done?)
+        (@spinners - [@top_spinner]).all?(&:done?)
       end
 
       # Check if all spinners succeeded
@@ -170,7 +183,7 @@ module TTY
       #
       # @api public
       def success?
-        @spinners.all?(&:success?)
+        (@spinners - [@top_spinner]).all?(&:success?)
       end
 
       # Check if any spinner errored
@@ -179,7 +192,7 @@ module TTY
       #
       # @api public
       def error?
-        @spinners.any?(&:error?)
+        (@spinners - [@top_spinner]).any?(&:error?)
       end
 
       # Stop all spinners
