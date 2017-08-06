@@ -9,8 +9,8 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
     sp1 = spinners.register "[:spinner] one"
     sp2 = spinners.register "[:spinner] two"
 
-    expect(sp1.succeeded?).to eq(false)
-    expect(sp2.succeeded?).to eq(false)
+    expect(sp1.success?).to eq(false)
+    expect(sp2.success?).to eq(false)
 
     spinners.on(:error) { callbacks << :error }
             .on(:done) { callbacks << :done }
@@ -18,14 +18,14 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
 
     spinners.success
 
-    expect(sp1.succeeded?).to eq(true)
-    expect(sp2.succeeded?).to eq(true)
+    expect(sp1.success?).to eq(true)
+    expect(sp2.success?).to eq(true)
     expect(callbacks).to eq([:success])
   end
 
   it '#success? returns true when all spinners succeeded' do
     spinners = TTY::Spinner::Multi.new(output: output)
-    mock = double("spinner", add_multispinner: nil, :succeeded? => true)
+    mock = double("spinner", add_multispinner: nil, :success? => true)
     allow(TTY::Spinner).to receive(:new).and_return(mock)
 
     spinners.register("")
@@ -37,7 +37,7 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
   it '#success? returns false when a spinner has errored' do
     spinner = TTY::Spinner::Multi.new(output: output)
     mock = double("spinner", add_multispinner: nil)
-    allow(mock).to receive(:succeeded?).and_return(true, false)
+    allow(mock).to receive(:success?).and_return(true, false)
     allow(TTY::Spinner).to receive(:new).and_return(mock)
 
     spinner.register("")

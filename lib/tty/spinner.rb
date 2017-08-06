@@ -123,24 +123,6 @@ module TTY
       @index = index
     end
 
-    # Whether the spinner has succeeded
-    #
-    # @return [Boolean] whether or not the spinner succeeded
-    #
-    # @api public
-    def succeeded?
-      done? && @succeeded
-    end
-
-    # Whether the spinner has errored
-    #
-    # @return [Boolean] whether or not the spinner errored
-    #
-    # @api public
-    def errored?
-      done? && !@succeeded
-    end
-
     # Whether the spinner has completed spinning
     #
     # @return [Boolean] whether or not the spinner has finished
@@ -150,7 +132,7 @@ module TTY
       @done
     end
 
-    # Whether the spinner is spinner
+    # Whether the spinner is spinning
     #
     # @return [Boolean] whether or not the spinner is spinning
     #
@@ -159,14 +141,14 @@ module TTY
       @state == :spinning
     end
 
-    # Whether the spinner is in the success state. This is only true
-    # temporarily while it is being marked with a success mark.
+    # Whether the spinner is in the success state.
+    # When true the spinner is marked with a success mark.
     #
-    # @return [Boolean] whether or not the spinner is succeeding
+    # @return [Boolean] whether or not the spinner succeeded
     #
     # @api private
     def success?
-      @state == :success
+      @succeeded == :success
     end
 
     # Whether the spinner is in the error state. This is only true
@@ -176,7 +158,7 @@ module TTY
     #
     # @api private
     def error?
-      @state == :error
+      @succeeded == :error
     end
 
     # Register callback
@@ -368,8 +350,7 @@ module TTY
     #
     # @api public
     def success(stop_message = '')
-      @state = :success
-      @succeeded = true
+      @succeeded = :success
       stop(stop_message)
       emit(:success)
     end
@@ -378,7 +359,7 @@ module TTY
     #
     # @api public
     def error(stop_message = '')
-      @state = :error
+      @succeeded = :error
       stop(stop_message)
       emit(:error)
     end

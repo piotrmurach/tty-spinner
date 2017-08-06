@@ -171,7 +171,7 @@ module TTY
       #
       # @api public
       def success?
-        @spinners.all?(&:succeeded?)
+        @spinners.all?(&:success?)
       end
 
       # Check if any spinner errored
@@ -180,7 +180,7 @@ module TTY
       #
       # @api public
       def error?
-        @spinners.any?(&:errored?)
+        @spinners.any?(&:error?)
       end
 
       # Stop all spinners

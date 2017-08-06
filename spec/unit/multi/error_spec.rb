@@ -9,8 +9,8 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
     sp1 = spinners.register "[:spinner] one"
     sp2 = spinners.register "[:spinner] two"
 
-    expect(sp1.errored?).to eq(false)
-    expect(sp2.errored?).to eq(false)
+    expect(sp1.error?).to eq(false)
+    expect(sp2.error?).to eq(false)
 
     spinners.on(:error) { callbacks << :error }
             .on(:done) { callbacks << :done }
@@ -18,19 +18,19 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
 
     spinners.error
 
-    expect(sp1.errored?).to eq(true)
-    expect(sp2.errored?).to eq(true)
+    expect(sp1.error?).to eq(true)
+    expect(sp2.error?).to eq(true)
     expect(callbacks).to eq([:error])
   end
 
   it '#error? returns true when any spinner failed' do
     spinners = TTY::Spinner::Multi.new(output: output)
     mock = double("spinner", add_multispinner: nil)
-    allow(mock).to receive(:errored?).and_return(true, false)
+    allow(mock).to receive(:error?).and_return(true, false)
     allow(TTY::Spinner).to receive(:new).and_return(mock)
 
-    spinners.register("")
-    spinners.register("")
+    spinners.register("one")
+    spinners.register("two")
 
     expect(spinners.error?).to eq(true)
   end
