@@ -52,9 +52,7 @@ module TTY
         @create_spinner_lock = Mutex.new
         @spinners    = []
         @top_spinner = nil
-        unless message.nil?
-          @top_spinner = register(message)
-        end
+        @top_spinner = register(message) unless message.nil?
 
         @callbacks = {
           success: [],
@@ -69,13 +67,14 @@ module TTY
       #   the pattern used for creating spinner
       #
       # @api public
-      def register(pattern, options = {})
+      def register(pattern, options = {}, &job)
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
 
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
+          spinner.job(&job) if block_given?
           @spinners << spinner
-          unless @top_spinner.nil?
+          if @top_spinner
             @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? }
           end
         end
@@ -94,13 +93,22 @@ module TTY
         @top_spinner
       end
 
-      # Auto spin the top level spinner
+      # Auto spin the top level spinner & all child spinners
+      # that have scheduled jobs
       #
       # @api public
       def auto_spin
         raise "No top level spinner" if @top_spinner.nil?
 
         @top_spinner.auto_spin
+        jobs = []
+        @spinners.each do |spinner|
+          if spinner.job?
+            spinner.auto_spin
+            jobs << Thread.new { spinner.instance_eval(&spinner.job) }
+          end
+        end
+        jobs.each(&:join)
       end
 
       # Find relative offset position to which to move the current cursor

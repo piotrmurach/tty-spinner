@@ -19,4 +19,20 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
       spinners.auto_spin
     }.to raise_error(RuntimeError, /No top level spinner/)
   end
+
+  it "auto spins top level & child spinners with jobs" do
+    spinners = TTY::Spinner::Multi.new("top", output: output)
+    jobs = []
+
+    spinners.register("one") { |sp| jobs << 'one'; sp.success }
+    spinners.register("two") { |sp| jobs << 'two'; sp.success }
+
+    expect(spinners.success?).to eq(false)
+
+    spinners.auto_spin
+
+    # Ensure that top level is successful as well if all jobs run
+    # expect(spinners.success?).to eq(true)
+    expect(jobs).to eq(['one', 'two'])
+  end
 end

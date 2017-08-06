@@ -105,6 +105,7 @@ module TTY
       @done        = false
       @state       = :stopped
       @thread      = nil
+      @job         = nil
       @multispinner= nil
       @index       = nil
       @succeeded   = false
@@ -195,6 +196,26 @@ module TTY
       reset
     end
 
+    # Add job to this spinner
+    #
+    # @api public
+    def job(&work)
+      if block_given?
+        @job = work
+      else
+        @job
+      end
+    end
+
+    # Check if this spinner has a scheduled job
+    #
+    # @return [Boolean]
+    #
+    # @api public
+    def job?
+      !@job.nil?
+    end
+
     # Start automatic spinning animation
     #
     # @api public
@@ -228,7 +249,9 @@ module TTY
     def run(stop_message = '', &block)
       auto_spin
 
-      @work = Thread.new(&block)
+      @work = Thread.new {
+        instance_eval(&block)
+      }
       @work.join
     ensure
       stop(stop_message)
