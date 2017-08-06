@@ -3,11 +3,10 @@
 require 'tty-spinner'
 
 opts = {
-  indent: 4,
   style: {
     top: ". ",
-    middle: "|--",
-    bottom: "|__",
+    middle: "|-> ",
+    bottom: "|__ ",
   }
 }
 spinners = TTY::Spinner::Multi.new("[:spinner] Top level spinner", opts)
