@@ -18,9 +18,9 @@ module TTY
       def_delegators :@spinners, :each, :empty?, :length
 
       DEFAULT_INSET = {
-        top: '',
-        middle: '  ',
-        bottom: '  '
+        top:    Gem.win_platform? ? '+ '   : "\u250c ",
+        middle: Gem.win_platform? ? '|-- ' : "\u251c\u2500\u2500",
+        bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500"
       }.freeze
 
       # Initialize a multispinner

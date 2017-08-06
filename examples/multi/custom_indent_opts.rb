@@ -5,9 +5,9 @@ require 'tty-spinner'
 opts = {
   indent: 4,
   style: {
-    top: "\u250c ",
-    middle: "\u251c\u2500\u2500",
-    bottom: "\u2514\u2500\u2500",
+    top: ". ",
+    middle: "|--",
+    bottom: "|__",
   }
 }
 spinners = TTY::Spinner::Multi.new("[:spinner] Top level spinner", opts)
