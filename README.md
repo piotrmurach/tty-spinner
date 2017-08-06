@@ -70,6 +70,7 @@ Or install it yourself as:
   * [5.3 stop](#53-stop)
     * [5.3.1 success](#531-success)
     * [5.3.2 error](#532-error)
+  * [5.4 :style](#54-style)
 
 ## 1. Usage
 
@@ -106,7 +107,7 @@ _ Loading ... Done!
 Use **TTY::Spinner::Multi** to synchornize multiple spinners:
 
 ```ruby
-spinners = TTY::Spinner::Multi.new
+spinners = TTY::Spinner::Multi.new("[:spinner] top")
 
 sp1 = spinners.register "[:spinner] one"
 sp2 = spinners.register "[:spinner] two"
@@ -116,8 +117,16 @@ sp2.auto_spin
 
 sleep(2) # Perform work
 
-sp1.stop
-sp2.stop
+sp1.success
+sp2.success
+```
+
+which when done will display:
+
+```ruby
+┌[✔]] top
+├──[✔] one
+└──[✔] two
 ```
 
 For more usage examples please see [examples directory](https://github.com/piotrmurach/tty-spinner/tree/master/examples)
@@ -441,6 +450,18 @@ This will also call `#error` on any sub-spinners that are still spinning.
 multi_spinner.error
 ```
 
+### 5.4 :style
+
+In addition to all [configuration options](#3-configuration) you can style multi spinner like so:
+
+```ruby
+multi_spinner = TTY::Spinner::Multi.new("[:spinner] parent", style: {
+  top: '. '
+  middle: '|-> '
+  bottom: '|__ '
+})
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/piotrmurach/tty-spinner/fork )
@@ -451,4 +472,4 @@ multi_spinner.error
 
 ## Copyright
 
-Copyright (c) 2014-2016 Piotr Murach. See LICENSE for further details.
+Copyright (c) 2014-2017 Piotr Murach. See LICENSE for further details.
