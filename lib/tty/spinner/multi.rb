@@ -124,6 +124,20 @@ module TTY
         jobs.each(&:join)
       end
 
+      # Pause all spinners
+      #
+      # @api public
+      def pause
+        @spinners.dup.each(&:pause)
+      end
+
+      # Resume all spinners
+      #
+      # @api public
+      def resume
+        @spinners.dup.each(&:resume)
+      end
+
       # Find relative offset position to which to move the current cursor
       #
       # The position is found among the registered spinners given the current
