@@ -17,7 +17,6 @@ module TTY
     NotSpinningError = Class.new(StandardError)
 
     ECMA_CSI = "\x1b[".freeze
-    ECMA_CLR = 'K'.freeze
 
     MATCHER = /:spinner/
     TICK = '✔'.freeze
@@ -403,7 +402,7 @@ module TTY
     #
     # @api public
     def clear_line
-      write(ECMA_CSI + '0m' + ECMA_CSI + '1000D' + ECMA_CSI + ECMA_CLR)
+      write(ECMA_CSI + '0m' + TTY::Cursor.clear_line)
     end
 
     # Update string formatting tokens

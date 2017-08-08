@@ -32,7 +32,7 @@ RSpec.describe TTY::Spinner, '#update' do
     expect(output.read).to eq([
       "\e[1Gtask_a |",
       "\e[1Gtask_a /",
-      "\e[0m\e[1000D\e[K",
+      "\e[0m\e[2K\e[1G",
       "\e[1Gtask_b -",
       "\e[1Gtask_b \\",
       "\e[1Gtask_b \\ done\n"
