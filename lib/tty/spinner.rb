@@ -146,7 +146,7 @@ module TTY
     #
     # @return [Boolean] whether or not the spinner succeeded
     #
-    # @api private
+    # @api public
     def success?
       @succeeded == :success
     end
@@ -156,7 +156,7 @@ module TTY
     #
     # @return [Boolean] whether or not the spinner is erroring
     #
-    # @api private
+    # @api public
     def error?
       @succeeded == :error
     end
@@ -210,11 +210,42 @@ module TTY
         @thread = Thread.new do
           sleep(sleep_time)
           while @started_at
+            if Thread.current['pause']
+              Thread.stop
+              Thread.current['pause'] = false
+            end
             spin
             sleep(sleep_time)
           end
         end
       end
+    end
+
+    # Checked if current spinner is paused
+    #
+    # @return [Boolean]
+    #
+    # @api public
+    def paused?
+      !!(@thread && @thread['pause'])
+    end
+
+    # Pause spinner automatic animation
+    #
+    # @api public
+    def pause
+      return if paused?
+
+      @thread['pause'] = true if @thread
+    end
+
+    # Resume spinner automatic animation
+    #
+    # @api public
+    def resume
+      return unless paused?
+
+      @thread.wakeup if @thread
     end
 
     # Run spinner while executing job
