@@ -6,6 +6,7 @@
 * Add TTY::Spinner::Multi to allow for parallel spinners executation by Austin Blatt[@austb]
 * Add formatting for multi spinner display by Austin Blatt[@austb]
 * Add abilty to register multi spinners with async jobs
+* Add #pause and #resume for single and multispinner
 
 ### Changed
 * Change to unify success category to mark spinner as succeded or errored
