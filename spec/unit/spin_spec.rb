@@ -51,7 +51,7 @@ RSpec.describe TTY::Spinner, '#spin' do
     allow(multi_spinner).to receive(:count_line_offset).and_return(1, 1, 2, 1)
     allow(multi_spinner).to receive(:line_inset).and_return("--- ")
 
-    spinner = TTY::Spinner.new(output: output, interval: 100)
+    spinner = TTY::Spinner.new(output: output)
     spinner.add_multispinner(multi_spinner, 0)
     spinner.spin
     spinner.redraw_indent
@@ -71,10 +71,10 @@ RSpec.describe TTY::Spinner, '#spin' do
     allow(multi_spinner).to receive(:count_line_offset).and_return(1, 1, 2, 1)
     allow(multi_spinner).to receive(:line_inset).and_return("")
 
-    spinner = TTY::Spinner.new(output: output, interval: 100)
+    spinner = TTY::Spinner.new(output: output)
     spinner.add_multispinner(multi_spinner, 0)
 
-    spinner2 = TTY::Spinner.new(output: output, interval: 100)
+    spinner2 = TTY::Spinner.new(output: output)
     spinner2.add_multispinner(multi_spinner, 1)
 
     spinner.spin
@@ -82,7 +82,8 @@ RSpec.describe TTY::Spinner, '#spin' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G|\n",
-      "\e[1G|\n"].join)
+      "\e[1G|\n"
+    ].join)
 
     spinner.spin
     output.rewind
@@ -109,6 +110,25 @@ RSpec.describe TTY::Spinner, '#spin' do
       "\e[1G/",
       restore
     ].join)
+  end
 
+  it "spins with many threads" do
+    spinner = TTY::Spinner.new(output: output)
+
+    th1 = Thread.new { 3.times { spinner.spin; sleep(0.05) } }
+    th2 = Thread.new { 4.times { spinner.spin; sleep(0.05) } }
+
+    [th1, th2].each(&:join)
+
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1G|",
+      "\e[1G/",
+      "\e[1G-",
+      "\e[1G\\",
+      "\e[1G|",
+      "\e[1G/",
+      "\e[1G-"
+    ].join)
   end
 end

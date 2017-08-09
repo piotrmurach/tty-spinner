@@ -1,6 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
+require 'monitor'
 require 'tty-cursor'
 
 require_relative 'spinner/version'
@@ -12,6 +13,7 @@ module TTY
   # @api public
   class Spinner
     include Formats
+    include MonitorMixin
 
     # @raised when attempting to join dead thread
     NotSpinningError = Class.new(StandardError)
@@ -81,6 +83,7 @@ module TTY
     #
     # @api public
     def initialize(*args)
+      super()
       options  = args.last.is_a?(::Hash) ? args.pop : {}
       @message = args.empty? ? ':spinner' : args.pop
       @tokens  = {}
@@ -164,7 +167,9 @@ module TTY
     #
     # @api public
     def on(name, &block)
-      @callbacks[name] << block
+      synchronize do
+        @callbacks[name] << block
+      end
       self
     end
 
@@ -181,10 +186,12 @@ module TTY
     #
     # @api public
     def job(&work)
-      if block_given?
-        @job = work
-      else
-        @job
+      synchronize do
+        if block_given?
+          @job = work
+        else
+          @job
+        end
       end
     end
 
@@ -235,7 +242,9 @@ module TTY
     def pause
       return if paused?
 
-      @thread['pause'] = true if @thread
+      synchronize do
+        @thread['pause'] = true if @thread
+      end
     end
 
     # Resume spinner automatic animation
@@ -261,9 +270,7 @@ module TTY
     def run(stop_message = '', &block)
       auto_spin
 
-      @work = Thread.new {
-        instance_eval(&block)
-      }
+      @work = Thread.new { instance_eval(&block) }
       @work.join
     ensure
       stop(stop_message)
@@ -296,7 +303,9 @@ module TTY
     #
     # @api public
     def kill
-      @thread.kill if @thread
+      synchronize do
+        @thread.kill if @thread
+      end
     end
 
     # Perform a spin
@@ -306,18 +315,20 @@ module TTY
     #
     # @api public
     def spin
-      return if @done
+      synchronize do
+        return if @done
 
-      if @hide_cursor && !spinning?
-        write(TTY::Cursor.hide)
+        if @hide_cursor && !spinning?
+          write(TTY::Cursor.hide)
+        end
+
+        data = message.gsub(MATCHER, @frames[@current])
+        data = replace_tokens(data)
+        write(data, true)
+        @current = (@current + 1) % @length
+        @state = :spinning
+        data
       end
-
-      data = message.gsub(MATCHER, @frames[@current])
-      data = replace_tokens(data)
-      write(data, true)
-      @current = (@current + 1) % @length
-      @state = :spinning
-      data
     end
 
     # Redraw the indent for this spinner, if it exists
@@ -338,6 +349,7 @@ module TTY
     #
     # @api public
     def stop(stop_message = '')
+      mon_enter
       return if done?
 
       if @hide_cursor
@@ -359,6 +371,7 @@ module TTY
       @started_at = nil
       emit(:done)
       kill
+      mon_exit
     end
 
     # Retrieve next character
@@ -382,9 +395,11 @@ module TTY
     def success(stop_message = '')
       return if done?
 
-      @succeeded = :success
-      stop(stop_message)
-      emit(:success)
+      synchronize do
+        @succeeded = :success
+        stop(stop_message)
+        emit(:success)
+      end
     end
 
     # Finish spinning and set state to :error
@@ -393,9 +408,11 @@ module TTY
     def error(stop_message = '')
       return if done?
 
-      @succeeded = :error
-      stop(stop_message)
-      emit(:error)
+      synchronize do
+        @succeeded = :error
+        stop(stop_message)
+        emit(:error)
+      end
     end
 
     # Clear current line
@@ -412,16 +429,20 @@ module TTY
     #
     # @api public
     def update(tokens)
-      clear_line if spinning?
-      @tokens.merge!(tokens)
+      synchronize do
+        clear_line if spinning?
+        @tokens.merge!(tokens)
+      end
     end
 
     # Reset the spinner to initial frame
     #
     # @api public
     def reset
-      @current = 0
-      @first_run = true
+      synchronize do
+        @current = 0
+        @first_run = true
+      end
     end
 
     private
