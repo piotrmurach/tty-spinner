@@ -1,15 +1,17 @@
 # Change log
 
-## [v0.5.0] - 2017-08-xx
+## [v0.5.0] - 2017-08-09
 
 ### Added
 * Add TTY::Spinner::Multi to allow for parallel spinners executation by Austin Blatt[@austb]
 * Add formatting for multi spinner display by Austin Blatt[@austb]
+* Add ability to add and execute jobs for single and multi spinners
 * Add abilty to register multi spinners with async jobs
 * Add #pause and #resume for single and multispinner
 
 ### Changed
 * Change to unify success category to mark spinner as succeded or errored
+* Change Spinner to be thread safe
 
 ### Fixed
 * Stop firing events when a spinner is stopped
