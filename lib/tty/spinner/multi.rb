@@ -118,7 +118,7 @@ module TTY
         @spinners.each do |spinner|
           if spinner.job?
             spinner.auto_spin
-            jobs << Thread.new { spinner.instance_eval(&spinner.job) }
+            jobs << Thread.new { spinner.execute_job }
           end
         end
         jobs.each(&:join)

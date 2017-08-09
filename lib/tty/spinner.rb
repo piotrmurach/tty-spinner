@@ -195,6 +195,17 @@ module TTY
       end
     end
 
+    # Execute this spinner job
+    #
+    # @api public
+    def execute_job
+      if job.arity.zero?
+        instance_eval(&job)
+      else
+        job.(self)
+      end
+    end
+
     # Check if this spinner has a scheduled job
     #
     # @return [Boolean]
@@ -268,9 +279,10 @@ module TTY
     #
     # @api public
     def run(stop_message = '', &block)
+      job(&block)
       auto_spin
 
-      @work = Thread.new { instance_eval(&block) }
+      @work = Thread.new { execute_job }
       @work.join
     ensure
       stop(stop_message)
