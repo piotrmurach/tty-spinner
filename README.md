@@ -42,6 +42,8 @@ Or install it yourself as:
 * [2. TTY::Spinner API](#2-ttyspinner-api)
   * [2.1 spin](#21-spin)
   * [2.2 auto_spin](#22-auto_spin)
+    * [2.2.1 pause](#221-pause)
+    * [2.2.2 resume](#222-resume)
   * [2.3 run](#23-run)
   * [2.4 start](#24-start)
   * [2.5 stop](#25-stop)
@@ -66,7 +68,8 @@ Or install it yourself as:
 * [5. TTY::Spinner::Multi API](#5-ttyspinnermulti-api)
   * [5.1 reigster](#51-register)
   * [5.2 auto_spin](#52-auto_spin)
-    * [5.2.1 async tasks](#521-async-tasks)
+    * [5.2.1 manual async](#521-manual-async)
+    * [5.2.2 auto async tasks](#522-auto-async-tasks)
   * [5.3 stop](#53-stop)
     * [5.3.1 success](#531-success)
     * [5.3.2 error](#532-error)
@@ -155,6 +158,22 @@ spinner.auto_spin
 
 The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
 
+### 2.2.1 pause
+
+After calling `auto_spin` you can pause spinner execution:
+
+```ruby
+spinner.pause
+```
+
+### 2.2.2 resume
+
+You can continue any paused spinner:
+
+```ruby
+spinner.resume
+```
+
 ### 2.3 run
 
 Use `run` with a code block that will automatically display spinning animation while the block executes and finish animation when the block terminates. Optionally you can provide a stop message to display when animation is finished.
@@ -214,7 +233,6 @@ This will produce:
 ```ruby
 [✖] Task name (error)
 ```
-
 
 ### 2.6 update
 
@@ -397,32 +415,69 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] Top level spinner")
 multi_spinner.auto_spin
 ```
 
-If you register spinners without any tasks then you will have to manually control when the `multi_spinner` finishes by calling `stop`, `success` or `error`. Alternatively you can register spinners with tasks (see [async tasks](#521-async-tasks))
+If you register spinners without any tasks then you will have to manually control when the `multi_spinner` finishes by calling `stop`, `success` or `error` (see [manual](#521-manual-async)).
+
+Alternatively, you can register spinners with tasks that will automatically animate and finish spinners when respective tasks are done (see [async tasks](#522-auto-async-tasks)).
 
 The speed with which the spinning happens is determined by the `:interval` parameter. All the spinner formats have their default intervals specified ([see](https://github.com/piotrmurach/tty-spinner/blob/master/lib/tty/spinner/formats.rb)).
 
-#### 5.2.1 async tasks
+#### 5.2.1 manual async
+
+In case when you wish to have full control over multiple spinners, you will need to perform all actions manually.
+
+For example, create a multi spinner that will track status of all registered spinners:
+
+```ruby
+multi_spinner = TTY::Spinner::Multi.new("[:spinner] top")
+```
+
+and then register spinners with their formats:
+
+```
+spinner_1 = spinners.register "[:spinner] one"
+spinner_2 = spinners.register "[:spinner] two"
+```
+
+Once registered, you can set spinners running in separate threads:
+
+```ruby
+multi_spinner.auto_spin
+spinner_1.auto_spin
+spinner_2.auto_spin
+```
+
+Finnally, you need to stop each spinner manually, in our case we mark the multi spinner as failure as one of its children has been marked as failure:
+
+```ruby
+spinner_1.success
+spinner_2.error
+multi_spinner.error
+```
+
+#### 5.2.2 auto async tasks
 
 In case when you wish to execute async tasks and update individual spinners automatically, in any order, about their task status use `#register` and pass additional block parameter with the job to be executed.
 
 For example, create a multi spinner that will track status of all registered spinners:
 
 ```ruby
-spinners = TTY::Spinner::Multi.new("[:spinner] top")
+multi_spinner = TTY::Spinner::Multi.new("[:spinner] top")
 ```
 
 and then register spinners with their respective tasks:
 
 ```ruby
-spinners.register("[:spinner] one") { |sp| sleep(2); sp.success('yes 2') }
-spinners.register("[:spinner] two") { |sp| sleep(3); sp.error('no 2') }
+multi_spinner.register("[:spinner] one") { |sp| sleep(2); sp.success('yes 2') }
+multi_spinner.register("[:spinner] two") { |sp| sleep(3); sp.error('no 2') }
 ```
 
 Finally, call `#auto_spin` to kick things off:
 
 ```ruby
-spinners.auto_spin
+multi_spinner.auto_spin
 ```
+
+If any of the child spinner stops with error then the top level spinner will be marked as failure.
 
 ### 5.3 stop
 
