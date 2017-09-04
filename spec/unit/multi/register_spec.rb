@@ -1,5 +1,4 @@
 # coding: utf-8
-#
 
 RSpec.describe TTY::Spinner::Multi, '#register' do
   let(:output) { StringIO.new('', 'w+') }
@@ -18,6 +17,7 @@ RSpec.describe TTY::Spinner::Multi, '#register' do
   it "uses global options to register instance" do
     spinners = TTY::Spinner::Multi.new(output: output, interval: 100)
     spinner = double(:spinner, add_multispinner: nil)
+    allow(spinner).to receive(:on).and_return(spinner)
     allow(TTY::Spinner).to receive(:new).and_return(spinner)
 
     spinners.register "[:spinner]"

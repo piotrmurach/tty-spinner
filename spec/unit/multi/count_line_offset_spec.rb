@@ -4,13 +4,14 @@ RSpec.describe TTY::Spinner::Multi.new, '#count_line_offset' do
   let(:output) { StringIO.new('', 'w+') }
 
   it "does not count an unstarted spinner" do
-    mock = double("TTY::Spinner",
+    spinner = double("TTY::Spinner",
       add_multispinner: nil,
       :spinning? => false,
       :done? => false
     )
     spinners = TTY::Spinner::Multi.new(output: output)
-    allow(TTY::Spinner).to receive(:new).and_return(mock)
+    allow(TTY::Spinner).to receive(:new).and_return(spinner)
+    allow(spinner).to receive(:on).and_return(spinner)
 
     spinners.register "example"
 
@@ -19,9 +20,10 @@ RSpec.describe TTY::Spinner::Multi.new, '#count_line_offset' do
   end
 
   it "counts a started spinner" do
-    mock = double("TTY::Spinner", add_multispinner: nil, :spinning? => true)
+    spinner = double("TTY::Spinner", add_multispinner: nil, :spinning? => true)
     spinners = TTY::Spinner::Multi.new(output: output)
-    allow(TTY::Spinner).to receive(:new).and_return(mock)
+    allow(TTY::Spinner).to receive(:new).and_return(spinner)
+    allow(spinner).to receive(:on).and_return(spinner)
 
     spinners.register "example"
 

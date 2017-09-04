@@ -111,7 +111,7 @@ module TTY
       @multispinner= nil
       @index       = nil
       @succeeded   = false
-      @first_run  = true
+      @first_run   = true
     end
 
     # Notifies the TTY::Spinner that it is running under a multispinner
