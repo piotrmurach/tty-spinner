@@ -73,7 +73,7 @@ module TTY
         @create_spinner_lock.synchronize do
           spinner.add_multispinner(self, @spinners.length)
           spinner.job(&job) if block_given?
-          observe_events(spinner) if @top_spinner
+          observe(spinner)
           @spinners << spinner
           if @top_spinner
             @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? }
@@ -83,17 +83,6 @@ module TTY
         spinner
       end
 
-      # Observe all child events to notify top spinner of current state
-      #
-      # @param [TTY::Spinner] spinner
-      #   the spinner to listen to for events
-      #
-      # @api private
-      def observe_events(spinner)
-        spinner.on(:success) { @top_spinner.success if success? }
-               .on(:error)   { @top_spinner.error if error? }
-               .on(:done)    { @top_spinner.stop if done? && !success? && !error? }
-      end
 
       # Get the top level spinner if it exists
       #
@@ -213,8 +202,8 @@ module TTY
       #
       # @api public
       def stop
+        @top_spinner.stop if @top_spinner
         @spinners.dup.each(&:stop)
-        emit :done
       end
 
       # Stop all spinners with success status
@@ -223,7 +212,6 @@ module TTY
       def success
         @top_spinner.success if @top_spinner
         @spinners.dup.each(&:success)
-        emit :success
       end
 
       # Stop all spinners with error status
@@ -232,7 +220,6 @@ module TTY
       def error
         @top_spinner.error if @top_spinner
         @spinners.dup.each(&:error)
-        emit :error
       end
 
       # Listen on event
@@ -252,6 +239,54 @@ module TTY
       def emit(key, *args)
         @callbacks[key].each do |block|
           block.call(*args)
+        end
+      end
+
+      # Observe spinner for events to notify top spinner of current state
+      #
+      # @param [TTY::Spinner] spinner
+      #   the spinner to listen to for events
+      #
+      # @api private
+      def observe(spinner)
+        spinner.on(:success, &success_handler)
+               .on(:error, &error_handler)
+               .on(:done, &done_handler)
+      end
+
+      # Handle the success state
+      #
+      # @api private
+      def success_handler
+        proc do
+          if success?
+            @top_spinner.success if @top_spinner
+            emit(:success)
+          end
+        end
+      end
+
+      # Handle the error state
+      #
+      # @api private
+      def error_handler
+        proc do
+          if error?
+            @top_spinner.error if @top_spinner
+            @fired ||= emit(:error) # fire once
+          end
+        end
+      end
+
+      # Handle the done state
+      #
+      # @api private
+      def done_handler
+        proc do
+          if done?
+            @top_spinner.done if @top_spinner && !error? && !success?
+            emit(:done)
+          end
         end
       end
     end # MultiSpinner

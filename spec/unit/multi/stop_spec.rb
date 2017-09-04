@@ -3,7 +3,7 @@
 RSpec.describe TTY::Spinner::Multi, '#stop' do
   let(:output) { StringIO.new('', 'w+') }
 
-  it 'stops all spinners and emits a success message' do
+  it 'stops top level spinner and emits a done message' do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -12,8 +12,8 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(sp1.done?).to eq(false)
     expect(sp2.done?).to eq(false)
 
-    spinners.on(:error) { callbacks << :error }
-            .on(:done) { callbacks << :done }
+    spinners.on(:error)   { callbacks << :error }
+            .on(:done)    { callbacks << :done }
             .on(:success) { callbacks << :success }
 
     spinners.stop
@@ -23,13 +23,34 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(callbacks).to eq([:done])
   end
 
-  it '#done? returns true when alls spinners are done' do
+  it 'stops all registered spinners and emits a done message' do
     spinners = TTY::Spinner::Multi.new(output: output)
-    mock = double("spinner", add_multispinner: nil, :done? => true)
-    allow(TTY::Spinner).to receive(:new).and_return(mock)
+    callbacks = []
+    sp1 = spinners.register "[:spinner] one"
+    sp2 = spinners.register "[:spinner] two"
 
-    spinners.register("")
-    spinners.register("")
+    expect(sp1.done?).to eq(false)
+    expect(sp2.done?).to eq(false)
+
+    spinners.on(:error)   { callbacks << :error }
+            .on(:done)    { callbacks << :done }
+            .on(:success) { callbacks << :success }
+
+    sp1.stop
+    sp2.stop
+
+    expect(spinners.done?).to eq(true)
+    expect(callbacks).to eq([:done])
+  end
+
+  it 'returns true when spinner is done' do
+    spinners = TTY::Spinner::Multi.new(output: output)
+
+    sp1 = spinners.register "[:spinner] one"
+    sp2 = spinners.register "[:spinner] two"
+
+    sp1.stop
+    sp2.error
 
     expect(spinners.done?).to eq(true)
   end
