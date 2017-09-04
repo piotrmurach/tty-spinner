@@ -165,6 +165,11 @@ module TTY
 
     # Register callback
     #
+    # @param [Symbol] name
+    #   the name for the event to listen for, e.i. :complete
+    #
+    # @return [self]
+    #
     # @api public
     def on(name, &block)
       synchronize do
@@ -492,11 +497,9 @@ module TTY
     def write(data, clear_first = false)
       execute_on_line do
         output.print(TTY::Cursor.column(1)) if clear_first
-
         # If there's a top level spinner, print with inset
-        characters_in = @multispinner.nil? ? "" : @multispinner.line_inset(self)
-
-        output.print(characters_in + data)
+        characters_in = @multispinner.line_inset(self) if @multispinner
+        output.print("#{characters_in}#{data}")
         output.flush
       end
     end
@@ -505,8 +508,8 @@ module TTY
     #
     # @api private
     def emit(name, *args)
-      @callbacks[name].each do |block|
-        block.call(*args)
+      @callbacks[name].each do |callback|
+        callback.call(*args)
       end
     end
 
