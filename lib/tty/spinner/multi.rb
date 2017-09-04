@@ -19,8 +19,8 @@ module TTY
 
       DEFAULT_INSET = {
         top:    Gem.win_platform? ? '+ '   : "\u250c ",
-        middle: Gem.win_platform? ? '|-- ' : "\u251c\u2500\u2500",
-        bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500"
+        middle: Gem.win_platform? ? '|-- ' : "\u251c\u2500\u2500 ",
+        bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500 "
       }.freeze
 
       # Initialize a multispinner
