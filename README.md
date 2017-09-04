@@ -127,9 +127,9 @@ sp2.success
 which when done will display:
 
 ```ruby
-┌[✔]] top
-├──[✔] one
-└──[✔] two
+┌ [✔] top
+├── [✔] one
+└── [✔] two
 ```
 
 For more usage examples please see [examples directory](https://github.com/piotrmurach/tty-spinner/tree/master/examples)
