@@ -113,6 +113,15 @@ module TTY
         jobs.each(&:join)
       end
 
+      # Perform a single spin animation
+      #
+      # @api public
+      def spin
+        raise "No top level spinner" if @top_spinner.nil?
+
+        @top_spinner.spin
+      end
+
       # Pause all spinners
       #
       # @api public
