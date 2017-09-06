@@ -23,6 +23,11 @@ module TTY
         bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500 "
       }.freeze
 
+      # The current count of all rendered rows
+      #
+      # @api public
+      attr_reader :rows
+
       # Initialize a multispinner
       #
       # @example
@@ -59,6 +64,7 @@ module TTY
           error:   [],
           done:    []
         }
+        @rows = 0
       end
 
       # Register a new spinner
@@ -71,7 +77,7 @@ module TTY
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
 
         @create_spinner_lock.synchronize do
-          spinner.add_multispinner(self, @spinners.length)
+          spinner.add_multispinner(self)
           spinner.job(&job) if block_given?
           observe(spinner)
           @spinners << spinner
@@ -83,6 +89,14 @@ module TTY
         spinner
       end
 
+      # Increase a row count
+      #
+      # @api public
+      def next_row
+        @create_spinner_lock.synchronize do
+          @rows += 1
+        end
+      end
 
       # Get the top level spinner if it exists
       #

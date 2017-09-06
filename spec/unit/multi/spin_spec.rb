@@ -30,7 +30,7 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
       "\e[1G| two\n",
       "\e[1G| one\n",
       save,
-      "\e[2A",          # up 2 lines
+      "\e[1A",          # up 1 line
       "\e[1G/ one",
       restore
     ].join)
@@ -42,11 +42,11 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
       "\e[1G| two\n",
       "\e[1G| one\n",
       save,
-      "\e[2A",          # up 2 lines
+      "\e[1A",          # up 1 line
       "\e[1G/ one",
       restore,
       save,
-      "\e[1A",          # up 1 line
+      "\e[2A",          # up 2 lines
       "\e[1G/ two",
       restore
     ].join)
@@ -78,7 +78,7 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
       "\e[1G#{bottom}| two\n",
       "\e[1G#{middle}| one\n",
       save,
-      "\e[2A",          # up 2 lines
+      "\e[1A",          # up 1 line
       "\e[1G#{middle}/ one",
       restore
     ].join)
@@ -91,11 +91,11 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
       "\e[1G#{bottom}| two\n",
       "\e[1G#{middle}| one\n",
       save,
-      "\e[2A",          # up 2 lines
+      "\e[1A",          # up 1 line
       "\e[1G#{middle}/ one",
       restore,
       save,
-      "\e[1A",          # up 1 line
+      "\e[2A",          # up 2 lines
       "\e[1G#{bottom}/ two",
       restore
     ].join)

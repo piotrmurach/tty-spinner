@@ -24,7 +24,7 @@ module TTY
     TICK = '✔'.freeze
     CROSS = '✖'.freeze
 
-    CURSOR_USAGE_LOCK = Monitor.new
+    CURSOR_LOCK = Monitor.new
 
     # The object that responds to print call defaulting to stderr
     #
@@ -109,7 +109,7 @@ module TTY
       @thread      = nil
       @job         = nil
       @multispinner= nil
-      @index       = nil
+      @row         = nil
       @succeeded   = false
       @first_run   = true
     end
@@ -117,12 +117,10 @@ module TTY
     # Notifies the TTY::Spinner that it is running under a multispinner
     #
     # @param [TTY::Spinner::Multi] the multispinner that it is running under
-    # @param [Integer] the index of this spinner in the multispinner
     #
     # @api private
-    def add_multispinner(multispinner, index)
+    def add_multispinner(multispinner)
       @multispinner = multispinner
-      @index = index
     end
 
     # Whether the spinner has completed spinning
@@ -224,7 +222,7 @@ module TTY
     #
     # @api public
     def auto_spin
-      CURSOR_USAGE_LOCK.synchronize do
+      CURSOR_LOCK.synchronize do
         start
         sleep_time = 1.0 / @interval
 
@@ -470,14 +468,14 @@ module TTY
     # @api private
     def execute_on_line
       if @multispinner
-        CURSOR_USAGE_LOCK.synchronize do
-          lines_up = @multispinner.count_line_offset(@index)
-
+        CURSOR_LOCK.synchronize do
           if @first_run
+            @row = @multispinner.next_row
             yield if block_given?
             output.print "\n"
             @first_run = false
           else
+            lines_up = (@multispinner.rows + 1) - @row
             output.print TTY::Cursor.save
             output.print TTY::Cursor.up(lines_up)
             yield if block_given?
