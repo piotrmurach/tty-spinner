@@ -4,7 +4,7 @@ RSpec.describe TTY::Spinner, '#job' do
   it "adds and executes job" do
     spinner = TTY::Spinner.new("[:spinner] :title")
     called = []
-    work = proc { |spinner| called << spinner }
+    work = proc { |sp| called << sp }
     spinner.job(&work)
 
     spinner.execute_job
