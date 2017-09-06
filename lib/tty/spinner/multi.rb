@@ -150,27 +150,6 @@ module TTY
         @spinners.dup.each(&:resume)
       end
 
-      # Find relative offset position to which to move the current cursor
-      #
-      # The position is found among the registered spinners given the current
-      # position the spinner is at provided its index
-      #
-      # @param [Integer] index
-      #   the position to search from
-      #
-      # @return [Integer]
-      #   the current position
-      #
-      # @api public
-      def count_line_offset(index)
-        Array(@spinners[index..-1]).reduce(0) do |acc, spinner|
-          if spinner.spinning? || spinner.done?
-            acc += 1
-          end
-          acc
-        end
-      end
-
       # Find the number of characters to move into the line
       # before printing the spinner
       #
