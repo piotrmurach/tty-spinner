@@ -22,5 +22,3 @@ sp2.success
 sleep 1
 
 sp3.error
-
-spinners.error
