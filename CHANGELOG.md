@@ -1,5 +1,15 @@
 # Change log
 
+## [v0.6.0] - 2017-09-07
+
+# Changed
+* Change TTY::ProgressBar::Multi to render registerd spinners at row
+  position at point of redering and not registration
+
+# Fixed
+* Fix handling of multi spinner events
+* Fix multi spinner display for unicode inset characters
+
 ## [v0.5.0] - 2017-08-09
 
 ### Added
@@ -60,6 +70,7 @@
 
 * Initial implementation and release
 
+[v0.6.0]: https://github.com/peter-murach/tty-spinner/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/peter-murach/tty-spinner/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/peter-murach/tty-spinner/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/peter-murach/tty-spinner/compare/v0.3.0...v0.4.0
