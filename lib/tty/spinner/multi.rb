@@ -204,7 +204,6 @@ module TTY
       #
       # @api public
       def stop
-        @top_spinner.stop if @top_spinner
         @spinners.dup.each(&:stop)
       end
 
@@ -212,7 +211,6 @@ module TTY
       #
       # @api public
       def success
-        @top_spinner.success if @top_spinner
         @spinners.dup.each(&:success)
       end
 
@@ -220,7 +218,6 @@ module TTY
       #
       # @api public
       def error
-        @top_spinner.error if @top_spinner
         @spinners.dup.each(&:error)
       end
 
