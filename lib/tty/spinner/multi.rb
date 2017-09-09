@@ -1,6 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
+require 'monitor'
 require 'forwardable'
 
 require_relative '../spinner'
@@ -12,6 +13,7 @@ module TTY
     # @api public
     class Multi
       include Enumerable
+      include MonitorMixin
 
       extend Forwardable
 
@@ -51,13 +53,13 @@ module TTY
       #
       # @api public
       def initialize(*args)
+        super()
         @options = args.last.is_a?(::Hash) ? args.pop : {}
         message = args.empty? ? nil : args.pop
         @inset_opts = @options.delete(:style) { DEFAULT_INSET }
-        @create_spinner_lock = Mutex.new
         @spinners    = []
         @top_spinner = nil
-        @top_spinner = register(message) unless message.nil?
+        @top_spinner = register(message, observable: false) unless message.nil?
 
         @callbacks = {
           success: [],
@@ -74,12 +76,13 @@ module TTY
       #
       # @api public
       def register(pattern, options = {}, &job)
+        observable = options.delete(:observable) { true }
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
 
-        @create_spinner_lock.synchronize do
+        synchronize do
           spinner.add_multispinner(self)
           spinner.job(&job) if block_given?
-          observe(spinner)
+          observe(spinner) if observable
           @spinners << spinner
           if @top_spinner
             @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? }
@@ -93,7 +96,7 @@ module TTY
       #
       # @api public
       def next_row
-        @create_spinner_lock.synchronize do
+        synchronize do
           @rows += 1
         end
       end
@@ -179,7 +182,9 @@ module TTY
       #
       # @api public
       def done?
-        (@spinners - [@top_spinner]).all?(&:done?)
+        synchronize do
+          (@spinners - [@top_spinner]).all?(&:done?)
+        end
       end
 
       # Check if all spinners succeeded
@@ -188,7 +193,9 @@ module TTY
       #
       # @api public
       def success?
-        (@spinners - [@top_spinner]).all?(&:success?)
+        synchronize do
+          (@spinners - [@top_spinner]).all?(&:success?)
+        end
       end
 
       # Check if any spinner errored
@@ -197,7 +204,9 @@ module TTY
       #
       # @api public
       def error?
-        (@spinners - [@top_spinner]).any?(&:error?)
+        synchronize do
+          (@spinners - [@top_spinner]).any?(&:error?)
+        end
       end
 
       # Stop all spinners
@@ -283,7 +292,7 @@ module TTY
       def done_handler
         proc do
           if done?
-            @top_spinner.done if @top_spinner && !error? && !success?
+            @top_spinner.stop if @top_spinner
             emit(:done)
           end
         end

@@ -3,7 +3,27 @@
 RSpec.describe TTY::Spinner::Multi, '#success' do
   let(:output) { StringIO.new('', 'w+') }
 
-  it 'stops top level spinner and emits a success message' do
+  it 'stops registerd multi spinner and emits a :success message' do
+    spinners = TTY::Spinner::Multi.new(":spinner", output: output)
+    callbacks = []
+    sp1 = spinners.register "[:spinner] one"
+    sp2 = spinners.register "[:spinner] two"
+
+    expect(sp1.success?).to eq(false)
+    expect(sp2.success?).to eq(false)
+
+    spinners.on(:error)   { callbacks << :error }
+            .on(:done)    { callbacks << :done }
+            .on(:success) { callbacks << :success }
+
+    spinners.success
+
+    expect(sp1.success?).to eq(true)
+    expect(sp2.success?).to eq(true)
+    expect(callbacks).to match_array([:success, :done])
+  end
+
+  it 'stops unregistered multi spinner and emits a :success message' do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -20,6 +40,26 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
 
     expect(sp1.success?).to eq(true)
     expect(sp2.success?).to eq(true)
+    expect(callbacks).to match_array([:success, :done])
+  end
+
+  it "stops all registered spinners under top level and emits a :success message" do
+    spinners = TTY::Spinner::Multi.new(":spinner", output: output)
+    callbacks = []
+    sp1 = spinners.register "[:spinner] one"
+    sp2 = spinners.register "[:spinner] two"
+
+    expect(sp1.success?).to eq(false)
+    expect(sp2.success?).to eq(false)
+
+    spinners.on(:error) { callbacks << :error }
+            .on(:done) { callbacks << :done }
+            .on(:success) { callbacks << :success }
+
+    sp1.success
+    sp2.success
+
+    expect(spinners.success?).to eq(true)
     expect(callbacks).to match_array([:success, :done])
   end
 
