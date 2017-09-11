@@ -56,17 +56,20 @@ module TTY
         super()
         @options = args.last.is_a?(::Hash) ? args.pop : {}
         message = args.empty? ? nil : args.pop
-        @inset_opts = @options.delete(:style) { DEFAULT_INSET }
+        @inset_opts  = @options.delete(:style) { DEFAULT_INSET }
+        @rows        = 0
         @spinners    = []
         @top_spinner = nil
-        @top_spinner = register(message, observable: false) unless message.nil?
+        @last_spin_at = nil
+        unless message.nil?
+          @top_spinner = register(message, observable: false, row: next_row)
+        end
 
         @callbacks = {
           success: [],
           error:   [],
           done:    []
         }
-        @rows = 0
       end
 
       # Register a new spinner
