@@ -68,7 +68,8 @@ module TTY
         @callbacks = {
           success: [],
           error:   [],
-          done:    []
+          done:    [],
+          spin:    []
         }
       end
 
@@ -122,7 +123,6 @@ module TTY
       def auto_spin
         raise "No top level spinner" if @top_spinner.nil?
 
-        @top_spinner.auto_spin
         jobs = []
         @spinners.each do |spinner|
           if spinner.job?
@@ -139,7 +139,9 @@ module TTY
       def spin
         raise "No top level spinner" if @top_spinner.nil?
 
-        @top_spinner.spin
+        synchronize do
+          throttle { @top_spinner.spin }
+        end
       end
 
       # Pause all spinners
@@ -239,7 +241,7 @@ module TTY
       def on(key, &callback)
         unless @callbacks.key?(key)
           raise ArgumentError, "The event #{key} does not exist. "\
-                               " Use :success, :error, or :done instead"
+                               ' Use :spin, :success, :error, or :done instead'
         end
         @callbacks[key] << callback
         self
@@ -247,6 +249,22 @@ module TTY
 
       private
 
+      # Check if this spinner should revolve to keep constant speed
+      # matching top spinner interval
+      #
+      # @api private
+      def throttle
+        sleep_time = 1.0 / @top_spinner.interval
+        if @last_spin_at && Time.now - @last_spin_at < sleep_time
+          return
+        end
+        yield if block_given?
+        @last_spin_at = Time.now
+      end
+
+      # Fire an event
+      #
+      # @api private
       def emit(key, *args)
         @callbacks[key].each do |block|
           block.call(*args)
@@ -260,9 +278,20 @@ module TTY
       #
       # @api private
       def observe(spinner)
-        spinner.on(:success, &success_handler)
+        spinner.on(:spin, &spin_handler)
+               .on(:success, &success_handler)
                .on(:error, &error_handler)
                .on(:done, &done_handler)
+      end
+
+      # Handle spin event
+      #
+      # @api private
+      def spin_handler
+        proc do
+          spin if @top_spinner
+          emit(:spin)
+        end
       end
 
       # Handle the success state
@@ -295,7 +324,7 @@ module TTY
       def done_handler
         proc do
           if done?
-            @top_spinner.stop if @top_spinner
+            @top_spinner.stop if @top_spinner && !error? && !success?
             emit(:done)
           end
         end
