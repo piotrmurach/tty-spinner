@@ -61,6 +61,8 @@ module TTY
     # @api public
     attr_reader :tokens
 
+    attr_reader :interval
+
     # Initialize a spinner
     #
     # @example
@@ -332,6 +334,7 @@ module TTY
     def spin
       synchronize do
         return if @done
+        emit(:spin)
 
         if @hide_cursor && !spinning?
           write(TTY::Cursor.hide)
