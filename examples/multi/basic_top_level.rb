@@ -2,13 +2,11 @@
 
 require 'tty-spinner'
 
-spinners = TTY::Spinner::Multi.new "[:spinner] main"
+spinners = TTY::Spinner::Multi.new "[:spinner] main", format: :pulse
 
-spinners.auto_spin
-
-sp1 = spinners.register "[:spinner] one"
-sp2 = spinners.register "[:spinner] two"
-sp3 = spinners.register "[:spinner] three"
+sp1 = spinners.register "[:spinner] one", format: :classic
+sp2 = spinners.register "[:spinner] two", format: :classic
+sp3 = spinners.register "[:spinner] three", format: :classic
 
 th1 = Thread.new { 20.times { sleep(0.2); sp1.spin }}
 th2 = Thread.new { 30.times { sleep(0.1); sp2.spin }}
