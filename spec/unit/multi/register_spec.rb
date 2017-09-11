@@ -5,8 +5,8 @@ RSpec.describe TTY::Spinner::Multi, '#register' do
 
   it "registers a TTY::Spinner instance" do
     spinners = TTY::Spinner::Multi.new(output: output, interval: 100)
-    allow_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
-    expect_any_instance_of(TTY::Spinner).to receive(:add_multispinner)
+    allow_any_instance_of(TTY::Spinner).to receive(:attach_to)
+    expect_any_instance_of(TTY::Spinner).to receive(:attach_to)
 
     spinner = spinners.register ""
 
@@ -16,7 +16,7 @@ RSpec.describe TTY::Spinner::Multi, '#register' do
 
   it "uses global options to register instance" do
     spinners = TTY::Spinner::Multi.new(output: output, interval: 100)
-    spinner = double(:spinner, add_multispinner: nil)
+    spinner = double(:spinner, attach_to: nil)
     allow(spinner).to receive(:on).and_return(spinner)
     allow(TTY::Spinner).to receive(:new).and_return(spinner)
 

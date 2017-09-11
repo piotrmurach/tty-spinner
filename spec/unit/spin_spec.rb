@@ -53,7 +53,7 @@ RSpec.describe TTY::Spinner, '#spin' do
     allow(multi_spinner).to receive(:line_inset).and_return("--- ")
 
     spinner = TTY::Spinner.new(output: output)
-    spinner.add_multispinner(multi_spinner)
+    spinner.attach_to(multi_spinner)
     spinner.spin
     spinner.redraw_indent
 

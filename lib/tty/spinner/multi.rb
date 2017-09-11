@@ -84,7 +84,7 @@ module TTY
         spinner = TTY::Spinner.new(pattern, @options.merge(options))
 
         synchronize do
-          spinner.add_multispinner(self)
+          spinner.attach_to(self)
           spinner.job(&job) if block_given?
           observe(spinner) if observable
           @spinners << spinner

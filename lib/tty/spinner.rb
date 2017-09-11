@@ -121,7 +121,7 @@ module TTY
     # @param [TTY::Spinner::Multi] the multispinner that it is running under
     #
     # @api private
-    def add_multispinner(multispinner)
+    def attach_to(multispinner)
       @multispinner = multispinner
     end
 
