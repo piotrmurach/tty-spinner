@@ -407,13 +407,13 @@ If options are passed, they will override any options given to the multi spinner
 
 ### 5.2 auto_spin
 
-The multispinner has to have been given a message on initialization.
-To perform automatic spinning animation use `auto_spin` method like so:
+To create a top level spinner that tracks activity of all the registered spinners, the multispinner has to have been given a message on initialization:
 
 ```ruby
 multi_spinner = TTY::Spinner::Multi.new("[:spinner] Top level spinner")
-multi_spinner.auto_spin
 ```
+
+The top level multi spinner will perform spinning animation automatically when at least one of the registered spinners starts spinning.
 
 If you register spinners without any tasks then you will have to manually control when the `multi_spinner` finishes by calling `stop`, `success` or `error` (see [manual](#521-manual-async)).
 
@@ -441,17 +441,23 @@ spinner_2 = spinners.register "[:spinner] two"
 Once registered, you can set spinners running in separate threads:
 
 ```ruby
-multi_spinner.auto_spin
 spinner_1.auto_spin
 spinner_2.auto_spin
 ```
 
-Finnally, you need to stop each spinner manually, in our case we mark the multi spinner as failure as one of its children has been marked as failure:
+Finnally, you need to stop each spinner manually, in our case we mark the second spinner as failure which in turn will stop the top level multi spinner automatically and mark it as failure:
 
 ```ruby
 spinner_1.success
 spinner_2.error
-multi_spinner.error
+```
+
+The result may look like this:
+
+```ruby
+┌ [✖] top
+├── [✔] one
+└── [✖] two
 ```
 
 #### 5.2.2 auto async tasks
