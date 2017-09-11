@@ -1,12 +1,24 @@
 # Change log
 
+## [v0.7.0] - 2017-09-11
+
+### Added
+* Add :spin event type and emit from TTY::Spinner#spin
+
+### Changed
+* Change to automatically spin top level multi spinner when registered spinners spin
+* Remove unnecessary checks for top spinner in multi spinner #stop, #success, #error
+
+### Fixed
+* Fix multi spinner #observe to only listen for events from registered spinners
+
 ## [v0.6.0] - 2017-09-07
 
-# Changed
-* Change TTY::ProgressBar::Multi to render registerd spinners at row
+### Changed
+* Change TTY::Spinner::Multi to render registerd spinners at row
   position at point of redering and not registration
 
-# Fixed
+### Fixed
 * Fix handling of multi spinner events
 * Fix multi spinner display for unicode inset characters
 
@@ -70,6 +82,7 @@
 
 * Initial implementation and release
 
+[v0.7.0]: https://github.com/peter-murach/tty-spinner/compare/v0.6.0...v0.7.0
 [v0.6.0]: https://github.com/peter-murach/tty-spinner/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/peter-murach/tty-spinner/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/peter-murach/tty-spinner/compare/v0.4.0...v0.4.1
