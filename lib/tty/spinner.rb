@@ -100,6 +100,7 @@ module TTY
       @interval    = options.fetch(:interval) do
                        fetch_format(@format.to_sym, :interval)
                      end
+      @row         = options[:row]
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
@@ -109,7 +110,6 @@ module TTY
       @thread      = nil
       @job         = nil
       @multispinner= nil
-      @row         = nil
       @succeeded   = false
       @first_run   = true
     end
@@ -470,7 +470,7 @@ module TTY
       if @multispinner
         CURSOR_LOCK.synchronize do
           if @first_run
-            @row = @multispinner.next_row
+            @row ||= @multispinner.next_row
             yield if block_given?
             output.print "\n"
             @first_run = false
