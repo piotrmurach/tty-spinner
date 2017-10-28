@@ -20,7 +20,7 @@ module TTY
         frames: %w{◰ ◳ ◲ ◱}
       },
       spin_4: {
-        inteval: 10,
+        interval: 10,
         frames: %w{╫ ╪'}
       },
       pulse: {
