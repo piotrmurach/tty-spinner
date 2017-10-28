@@ -4,7 +4,8 @@ desc 'Load gem inside irb console'
 task :console do
   require 'irb'
   require 'irb/completion'
-  require File.join(__FILE__, '../../lib/tty-spinner')
+  require_relative '../lib/tty-spinner'
   ARGV.clear
   IRB.start
 end
+task :c => :console
