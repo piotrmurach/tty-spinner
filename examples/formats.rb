@@ -1,6 +1,4 @@
-# coding: utf-8
-
-require 'tty-spinner'
+require_relative '../lib/tty-spinner'
 
 TTY::Formats::FORMATS.keys.each do |token|
   options = {format: token, hide_cursor: true}

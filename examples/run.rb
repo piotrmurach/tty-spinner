@@ -1,6 +1,4 @@
-# coding: utf-8
-
-require 'tty-spinner'
+require_relative '../lib/tty-spinner'
 
 # without block
 spinner = TTY::Spinner.new(":title :spinner ...", format: :pulse_3)

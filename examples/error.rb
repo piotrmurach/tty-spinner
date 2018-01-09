@@ -1,6 +1,4 @@
-# coding: utf-8
-
-require 'tty-spinner'
+require_relative '../lib/tty-spinner'
 
 spinner = TTY::Spinner.new("[:spinner] Task name")
 20.times do

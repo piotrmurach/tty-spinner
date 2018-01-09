@@ -1,6 +1,4 @@
-# encoding: utf-8
-
-require 'tty-spinner'
+require_relative '../../lib/tty-spinner'
 
 spinners = TTY::Spinner::Multi.new("[:spinner] top")
 

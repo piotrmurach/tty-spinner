@@ -1,7 +1,5 @@
-# encoding: utf-8
-
-require 'tty-spinner'
 require 'pastel'
+require_relative '../lib/tty-spinner'
 
 pastel = Pastel.new
 

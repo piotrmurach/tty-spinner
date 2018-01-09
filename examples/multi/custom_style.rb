@@ -1,13 +1,12 @@
-# encoding: utf-8
-
-require 'tty-spinner'
+require_relative '../../lib/tty-spinner'
 
 opts = {
   style: {
     top: ". ",
     middle: "|-> ",
     bottom: "|__ ",
-  }
+  },
+  format: :bouncing_ball
 }
 spinners = TTY::Spinner::Multi.new("[:spinner] Top level spinner", opts)
 
