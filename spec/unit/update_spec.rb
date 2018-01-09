@@ -15,6 +15,7 @@ RSpec.describe TTY::Spinner, '#update' do
       "\e[1Gtask -",
       "\e[1Gtask \\",
       "\e[1Gtask |",
+      "\e[0m\e[2K",
       "\e[1Gtask | done\n"
     ].join)
   end
@@ -35,6 +36,7 @@ RSpec.describe TTY::Spinner, '#update' do
       "\e[0m\e[2K\e[1G",
       "\e[1Gtask_b -",
       "\e[1Gtask_b \\",
+      "\e[0m\e[2K",
       "\e[1Gtask_b \\ done\n"
     ].join)
   end
@@ -55,9 +57,11 @@ RSpec.describe TTY::Spinner, '#update' do
     expect(output.read).to eq([
       "\e[1Gtask_a |",
       "\e[1Gtask_a /",
+      "\e[0m\e[2K",
       "\e[1Gtask_a / done\n",
       "\e[1Gtask_b |",
       "\e[1Gtask_b /",
+      "\e[0m\e[2K",
       "\e[1Gtask_b / done\n"
     ].join)
   end

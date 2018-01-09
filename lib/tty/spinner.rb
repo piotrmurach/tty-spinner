@@ -373,7 +373,8 @@ module TTY
       if @hide_cursor
         write(TTY::Cursor.show, false)
       end
-      return clear_line if @clear
+      clear_line
+      return if @clear
 
       data = message.gsub(MATCHER, next_char)
       data = replace_tokens(data)
@@ -381,7 +382,7 @@ module TTY
         data << ' ' + stop_message
       end
 
-      write(data, true)
+      write(data, false)
       write("\n", false) unless @clear || @multispinner
     ensure
       @state      = :stopped

@@ -12,6 +12,7 @@ RSpec.describe TTY::Spinner, '#error' do
       "\e[1G|",
       "\e[1G/",
       "\e[1G-",
+      "\e[0m\e[2K",
       "\e[1G#{TTY::Spinner::CROSS}\n"
     ].join)
 
@@ -27,6 +28,7 @@ RSpec.describe TTY::Spinner, '#error' do
       "\e[1G|",
       "\e[1G/",
       "\e[1G-",
+      "\e[0m\e[2K",
       "\e[1G#{TTY::Spinner::CROSS} Error\n"
     ].join)
 
@@ -37,7 +39,7 @@ RSpec.describe TTY::Spinner, '#error' do
     spinner = TTY::Spinner.new(error_mark: 'x', output: output)
     spinner.error('(error)')
     output.rewind
-    expect(output.read).to eq("\e[1Gx (error)\n")
+    expect(output.read).to eq("\e[0m\e[2K\e[1Gx (error)\n")
 
     expect(spinner.error?).to be(true)
   end
