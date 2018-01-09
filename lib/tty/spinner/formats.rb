@@ -76,8 +76,8 @@ module TTY
         frames: %w{⢄ ⢂ ⢁ ⡁ ⡈ ⡐ ⡠}
       },
       dots_11: {
-        "interval": 10,
-        "frames": %w{⠁ ⠂ ⠄ ⡀ ⢀ ⠠ ⠐ ⠈}
+        interval: 10,
+        frames: %w{⠁ ⠂ ⠄ ⡀ ⢀ ⠠ ⠐ ⠈}
       },
       arrow: {
         interval: 10,
@@ -239,7 +239,7 @@ module TTY
           "▐ ⡀      ▌",
           "▐⠠       ▌"
         ]
-      },
+      }
     }
   end # Formats
 end # TTY
