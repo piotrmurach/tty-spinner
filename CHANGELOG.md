@@ -2,6 +2,9 @@
 
 ## [v0.8.0] - 2018-01-xx
 
+### Added
+* Add new formats :bounce, :burger, :dance, :dot_2, ..., dot_11, :shark, :pong
+
 ### Fixed
 * Fix spinner #stop to clear line before printing final message
 
