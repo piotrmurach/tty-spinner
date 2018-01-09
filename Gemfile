@@ -3,15 +3,12 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'timecop',   '~> 0.7.1'
-  gem 'pastel',    '~> 0.6.0'
-  gem 'simplecov', '~> 0.12.0'
-  gem 'coveralls', '~> 0.8.17'
-  gem 'term-ansicolor', '=1.3.2'
-  gem 'tins',      '=1.6.0'
+  gem 'pastel',    '~> 0.7.2'
+  gem 'simplecov', '~> 0.14.1'
+  gem 'coveralls', '~> 0.8.21'
 end
 
 group :metrics do
-  gem 'yard',      '~> 0.8.7'
+  gem 'yard',      '~> 0.9.12'
   gem 'yardstick', '~> 0.9.9'
 end
