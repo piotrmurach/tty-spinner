@@ -1,8 +1,9 @@
 # TTY::Spinner [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
+
 [![Gem Version](https://badge.fury.io/rb/tty-spinner.svg)][gem]
 [![Build Status](https://secure.travis-ci.org/piotrmurach/tty-spinner.svg?branch=master)][travis]
 [![Build status](https://ci.appveyor.com/api/projects/status/2i5lx3tvyi5l8x3j?svg=true)][appveyor]
-[![Code Climate](https://codeclimate.com/github/piotrmurach/tty-spinner/badges/gpa.png)][codeclimate]
+[![Maintainability](https://api.codeclimate.com/v1/badges/d5ae2219e194ac99be58/maintainability)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/piotrmurach/tty-spinner/badge.svg)][coverage]
 [![Inline docs](http://inch-ci.org/github/piotrmurach/tty-spinner.svg?branch=master)][inchpages]
 
@@ -10,7 +11,7 @@
 [gem]: http://badge.fury.io/rb/tty-spinner
 [travis]: http://travis-ci.org/piotrmurach/tty-spinner
 [appveyor]: https://ci.appveyor.com/project/piotrmurach/tty-spinner
-[codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner
+[codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner/maintainability
 [coverage]: https://coveralls.io/r/piotrmurach/tty-spinner
 [inchpages]: http://inch-ci.org/github/piotrmurach/tty-spinner
 
@@ -533,4 +534,4 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] parent", style: {
 
 ## Copyright
 
-Copyright (c) 2014-2017 Piotr Murach. See LICENSE for further details.
+Copyright (c) 2014-2018 Piotr Murach. See LICENSE for further details.
