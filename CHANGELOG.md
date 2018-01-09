@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.8.0] - 2018-01-xx
+
+### Fixed
+* Fix spinner #stop to clear line before printing final message
+
 ## [v0.7.0] - 2017-09-11
 
 ### Added
@@ -82,6 +87,7 @@
 
 * Initial implementation and release
 
+[v0.8.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.7.0...v0.8.0
 [v0.7.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.6.0...v0.7.0
 [v0.6.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.4.1...v0.5.0
