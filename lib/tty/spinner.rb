@@ -497,6 +497,8 @@ module TTY
     #
     # @api private
     def write(data, clear_first = false)
+      return unless tty? # write only to terminal
+
       execute_on_line do
         output.print(TTY::Cursor.column(1)) if clear_first
         # If there's a top level spinner, print with inset
@@ -504,6 +506,15 @@ module TTY
         output.print("#{characters_in}#{data}")
         output.flush
       end
+    end
+
+    # Check if IO is attached to a terminal
+    #
+    # return [Boolean]
+    #
+    # @api public
+    def tty?
+      output.respond_to?(:tty?) && output.tty?
     end
 
     # Emit callback
