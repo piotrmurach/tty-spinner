@@ -1,9 +1,12 @@
 # Change log
 
-## [v0.8.0] - 2018-01-xx
+## [v0.8.0] - 2018-01-11
 
 ### Added
 * Add new formats :bounce, :burger, :dance, :dot_2, ..., dot_11, :shark, :pong
+
+### Changed
+* Change to only output to a console and stop output to a file, pipe etc...
 
 ### Fixed
 * Fix spinner #stop to clear line before printing final message
