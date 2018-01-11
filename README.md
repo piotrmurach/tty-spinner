@@ -357,9 +357,11 @@ spinner = TTY::Spinner.new(error_mark: 'x')
 
 ### 3.8 :output
 
-To change where data is streamed use `:output` option like so:
+The spinner only outputs to a console and when output is redirected to a file or a pipe it does nothing. This is so, for example, your error logs do not overflow with spinner output.
 
-```
+You can change where console output is streamed with `:output` option:
+
+```ruby
 spinner = TTY::Spinner.new(output: $stdout)
 ```
 
