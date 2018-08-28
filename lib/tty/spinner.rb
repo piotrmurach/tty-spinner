@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 require 'monitor'
@@ -18,11 +17,11 @@ module TTY
     # @raised when attempting to join dead thread
     NotSpinningError = Class.new(StandardError)
 
-    ECMA_CSI = "\x1b[".freeze
+    ECMA_CSI = "\x1b["
 
     MATCHER = /:spinner/
-    TICK = '✔'.freeze
-    CROSS = '✖'.freeze
+    TICK = '✔'
+    CROSS = '✖'
 
     CURSOR_LOCK = Monitor.new
 

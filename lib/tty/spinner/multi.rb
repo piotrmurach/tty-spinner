@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 require 'monitor'
@@ -23,7 +22,7 @@ module TTY
         top:    Gem.win_platform? ? '+ '   : "\u250c ",
         middle: Gem.win_platform? ? '|-- ' : "\u251c\u2500\u2500 ",
         bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500 "
-      }.freeze
+      }
 
       # The current count of all rendered rows
       #

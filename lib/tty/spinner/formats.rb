@@ -1,4 +1,4 @@
-# coding: utf-8
+# frozen_string_literal: true
 
 module TTY
   module Formats
@@ -164,7 +164,7 @@ module TTY
       },
       flip: {
         interval: 10,
-        frames: '-◡⊙-◠'.freeze
+        frames: '-◡⊙-◠'
       },
       burger: {
         interval: 6,
