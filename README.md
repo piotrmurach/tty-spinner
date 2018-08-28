@@ -177,10 +177,20 @@ spinner.resume
 
 ### 2.3 run
 
-Use `run` with a code block that will automatically display spinning animation while the block executes and finish animation when the block terminates. Optionally you can provide a stop message to display when animation is finished.
+Use `run` passing a block with a job that will automatically display spinning animation while the block executes and finish animation when the block terminates. The block yields a spinner instance.
 
 ```ruby
-spinner.run('Done!') { ... }
+spinner.run do |spinner|
+  ...
+end
+```
+
+Optionally you can provide a stop message to display when animation is finished.
+
+```ruby
+spinner.run('Done!') do |spinner|
+  ...
+end
 ```
 
 ### 2.4 start
