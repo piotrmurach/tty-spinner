@@ -201,13 +201,11 @@ module TTY
 
     # Execute this spinner job
     #
+    # @yield [TTY::Spinner]
+    #
     # @api public
     def execute_job
-      if job.arity.zero?
-        instance_eval(&job)
-      else
-        job.(self)
-      end
+      job.(self) if job?
     end
 
     # Check if this spinner has a scheduled job
