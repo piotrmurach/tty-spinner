@@ -13,7 +13,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/piotrmurach/tty-spinner'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['lib/**/*.rb', 'LICENSE.txt', 'README.md']
+  spec.files         = Dir['{lib,spec,examples}/**/*.rb']
+  spec.files        += Dir['{bin,tasks}/*', 'tty-spinner.gemspec']
+  spec.files        += Dir['README.md', 'CHANGELOG.md', 'LICENSE.txt', 'Rakefile']
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'tty-cursor', '~> 0.6.0'
