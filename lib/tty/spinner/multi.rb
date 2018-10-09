@@ -74,13 +74,24 @@ module TTY
 
       # Register a new spinner
       #
-      # @param [String] pattern
-      #   the pattern used for creating spinner
+      # @param [String, TTY::Spinner] pattern_or_spinner
+      #   the pattern used for creating spinner, or a spinner instance
       #
       # @api public
-      def register(pattern, options = {}, &job)
+      def register(pattern_or_spinner, options = {}, &job)
         observable = options.delete(:observable) { true }
-        spinner = TTY::Spinner.new(pattern, @options.merge(options))
+
+        spinner = if pattern_or_spinner.is_a?(::String)
+                    TTY::Spinner.new(
+                      pattern_or_spinner,
+                      @options.merge(options)
+                    )
+                  elsif pattern_or_spinner.is_a?(::TTY::Spinner)
+                    pattern_or_spinner
+                  else
+                    raise ArgumentError, "Expected a pattern or spinner, " \
+                      "got: #{pattern_or_spinner.class}"
+                  end
 
         synchronize do
           spinner.attach_to(self)
