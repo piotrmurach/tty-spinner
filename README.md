@@ -118,6 +118,7 @@ Use **TTY::Spinner::Multi** to synchornize multiple spinners:
 spinners = TTY::Spinner::Multi.new("[:spinner] top")
 
 sp1 = spinners.register "[:spinner] one"
+# or sp1 = ::TTY::Spinner.new("[:spinner] one")
 sp2 = spinners.register "[:spinner] two"
 
 sp1.auto_spin
@@ -417,6 +418,9 @@ Create and register a `TTY::Spinner` under the multispinner
 
 ```ruby
 new_spinner = multi_spinner.register("[:spinner] Task 1 name", options)
+# or
+#   spinner = ::TTY::Spinner.new("[:spinner] one")
+#   sp1 = multi_spinner.register(spinner)
 ```
 
 If no options are given it will use the options given to the multi_spinner when it was initialized to create the new spinner.
