@@ -21,7 +21,7 @@ module TTY
       },
       spin_4: {
         interval: 10,
-        frames: %w{╫ ╪'}
+        frames: %w{╫ ╪}
       },
       pulse: {
         interval: 10,
