@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'tty/spinner/version'
@@ -10,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['pmurach@gmail.com']
   spec.summary       = %q{A terminal spinner for tasks that have non-deterministic time frame.}
   spec.description   = %q{A terminal spinner for tasks that have non-deterministic time frame.}
-  spec.homepage      = 'https://github.com/piotrmurach/tty-spinner'
+  spec.homepage      = "https://piotrmurach.github.io/tty"
   spec.license       = 'MIT'
 
   spec.files         = Dir['{lib,spec,examples}/**/*.rb']
