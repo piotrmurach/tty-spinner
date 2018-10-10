@@ -105,14 +105,23 @@ module TTY
 
       @callbacks   = Hash.new { |h, k| h[k] = [] }
       @length      = @frames.length
-      @current     = 0
-      @done        = false
-      @state       = :stopped
       @thread      = nil
       @job         = nil
       @multispinner= nil
-      @succeeded   = false
-      @first_run   = true
+      reset
+    end
+
+    # Reset the spinner to initial frame
+    #
+    # @api public
+    def reset
+      synchronize do
+        @current   = 0
+        @done      = false
+        @state     = :stopped
+        @succeeded = false
+        @first_run = true
+      end
     end
 
     # Notifies the TTY::Spinner that it is running under a multispinner
@@ -448,16 +457,6 @@ module TTY
       synchronize do
         clear_line if spinning?
         @tokens.merge!(tokens)
-      end
-    end
-
-    # Reset the spinner to initial frame
-    #
-    # @api public
-    def reset
-      synchronize do
-        @current = 0
-        @first_run = true
       end
     end
 
