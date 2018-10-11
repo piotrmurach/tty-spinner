@@ -1,5 +1,17 @@
 # Change log
 
+## [v0.9.0] - 2018-10-x
+
+### Changed
+* Change tty-cursor dependency
+* Change to Ruby >= 2.0
+* Change to freeze all string literals
+* Change #execute_job to stop evaluating in spinner context and just execute the job
+* Change #register to accept a spinner instance by Shane Cavanaugh(@shanecav84)
+
+### Fixed
+* Fix to remove a stray single quote in spin_4 by Kristofer Rye(@rye)
+
 ## [v0.8.0] - 2018-01-11
 
 ### Added
