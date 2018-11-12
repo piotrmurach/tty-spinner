@@ -4,8 +4,8 @@ gemspec
 
 group :test do
   gem 'pastel',    '~> 0.7.2'
-  gem 'simplecov', '~> 0.14.1'
-  gem 'coveralls', '~> 0.8.21'
+  gem 'simplecov', '~> 0.16.1'
+  gem 'coveralls', '~> 0.8.22'
 end
 
 group :metrics do
