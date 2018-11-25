@@ -78,22 +78,12 @@ module TTY
       #   the pattern used for creating spinner, or a spinner instance
       #
       # @api public
-      def register(pattern_or_spinner, options = {}, &job)
+      def register(pattern_or_spinner, **options, &job)
         observable = options.delete(:observable) { true }
-
-        spinner = if pattern_or_spinner.is_a?(::String)
-                    TTY::Spinner.new(
-                      pattern_or_spinner,
-                      @options.merge(options)
-                    )
-                  elsif pattern_or_spinner.is_a?(::TTY::Spinner)
-                    pattern_or_spinner
-                  else
-                    raise ArgumentError, "Expected a pattern or spinner, " \
-                      "got: #{pattern_or_spinner.class}"
-                  end
+        spinner = nil
 
         synchronize do
+          spinner = create_spinner(pattern_or_spinner, options)
           spinner.attach_to(self)
           spinner.job(&job) if block_given?
           observe(spinner) if observable
@@ -104,6 +94,24 @@ module TTY
         end
 
         spinner
+      end
+
+      # Create a spinner instance
+      #
+      # @api private
+      def create_spinner(pattern_or_spinner, options)
+        case pattern_or_spinner
+        when ::String
+          TTY::Spinner.new(
+            pattern_or_spinner,
+            @options.merge(options)
+          )
+        when ::TTY::Spinner
+          pattern_or_spinner
+        else
+          raise ArgumentError, "Expected a pattern or spinner, " \
+            "got: #{pattern_or_spinner.class}"
+        end
       end
 
       # Increase a row count
