@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 RSpec.describe TTY::Spinner, '#update' do
   let(:output) { StringIO.new('', 'w+') }
@@ -72,6 +72,15 @@ RSpec.describe TTY::Spinner, '#update' do
 
     spinner.update(foo: 'FOO')
     spinner.update(bar: 'BAR')
+
+    expect(spinner.tokens).to include({foo: 'FOO', bar: 'BAR'})
+  end
+
+  it "updates more than one token" do
+    spinner = TTY::Spinner.new(":foo :bar", output: output)
+    expect(spinner.tokens).to eq({})
+
+    spinner.update(foo: 'FOO', bar: 'BAR')
 
     expect(spinner.tokens).to include({foo: 'FOO', bar: 'BAR'})
   end

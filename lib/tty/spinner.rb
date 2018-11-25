@@ -549,7 +549,7 @@ module TTY
     def replace_tokens(string)
       data = string.dup
       @tokens.each do |name, val|
-        data.gsub!(/\:#{name}/, val)
+        data.gsub!(/\:#{name}/, val.to_s)
       end
       data
     end
