@@ -66,8 +66,8 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G#{top}| top\n",
-      "\e[1G#{bottom}| two\n",
-      "\e[1G#{middle}| one\n"
+      "\e[1G#{middle}| two\n",
+      "\e[1G#{bottom}| one\n"
     ].join)
 
     spinner1.spin
@@ -75,11 +75,11 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G#{top}| top\n",
-      "\e[1G#{bottom}| two\n",
-      "\e[1G#{middle}| one\n",
+      "\e[1G#{middle}| two\n",
+      "\e[1G#{bottom}| one\n",
       save,
       "\e[1A",          # up 1 line
-      "\e[1G#{middle}/ one",
+      "\e[1G#{bottom}/ one",
       restore
     ].join)
 
@@ -88,15 +88,15 @@ RSpec.describe TTY::Spinner::Multi, '#spin' do
     output.rewind
     expect(output.read).to eq([
       "\e[1G#{top}| top\n",
-      "\e[1G#{bottom}| two\n",
-      "\e[1G#{middle}| one\n",
+      "\e[1G#{middle}| two\n",
+      "\e[1G#{bottom}| one\n",
       save,
       "\e[1A",          # up 1 line
-      "\e[1G#{middle}/ one",
+      "\e[1G#{bottom}/ one",
       restore,
       save,
       "\e[2A",          # up 2 lines
-      "\e[1G#{bottom}/ two",
+      "\e[1G#{middle}/ two",
       restore
     ].join)
   end
