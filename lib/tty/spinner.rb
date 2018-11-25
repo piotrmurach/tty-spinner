@@ -498,7 +498,7 @@ module TTY
       execute_on_line do
         output.print(TTY::Cursor.column(1)) if clear_first
         # If there's a top level spinner, print with inset
-        characters_in = @multispinner.line_inset(self) if @multispinner
+        characters_in = @multispinner.line_inset(@row) if @multispinner
         output.print("#{characters_in}#{data}")
         output.flush
       end

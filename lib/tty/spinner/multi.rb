@@ -58,6 +58,7 @@ module TTY
         @inset_opts  = @options.delete(:style) { DEFAULT_INSET }
         @rows        = 0
         @spinners    = []
+        @spinners_count = 0
         @top_spinner = nil
         @last_spin_at = nil
         unless message.nil?
@@ -88,6 +89,7 @@ module TTY
           spinner.job(&job) if block_given?
           observe(spinner) if observable
           @spinners << spinner
+          @spinners_count += 1
           if @top_spinner
             @spinners.each { |sp| sp.redraw_indent if sp.spinning? || sp.done? }
           end
@@ -179,20 +181,19 @@ module TTY
       # Find the number of characters to move into the line
       # before printing the spinner
       #
-      # @param [TTY::Spinner] spinner
-      #   the spinner for which line inset is calculated
+      # @param [Integer] line_no
+      #   the current spinner line number for which line inset is calculated
       #
       # @return [String]
       #   the inset
       #
       # @api public
-      def line_inset(spinner)
+      def line_inset(line_no)
         return '' if @top_spinner.nil?
 
-        case spinner
-        when @top_spinner
+        if line_no == 1
           @inset_opts[:top]
-        when @spinners.last
+        elsif line_no == @spinners_count
           @inset_opts[:bottom]
         else
           @inset_opts[:middle]

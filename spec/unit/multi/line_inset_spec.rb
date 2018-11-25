@@ -14,17 +14,17 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
   it "defaults to the empty string for the top level spinner" do
     spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
 
-    expect(spinners.line_inset(spinners.top_spinner))
+    expect(spinners.line_inset(1))
       .to eq(TTY::Spinner::Multi::DEFAULT_INSET[:top])
   end
 
   it "returns four spaces when there is a top level spinner" do
     spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
 
-    spinner = spinners.register 'middle'
+    spinners.register 'middle'
     spinners.register 'bottom'
 
-    expect(spinners.line_inset(spinner))
+    expect(spinners.line_inset(2))
       .to eq(TTY::Spinner::Multi::DEFAULT_INSET[:middle])
   end
 
@@ -32,9 +32,9 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
     spinners = TTY::Spinner::Multi.new("Top spinner", output: output)
 
     spinners.register 'middle'
-    spinner2 = spinners.register 'bottom'
+    spinners.register 'bottom'
 
-    expect(spinners.line_inset(spinner2))
+    expect(spinners.line_inset(3))
       .to eq(TTY::Spinner::Multi::DEFAULT_INSET[:bottom])
   end
 
@@ -49,11 +49,11 @@ RSpec.describe TTY::Spinner::Multi, '#line_inset' do
         }
       }
     spinners = TTY::Spinner::Multi.new("Top level spinner", opts)
-    middle_spinner = spinners.register ""
-    bottom_spinner = spinners.register ""
+    spinners.register ""
+    spinners.register ""
 
-    expect(spinners.line_inset(spinners.top_spinner)).to eq(". ")
-    expect(spinners.line_inset(middle_spinner)).to eq("--")
-    expect(spinners.line_inset(bottom_spinner)).to eq("---")
+    expect(spinners.line_inset(1)).to eq(". ")
+    expect(spinners.line_inset(2)).to eq("--")
+    expect(spinners.line_inset(3)).to eq("---")
   end
 end
