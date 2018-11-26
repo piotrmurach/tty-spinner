@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.9.0] - 2018-10-x
+## [v0.9.0] - 2018-11-xx
 
 ### Changed
 * Change tty-cursor dependency
@@ -11,6 +11,7 @@
 
 ### Fixed
 * Fix to remove a stray single quote in spin_4 by Kristofer Rye(@rye)
+* Fix Multi#line_inset to correctly assign styling in threaded environment
 
 ## [v0.8.0] - 2018-01-11
 
