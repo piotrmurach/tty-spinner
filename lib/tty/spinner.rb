@@ -247,6 +247,10 @@ module TTY
           end
         end
       end
+    ensure
+      if @hide_cursor
+        write(TTY::Cursor.show, false)
+      end
     end
 
     # Checked if current spinner is paused
