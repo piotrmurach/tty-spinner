@@ -376,9 +376,6 @@ module TTY
       mon_enter
       return if done?
 
-      if @hide_cursor
-        write(TTY::Cursor.show, false)
-      end
       clear_line
       return if @clear
 
@@ -394,6 +391,11 @@ module TTY
       @state      = :stopped
       @done       = true
       @started_at = nil
+
+      if @hide_cursor
+        write(TTY::Cursor.show, false)
+      end
+
       emit(:done)
       kill
       mon_exit

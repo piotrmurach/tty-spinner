@@ -13,8 +13,9 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
       "\e[1G/",
       "\e[1G-",
       "\e[1G\\",
-      "\e[?25h\e[0m\e[2K",
-      "\e[1G\\\n"
+      "\e[0m\e[2K",
+      "\e[1G\\\n",
+      "\e[?25h"
     ].join)
   end
 
@@ -28,8 +29,9 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
       "\e[1G/",
       "\e[1G-",
       "\e[1G\\",
-      "\e[?25h\e[0m\e[2K",
-      "\e[1G\u2714 success\n"
+      "\e[0m\e[2K",
+      "\e[1G\u2714 success\n",
+      "\e[?25h"
     ].join)
   end
 
@@ -43,8 +45,9 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
       "\e[1G/",
       "\e[1G-",
       "\e[1G\\",
-      "\e[?25h\e[0m\e[2K",
-      "\e[1G\u2716 error\n"
+      "\e[0m\e[2K",
+      "\e[1G\u2716 error\n",
+      "\e[?25h"
     ].join)
   end
 end
