@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.9.0] - 2018-11-xx
+## [v0.9.0] - 2018-12-01
 
 ### Changed
 * Change tty-cursor dependency
@@ -12,6 +12,8 @@
 ### Fixed
 * Fix to remove a stray single quote in spin_4 by Kristofer Rye(@rye)
 * Fix Multi#line_inset to correctly assign styling in threaded environment
+* Fix #stop & #auto_spin to always restore hidden cursor if enabled
+* Fix deadlock when registering multi spinners
 
 ## [v0.8.0] - 2018-01-11
 
@@ -106,6 +108,7 @@
 
 * Initial implementation and release
 
+[v0.9.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.7.0...v0.8.0
 [v0.7.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.6.0...v0.7.0
 [v0.6.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.5.0...v0.6.0
