@@ -48,6 +48,7 @@ RSpec.describe TTY::Spinner, '#spin' do
 
   it "can spin and redraw indent" do
     multi_spinner = double("MultiSpinner")
+    allow(multi_spinner).to receive(:synchronize).and_yield
     allow(multi_spinner).to receive(:next_row).and_return(1)
     allow(multi_spinner).to receive(:rows).and_return(1)
     allow(multi_spinner).to receive(:line_inset).and_return("--- ")

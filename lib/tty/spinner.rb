@@ -482,7 +482,7 @@ module TTY
     # @api private
     def execute_on_line
       if @multispinner
-        CURSOR_LOCK.synchronize do
+        @multispinner.synchronize do
           if @first_run
             @row ||= @multispinner.next_row
             yield if block_given?
