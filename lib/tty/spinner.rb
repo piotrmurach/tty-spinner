@@ -60,7 +60,15 @@ module TTY
     # @api public
     attr_reader :tokens
 
+    # The amount of time between frames in auto spinning
+    #
+    # @api public
     attr_reader :interval
+
+    # The current row inside the multi spinner
+    #
+    # @api public
+    attr_reader :row
 
     # Initialize a spinner
     #
