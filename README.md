@@ -82,7 +82,7 @@ Or install it yourself as:
 
 ## 1. Usage
 
-**TTY::Spinner** by default uses `:classic` type of formatter and requires no paramters:
+**TTY::Spinner** by default uses `:classic` type of formatter and requires no parameters:
 
 ```ruby
 spinner = TTY::Spinner.new
@@ -112,7 +112,7 @@ and when finished output:
 _ Loading ... Done!
 ```
 
-Use **TTY::Spinner::Multi** to synchornize multiple spinners:
+Use **TTY::Spinner::Multi** to synchronize multiple spinners:
 
 ```ruby
 spinners = TTY::Spinner::Multi.new("[:spinner] top")
@@ -222,7 +222,7 @@ spinner.stop('Done!')
 
 #### 2.5.1 success
 
-Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
+Use `success` call to stop the spinning animation and replace the spinning symbol with check mark character to indicate successful completion.
 
 ```ruby
 spinner = TTY::Spinner.new("[:spinner] Task name")
@@ -237,7 +237,7 @@ This will produce:
 
 #### 2.5.2 error
 
-Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
+Use `error` call to stop the spinning animation and replace the spinning symbol with cross character to indicate error completion.
 
 ```ruby
 spinner = TTY::Spinner.new("[:spinner] Task name")
@@ -466,7 +466,7 @@ spinner_1.auto_spin
 spinner_2.auto_spin
 ```
 
-Finnally, you need to stop each spinner manually, in our case we mark the second spinner as failure which in turn will stop the top level multi spinner automatically and mark it as failure:
+Finally, you need to stop each spinner manually, in our case we mark the second spinner as failure which in turn will stop the top level multi spinner automatically and mark it as failure:
 
 ```ruby
 spinner_1.success
@@ -516,7 +516,7 @@ multi_spinner.stop
 
 #### 5.3.1 success
 
-Use `success` call to stop the spinning animation and replace the spinning symbol with checkmark character to indicate successful completion.
+Use `success` call to stop the spinning animation and replace the spinning symbol with a check mark character to indicate successful completion.
 This will also call `#success` on any sub-spinners that are still spinning.
 
 ```ruby
@@ -525,7 +525,7 @@ multi_spinner.success
 
 #### 5.3.2 error
 
-Use `error` call to stop the spining animation and replace the spinning symbol with cross character to indicate error completion.
+Use `error` call to stop the spinning animation and replace the spinning symbol with cross character to indicate error completion.
 This will also call `#error` on any sub-spinners that are still spinning.
 
 ```ruby
@@ -554,4 +554,4 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] parent", style: {
 
 ## Copyright
 
-Copyright (c) 2014-2018 Piotr Murach. See LICENSE for further details.
+Copyright (c) 2014 Piotr Murach. See LICENSE for further details.
