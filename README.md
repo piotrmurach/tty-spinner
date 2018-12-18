@@ -71,7 +71,7 @@ Or install it yourself as:
   * [4.2 success](#42-success)
   * [4.3 error](#43-error)
 * [5. TTY::Spinner::Multi API](#5-ttyspinnermulti-api)
-  * [5.1 reigster](#51-register)
+  * [5.1 register](#51-register)
   * [5.2 auto_spin](#52-auto_spin)
     * [5.2.1 manual async](#521-manual-async)
     * [5.2.2 auto async tasks](#522-auto-async-tasks)
