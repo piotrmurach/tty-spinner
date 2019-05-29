@@ -1,5 +1,11 @@
 # Change log
 
+## [v0.9.1] - 2019-05-29
+
+### Changed
+* Change bundler to remove version limit
+* Change to update tty-cursor dependency
+
 ## [v0.9.0] - 2018-12-01
 
 ### Changed
@@ -108,6 +114,7 @@
 
 * Initial implementation and release
 
+[v0.9.1]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.0...v0.9.1
 [v0.9.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.7.0...v0.8.0
 [v0.7.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.6.0...v0.7.0
