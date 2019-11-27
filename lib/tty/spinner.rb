@@ -17,7 +17,9 @@ module TTY
     # @raised when attempting to join dead thread
     NotSpinningError = Class.new(StandardError)
 
-    ECMA_CSI = "\x1b["
+    ECMA_CSI = "\x1b[".freeze
+    DEC_TCEM = '?25'.freeze
+    DEC_RST  = 'l'.freeze
 
     MATCHER = /:spinner/
     TICK = '✔'
