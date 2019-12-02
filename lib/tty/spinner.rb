@@ -17,9 +17,7 @@ module TTY
     # @raised when attempting to join dead thread
     NotSpinningError = Class.new(StandardError)
 
-    ECMA_CSI = "\x1b[".freeze
-    DEC_TCEM = '?25'.freeze
-    DEC_RST  = 'l'.freeze
+    ECMA_CSI = "\x1b["
 
     MATCHER = /:spinner/
     TICK = '✔'
@@ -374,7 +372,7 @@ module TTY
     # @api private
     def redraw_indent
       if @hide_cursor && !spinning?
-        write(ECMA_CSI + DEC_TCEM + DEC_RST)
+        write(TTY::Cursor.hide)
       end
 
       write("", false)
