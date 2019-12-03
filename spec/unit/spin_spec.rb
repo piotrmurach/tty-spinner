@@ -46,26 +46,55 @@ RSpec.describe TTY::Spinner, '#spin' do
     ].join)
   end
 
-  it "can spin and redraw indent" do
-    multi_spinner = double("MultiSpinner")
-    allow(multi_spinner).to receive(:synchronize).and_yield
-    allow(multi_spinner).to receive(:next_row).and_return(1)
-    allow(multi_spinner).to receive(:rows).and_return(1)
-    allow(multi_spinner).to receive(:line_inset).and_return("--- ")
+  context "with the cursor" do
+    before do
+      multi_spinner = double("MultiSpinner")
+      allow(multi_spinner).to receive(:synchronize).and_yield
+      allow(multi_spinner).to receive(:next_row).and_return(1)
+      allow(multi_spinner).to receive(:rows).and_return(1)
+      allow(multi_spinner).to receive(:line_inset).and_return("--- ")
 
-    spinner = TTY::Spinner.new(output: output)
-    spinner.attach_to(multi_spinner)
-    spinner.spin
-    spinner.redraw_indent
+      spinner = TTY::Spinner.new(output: output, hide_cursor: hide_cursor)
+      spinner.attach_to(multi_spinner)
+      spinner.spin
+      spinner.redraw_indent
 
-    output.rewind
-    expect(output.read).to eq([
-      "\e[1G--- |\n",
-      save,
-      "\e[1A",
-      "--- ",
-      restore,
-    ].join)
+      output.rewind
+    end
+
+    context "on" do
+      let(:hide_cursor) { false }
+
+      it "can spin and redraw indent" do
+        expect(output.read).to eq([
+          "\e[1G--- |\n",
+          save,
+          "\e[1A",
+          "--- ",
+          restore,
+        ].join)
+      end
+    end
+
+    context "off" do
+      let(:hide_cursor) { true }
+
+      it "can spin and redraw indent" do
+        expect(output.read).to eq([
+          "--- ",
+          "\e[?25l\n",
+          save,
+          "\e[1A",
+          "\e[1G",
+          "--- |",
+          restore,
+          save,
+          "\e[1A",
+          "--- ",
+          restore,
+        ].join)
+      end
+    end
   end
 
   it "spins with many threads" do
