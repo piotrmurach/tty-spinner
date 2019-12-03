@@ -71,7 +71,7 @@ RSpec.describe TTY::Spinner, '#spin' do
           save,
           "\e[1A",
           "--- ",
-          restore,
+          restore
         ].join)
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe TTY::Spinner, '#spin' do
           save,
           "\e[1A",
           "--- ",
-          restore,
+          restore
         ].join)
       end
     end
