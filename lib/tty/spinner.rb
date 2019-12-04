@@ -372,7 +372,7 @@ module TTY
     # @api private
     def redraw_indent
       if @hide_cursor && !spinning?
-        write(ECMA_CSI + DEC_TCEM + DEC_RST)
+        write(TTY::Cursor.hide)
       end
 
       write("", false)
