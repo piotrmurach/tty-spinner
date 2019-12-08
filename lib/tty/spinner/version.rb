@@ -2,6 +2,6 @@
 
 module TTY
   class Spinner
-    VERSION = '0.9.1'
+    VERSION = "0.9.2"
   end # Spinner
 end # TTY
