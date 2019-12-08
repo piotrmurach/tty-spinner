@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.9.2] - 2019-12-08
+
+### Fixed
+* Fix multi spinner cursor hiding by @benklop
+
 ## [v0.9.1] - 2019-05-29
 
 ### Changed
@@ -114,6 +119,7 @@
 
 * Initial implementation and release
 
+[v0.9.2]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.1...v0.9.2
 [v0.9.1]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.0...v0.9.1
 [v0.9.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.7.0...v0.8.0
