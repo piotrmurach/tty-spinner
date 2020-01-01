@@ -16,6 +16,7 @@ if ENV['COVERAGE'] || ENV['TRAVIS']
 end
 
 require 'tty-spinner'
+require 'stringio'
 
 class StringIO
   def tty?
