@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.9.3] - 2020-01-28
+
+### Changed
+* Change gemspec to add metadata, remove test artefacts and load version directly
+
 ## [v0.9.2] - 2019-12-08
 
 ### Fixed
@@ -52,8 +57,8 @@
 ## [v0.6.0] - 2017-09-07
 
 ### Changed
-* Change TTY::Spinner::Multi to render registerd spinners at row
-  position at point of redering and not registration
+* Change TTY::Spinner::Multi to render registered spinners at row
+  position at point of rendering and not registration
 
 ### Fixed
 * Fix handling of multi spinner events
@@ -113,12 +118,13 @@
 
 ### Changed
 * Change message formatting, use :spinner token to customize message
-* Change format for definining spinner formats and intervals
+* Change format for defining spinner formats and intervals
 
 ## [v0.1.0] - 2014-11-15
 
 * Initial implementation and release
 
+[v0.9.3]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.2...v0.9.3
 [v0.9.2]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.1...v0.9.2
 [v0.9.1]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.0...v0.9.1
 [v0.9.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.8.0...v0.9.0
