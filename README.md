@@ -302,6 +302,14 @@ Optionally you can provide timeout:
 spinner.join(0.5)
 ```
 
+### 2.9 tty?
+
+The spinner will not write any output if the output stream is not a TTY. You can check this with:
+
+```ruby
+spinner.tty?
+```
+
 ## 3. Configuration
 
 There are number of configuration options that can be provided to customise the behaviour of a spinner.

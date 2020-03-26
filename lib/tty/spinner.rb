@@ -474,6 +474,15 @@ module TTY
       end
     end
 
+    # Check if IO is attached to a terminal
+    #
+    # return [Boolean]
+    #
+    # @api public
+    def tty?
+      output.respond_to?(:tty?) && output.tty?
+    end
+
     private
 
     # Execute a block on the proper terminal line if the spinner is running
@@ -516,15 +525,6 @@ module TTY
         output.print("#{characters_in}#{data}")
         output.flush
       end
-    end
-
-    # Check if IO is attached to a terminal
-    #
-    # return [Boolean]
-    #
-    # @api public
-    def tty?
-      output.respond_to?(:tty?) && output.tty?
     end
 
     # Emit callback
