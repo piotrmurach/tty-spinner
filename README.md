@@ -23,7 +23,9 @@
 
 **TTY::Spinner** provides independent spinner component for [TTY](https://github.com/piotrmurach/tty) toolkit.
 
+<div align="center">
 ![](demo.gif)
+</div>
 
 ## Installation
 
