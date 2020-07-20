@@ -24,7 +24,7 @@
 **TTY::Spinner** provides independent spinner component for [TTY](https://github.com/piotrmurach/tty) toolkit.
 
 <div align="center">
-![](demo.gif)
+  <img alt="Available spinner formats demo" src="demo.gif" width="75%">
 </div>
 
 ## Installation
