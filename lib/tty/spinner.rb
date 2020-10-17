@@ -350,21 +350,29 @@ module TTY
     #
     # @api public
     def spin
+      return if done?
+
       synchronize do
-        return if @done
         emit(:spin)
-
-        if @hide_cursor && !spinning?
-          write(TTY::Cursor.hide)
-        end
-
-        data = message.gsub(MATCHER, @frames[@current])
-        data = replace_tokens(data)
-        write(data, true)
+        render
         @current = (@current + 1) % @length
         @state = :spinning
-        data
       end
+    end
+
+    # Render spinner to the output
+    #
+    # @api private
+    def render
+      return if done?
+
+      if @hide_cursor && !spinning?
+        write(TTY::Cursor.hide)
+      end
+
+      data = message.gsub(MATCHER, @frames[@current])
+      data = replace_tokens(data)
+      write(data, true)
     end
 
     # Redraw the indent for this spinner, if it exists
@@ -471,6 +479,23 @@ module TTY
       synchronize do
         clear_line if spinning?
         @tokens.merge!(tokens)
+      end
+    end
+
+    # Log text above the current spinner
+    #
+    # @param [String] text
+    #   the message to log out
+    #
+    # @api public
+    def log(text)
+      synchronize do
+        cleared_text = text.to_s.lines.map do |line|
+          TTY::Cursor.clear_line + line
+        end.join
+
+        write("#{cleared_text}#{"\n" unless cleared_text.end_with?("\n")}", false)
+        render
       end
     end
 
