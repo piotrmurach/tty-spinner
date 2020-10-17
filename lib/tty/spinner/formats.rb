@@ -35,6 +35,10 @@ module TTY
         interval: 20,
         frames: %w[▉ ▊ ▋ ▌ ▍ ▎ ▏ ▎ ▍ ▌ ▋ ▊ ▉]
       },
+      pulse_4: {
+        interval: 10,
+        frames: %w[- = ≡ = -]
+      },
       dots: {
         interval: 10,
         frames: %w[⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏]
@@ -165,6 +169,22 @@ module TTY
       flip: {
         interval: 10,
         frames: %w[- ◡ ⊙ - ◠]
+      },
+      toss: {
+        interval: 10,
+        frames: %w[_ _ _ - ` ` ' ´ - _ _ _]
+      },
+      lighthouse: {
+        interval: 10,
+        frames: ["∙∙∙", "●∙∙", "∙●∙", "∙∙●", "∙∙∙"]
+      },
+      points: {
+        interval: 10,
+        frames: [".  ", ".. ", "...", "   "]
+      },
+      points_2: {
+        interval: 10,
+        frames: [".  ", ".. ", "...", " ..", "  .", "   "]
       },
       burger: {
         interval: 6,
