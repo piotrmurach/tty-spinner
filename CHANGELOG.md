@@ -1,5 +1,13 @@
 # Change log
 
+## [v0.10.0] - unreleased
+
+### Added
+* Add Spinner#log method for logging messages above the spinner
+
+### Changed
+* Change gemspec to include rake and rspec as dev dependencies
+
 ## [v0.9.3] - 2020-01-28
 
 ### Changed
@@ -124,6 +132,7 @@
 
 * Initial implementation and release
 
+[v0.10.0]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.3...v0.10.0
 [v0.9.3]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.2...v0.9.3
 [v0.9.2]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.1...v0.9.2
 [v0.9.1]: https://github.com/piotrmurach/tty-spinner/compare/v0.9.0...v0.9.1
