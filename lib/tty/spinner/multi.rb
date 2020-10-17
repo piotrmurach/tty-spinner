@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'monitor'
-require 'forwardable'
+require "monitor"
+require "forwardable"
 
-require_relative '../spinner'
+require_relative "../spinner"
 
 module TTY
   class Spinner
@@ -19,10 +19,10 @@ module TTY
       def_delegators :@spinners, :each, :empty?, :length
 
       DEFAULT_INSET = {
-        top:    Gem.win_platform? ? '+ '   : "\u250c ",
-        middle: Gem.win_platform? ? '|-- ' : "\u251c\u2500\u2500 ",
-        bottom: Gem.win_platform? ? '|__ ' : "\u2514\u2500\u2500 "
-      }
+        top: Gem.win_platform? ? "+ " : "\u250c ",
+        middle: Gem.win_platform? ? "|-- " : "\u251c\u2500\u2500 ",
+        bottom: Gem.win_platform? ? "|__ " : "\u2514\u2500\u2500 "
+      }.freeze
 
       # The current count of all rendered rows
       #
@@ -55,9 +55,9 @@ module TTY
         super()
         @options = args.last.is_a?(::Hash) ? args.pop : {}
         message = args.empty? ? nil : args.pop
-        @inset_opts  = @options.delete(:style) { DEFAULT_INSET }
-        @rows        = 0
-        @spinners    = []
+        @inset_opts = @options.delete(:style) { DEFAULT_INSET }
+        @rows = 0
+        @spinners = []
         @spinners_count = 0
         @top_spinner = nil
         @last_spin_at = nil
@@ -67,9 +67,9 @@ module TTY
 
         @callbacks = {
           success: [],
-          error:   [],
-          done:    [],
-          spin:    []
+          error: [],
+          done: [],
+          spin: []
         }
       end
 
@@ -189,7 +189,7 @@ module TTY
       #
       # @api public
       def line_inset(line_no)
-        return '' if @top_spinner.nil?
+        return "" if @top_spinner.nil?
 
         if line_no == 1
           @inset_opts[:top]
@@ -259,8 +259,8 @@ module TTY
       # @api public
       def on(key, &callback)
         unless @callbacks.key?(key)
-          raise ArgumentError, "The event #{key} does not exist. "\
-                               ' Use :spin, :success, :error, or :done instead'
+          raise ArgumentError, "The event #{key} does not exist. " \
+                               " Use :spin, :success, :error, or :done instead"
         end
         @callbacks[key] << callback
         self
@@ -274,9 +274,8 @@ module TTY
       # @api private
       def throttle
         sleep_time = 1.0 / @top_spinner.interval
-        if @last_spin_at && Time.now - @last_spin_at < sleep_time
-          return
-        end
+        return if @last_spin_at && Time.now - @last_spin_at < sleep_time
+
         yield if block_given?
         @last_spin_at = Time.now
       end

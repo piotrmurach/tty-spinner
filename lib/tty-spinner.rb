@@ -1,2 +1,2 @@
-require_relative 'tty/spinner'
-require_relative 'tty/spinner/multi'
+require_relative "tty/spinner"
+require_relative "tty/spinner/multi"

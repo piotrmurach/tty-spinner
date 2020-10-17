@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'monitor'
-require 'tty-cursor'
+require "monitor"
+require "tty-cursor"
 
-require_relative 'spinner/version'
-require_relative 'spinner/formats'
+require_relative "spinner/version"
+require_relative "spinner/formats"
 
 module TTY
   # Used for creating terminal spinner
@@ -20,8 +20,8 @@ module TTY
     ECMA_CSI = "\x1b["
 
     MATCHER = /:spinner/
-    TICK = '✔'
-    CROSS = '✖'
+    TICK = "✔"
+    CROSS = "✖"
 
     CURSOR_LOCK = Monitor.new
 
@@ -94,28 +94,28 @@ module TTY
     def initialize(*args)
       super()
       options  = args.last.is_a?(::Hash) ? args.pop : {}
-      @message = args.empty? ? ':spinner' : args.pop
+      @message = args.empty? ? ":spinner" : args.pop
       @tokens  = {}
 
-      @format      = options.fetch(:format) { :classic }
-      @output      = options.fetch(:output) { $stderr }
-      @hide_cursor = options.fetch(:hide_cursor) { false }
-      @frames      = options.fetch(:frames) do
-                       fetch_format(@format.to_sym, :frames)
-                     end
-      @clear       = options.fetch(:clear) { false }
-      @success_mark= options.fetch(:success_mark) { TICK }
-      @error_mark  = options.fetch(:error_mark) { CROSS }
-      @interval    = options.fetch(:interval) do
-                       fetch_format(@format.to_sym, :interval)
-                     end
-      @row         = options[:row]
+      @format       = options.fetch(:format) { :classic }
+      @output       = options.fetch(:output) { $stderr }
+      @hide_cursor  = options.fetch(:hide_cursor) { false }
+      @frames       = options.fetch(:frames) do
+                        fetch_format(@format.to_sym, :frames)
+                      end
+      @clear        = options.fetch(:clear) { false }
+      @success_mark = options.fetch(:success_mark) { TICK }
+      @error_mark   = options.fetch(:error_mark) { CROSS }
+      @interval     = options.fetch(:interval) do
+                        fetch_format(@format.to_sym, :interval)
+                      end
+      @row          = options[:row]
 
-      @callbacks   = Hash.new { |h, k| h[k] = [] }
-      @length      = @frames.length
-      @thread      = nil
-      @job         = nil
-      @multispinner= nil
+      @callbacks    = Hash.new { |h, k| h[k] = [] }
+      @length       = @frames.length
+      @thread       = nil
+      @job          = nil
+      @multispinner = nil
       reset
     end
 
@@ -246,9 +246,9 @@ module TTY
         @thread = Thread.new do
           sleep(sleep_time)
           while @started_at
-            if Thread.current['pause']
+            if Thread.current["pause"]
               Thread.stop
-              Thread.current['pause'] = false
+              Thread.current["pause"] = false
             end
             spin
             sleep(sleep_time)
@@ -267,7 +267,7 @@ module TTY
     #
     # @api public
     def paused?
-      !!(@thread && @thread['pause'])
+      !!(@thread && @thread["pause"])
     end
 
     # Pause spinner automatic animation
@@ -277,7 +277,7 @@ module TTY
       return if paused?
 
       synchronize do
-        @thread['pause'] = true if @thread
+        @thread["pause"] = true if @thread
       end
     end
 
@@ -298,10 +298,10 @@ module TTY
     # @yield automatically animate and finish spinner
     #
     # @example
-    #   spinner.run('Migrated DB') { ... }
+    #   spinner.run("Migrated DB") { ... }
     #
     # @api public
-    def run(stop_message = '', &block)
+    def run(stop_message = "", &block)
       job(&block)
       auto_spin
 
@@ -328,7 +328,7 @@ module TTY
     # @api public
     def join(timeout = nil)
       unless @thread
-        raise(NotSpinningError, 'Cannot join spinner that is not running')
+        raise(NotSpinningError, "Cannot join spinner that is not running")
       end
 
       timeout ? @thread.join(timeout) : @thread.join
@@ -392,7 +392,7 @@ module TTY
     #   the stop message to print
     #
     # @api public
-    def stop(stop_message = '')
+    def stop(stop_message = "")
       mon_enter
       return if done?
 
@@ -402,7 +402,7 @@ module TTY
       data = message.gsub(MATCHER, next_char)
       data = replace_tokens(data)
       if !stop_message.empty?
-        data << ' ' + stop_message
+        data << " " + stop_message
       end
 
       write(data, false)
@@ -439,7 +439,7 @@ module TTY
     # Finish spinning and set state to :success
     #
     # @api public
-    def success(stop_message = '')
+    def success(stop_message = "")
       return if done?
 
       synchronize do
@@ -452,7 +452,7 @@ module TTY
     # Finish spinning and set state to :error
     #
     # @api public
-    def error(stop_message = '')
+    def error(stop_message = "")
       return if done?
 
       synchronize do
@@ -466,7 +466,7 @@ module TTY
     #
     # @api public
     def clear_line
-      write(ECMA_CSI + '0m' + TTY::Cursor.clear_line)
+      write(ECMA_CSI + "0m" + TTY::Cursor.clear_line)
     end
 
     # Update string formatting tokens
@@ -530,8 +530,8 @@ module TTY
             output.print TTY::Cursor.restore
           end
         end
-      else
-        yield if block_given?
+      elsif block_given?
+        yield
       end
     end
 
