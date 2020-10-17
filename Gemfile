@@ -2,9 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rake", "~> 12.0"
-gem "rspec", "~> 3.0"
-gem "pastel", "~> 0.7.2"
+gem "pastel", "~> 0.8.0"
 gem "simplecov", "~> 0.16.1"
 gem "coveralls", "~> 0.8.22"
 

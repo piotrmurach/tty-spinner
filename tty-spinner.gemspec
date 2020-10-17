@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "lib/tty/spinner/version"
 
 Gem::Specification.new do |spec|
@@ -19,11 +21,14 @@ Gem::Specification.new do |spec|
       "source_code_uri"   => "https://github.com/piotrmurach/tty-spinner"
     }
   end
-  spec.files         = Dir["lib/**/*", "README.md", "CHANGELOG.md", "LICENSE.txt"]
-  spec.extra_rdoc_files = ["README.md", "CHANGELOG.md"]
+  spec.files         = Dir["lib/**/*"]
+  spec.extra_rdoc_files = Dir["README.md", "CHANGELOG.md", "LICENSE.txt"]
   spec.bindir        = "exe"
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.0.0"
 
   spec.add_dependency "tty-cursor", "~> 0.7"
+
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec", ">= 3.0"
 end
