@@ -4,9 +4,11 @@
 
 ### Added
 * Add Spinner#log method for logging messages above the spinner
+* Add new formats (:pulse_4, :toss, :lighthouse, :points, :points_2)
 
 ### Changed
 * Change gemspec to include rake and rspec as dev dependencies
+* Change all built-in formats to use consistent frames formatting
 
 ## [v0.9.3] - 2020-01-28
 
