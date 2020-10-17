@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://piotrmurach.github.io/tty" target="_blank"><img width="130" src="https://github.com/piotrmurach/tty/raw/master/images/tty.png" alt="tty logo" /></a>
+  <a href="https://ttytoolkit.org"><img width="130" src="https://github.com/piotrmurach/tty/raw/master/images/tty.png" alt="tty logo" /></a>
 </div>
 
 # TTY::Spinner [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
@@ -32,7 +32,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'tty-spinner'
+gem "tty-spinner"
 ```
 
 And then execute:
@@ -99,18 +99,18 @@ spinner.auto_spin # Automatic animation with default interval
 
 sleep(2) # Perform task
 
-spinner.stop('Done!') # Stop animation
+spinner.stop("Done!") # Stop animation
 ```
 
 This would produce animation in your terminal:
 
-```ruby
+```
 ⎺ Loading ...
 ```
 
-and when finished output:
+And when finished output:
 
-```ruby
+```
 _ Loading ... Done!
 ```
 
@@ -121,6 +121,7 @@ spinners = TTY::Spinner::Multi.new("[:spinner] top")
 
 sp1 = spinners.register "[:spinner] one"
 # or sp1 = ::TTY::Spinner.new("[:spinner] one")
+# spinners.register sp1
 sp2 = spinners.register "[:spinner] two"
 
 sp1.auto_spin
@@ -132,9 +133,9 @@ sp1.success
 sp2.success
 ```
 
-which when done will display:
+The spinners when done will display:
 
-```ruby
+```
 ┌ [✔] top
 ├── [✔] one
 └── [✔] two
@@ -195,7 +196,7 @@ end
 Optionally you can provide a stop message to display when animation is finished.
 
 ```ruby
-spinner.run('Done!') do |spinner|
+spinner.run("Done!") do |spinner|
   ...
 end
 ```
@@ -219,7 +220,7 @@ spinner.stop
 You can further pass a message to print when animation is finished.
 
 ```ruby
-spinner.stop('Done!')
+spinner.stop("Done!")
 ```
 
 #### 2.5.1 success
@@ -228,7 +229,7 @@ Use `success` call to stop the spinning animation and replace the spinning symbo
 
 ```ruby
 spinner = TTY::Spinner.new("[:spinner] Task name")
-spinner.success('(successful)')
+spinner.success("(successful)")
 ```
 
 This will produce:
@@ -243,12 +244,12 @@ Use `error` call to stop the spinning animation and replace the spinning symbol 
 
 ```ruby
 spinner = TTY::Spinner.new("[:spinner] Task name")
-spinner.error('(error)')
+spinner.error("(error)")
 ```
 
 This will produce:
 
-```ruby
+```
 [✖] Task name (error)
 ```
 
@@ -265,7 +266,7 @@ spinner = TTY::Spinner.new("[:spinner] :title")
 and then pass token name and value:
 
 ```ruby
-spinner.update(title: 'Downloading file1')
+spinner.update(title: "Downloading file1")
 ```
 
 next start animation:
@@ -278,7 +279,7 @@ spinner.run { ... }
 Once animation finishes you can kick start another one with a different name:
 
 ```ruby
-spinner.update(title: 'Downloading file2')
+spinner.update(title: "Downloading file2")
 spinner.run { ... }
 ```
 
@@ -369,7 +370,7 @@ spinner = TTY::Spinner.new(clear: true)
 To change marker indicating successful completion use the `:success_mark` option:
 
 ```ruby
-spinner = TTY::Spinner.new(success_mark: '+')
+spinner = TTY::Spinner.new(success_mark: "+")
 ```
 
 ### 3.7 :error_mark
@@ -377,7 +378,7 @@ spinner = TTY::Spinner.new(success_mark: '+')
 To change marker indicating error completion use the `:error_mark` option:
 
 ```ruby
-spinner = TTY::Spinner.new(error_mark: 'x')
+spinner = TTY::Spinner.new(error_mark: "x")
 ```
 
 ### 3.8 :output
@@ -504,8 +505,8 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] top")
 and then register spinners with their respective tasks:
 
 ```ruby
-multi_spinner.register("[:spinner] one") { |sp| sleep(2); sp.success('yes 2') }
-multi_spinner.register("[:spinner] two") { |sp| sleep(3); sp.error('no 2') }
+multi_spinner.register("[:spinner] one") { |sp| sleep(2); sp.success("yes 2") }
+multi_spinner.register("[:spinner] two") { |sp| sleep(3); sp.error("no 2") }
 ```
 
 Finally, call `#auto_spin` to kick things off:
@@ -548,9 +549,9 @@ In addition to all [configuration options](#3-configuration) you can style multi
 
 ```ruby
 multi_spinner = TTY::Spinner::Multi.new("[:spinner] parent", style: {
-  top: '. '
-  middle: '|-> '
-  bottom: '|__ '
+  top: ". "
+  middle: "|-> "
+  bottom: "|__ "
 })
 ```
 
