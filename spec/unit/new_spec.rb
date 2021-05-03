@@ -1,7 +1,6 @@
-# coding: utf-8
+# frozen_string_literal: true
 
-RSpec.describe TTY::Spinner, '#new' do
-
+RSpec.describe TTY::Spinner, "#new" do
   it "creates spinner with default format" do
     spinner = TTY::Spinner.new
     expect(spinner.format).to eq(:classic)
@@ -9,7 +8,7 @@ RSpec.describe TTY::Spinner, '#new' do
 
   it "doesn't accept unknown formatting tokens" do
     expect {
-     TTY::Spinner.new(format: :unknown)
+      TTY::Spinner.new(format: :unknown)
     }.to raise_error(ArgumentError, /Unknown format token `:unknown`/)
   end
 

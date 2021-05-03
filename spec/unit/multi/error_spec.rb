@@ -1,9 +1,7 @@
-# encoding: utf-8
+RSpec.describe TTY::Spinner::Multi, "#error" do
+  let(:output) { StringIO.new("", "w+") }
 
-RSpec.describe TTY::Spinner::Multi, '#error' do
-  let(:output) { StringIO.new('', 'w+') }
-
-  it 'stops registerd multi spinner and emits an :error message' do
+  it "stops registerd multi spinner and emits an :error message" do
     spinners = TTY::Spinner::Multi.new(":spinner", output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -20,10 +18,10 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
 
     expect(sp1.error?).to eq(true)
     expect(sp2.error?).to eq(true)
-    expect(callbacks).to match_array([:done, :error])
+    expect(callbacks).to match_array(%i[done error])
   end
 
-  it 'stops unregistered top level spinner and emits an :error message' do
+  it "stops unregistered top level spinner and emits an :error message" do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -40,10 +38,10 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
 
     expect(sp1.error?).to eq(true)
     expect(sp2.error?).to eq(true)
-    expect(callbacks).to match_array([:done, :error])
+    expect(callbacks).to match_array(%i[done error])
   end
 
-  it 'stops registed spinners under top level and emits an error message' do
+  it "stops registed spinners under top level and emits an error message" do
     spinners = TTY::Spinner::Multi.new(":spinner", output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -60,10 +58,10 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
     sp2.error
 
     expect(spinners.error?).to eq(true)
-    expect(callbacks).to match_array([:done, :error])
+    expect(callbacks).to match_array(%i[done error])
   end
 
-  it 'stops registed spinners under top level and emits an error message' do
+  it "stops registed spinners under top level and emits an error message" do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -80,10 +78,10 @@ RSpec.describe TTY::Spinner::Multi, '#error' do
     sp2.error
 
     expect(spinners.error?).to eq(true)
-    expect(callbacks).to match_array([:done, :error])
+    expect(callbacks).to match_array(%i[done error])
   end
 
-  it 'returns true when any spinner failed' do
+  it "returns true when any spinner failed" do
     spinners = TTY::Spinner::Multi.new(output: output)
     sp1 = spinners.register("one")
     sp2 = spinners.register("two")

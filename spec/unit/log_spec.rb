@@ -1,5 +1,5 @@
 RSpec.describe TTY::Spinner, "#log" do
-  let(:output) { StringIO.new('', 'w+') }
+  let(:output) { StringIO.new("", "w+") }
 
   it "logs a message above a spinner" do
     spinner = TTY::Spinner.new(output: output)
@@ -18,7 +18,7 @@ RSpec.describe TTY::Spinner, "#log" do
       "\e[2K\e[1Gfoo\n",
       "\e[2K\e[1Gbar\n",
       "\e[1G/",
-      "\e[1G/",
+      "\e[1G/"
     ].join)
   end
 
@@ -37,7 +37,7 @@ RSpec.describe TTY::Spinner, "#log" do
       "\e[1G|",
       "\e[2K\e[1Gfoo\n",
       "\e[1G/",
-      "\e[1G/",
+      "\e[1G/"
     ].join)
   end
 

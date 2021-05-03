@@ -1,7 +1,5 @@
-# encoding: utf-8
-
-RSpec.describe TTY::Spinner, ':frames' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, ":frames" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "uses custom frames from string" do
     frames = ".o0@*"

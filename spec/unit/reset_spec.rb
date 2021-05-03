@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#reset' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#reset" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "spins default frames" do
     spinner = TTY::Spinner.new(output: output)

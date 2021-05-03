@@ -1,9 +1,7 @@
-# encoding: utf-8
+RSpec.describe TTY::Spinner::Multi, "#success" do
+  let(:output) { StringIO.new("", "w+") }
 
-RSpec.describe TTY::Spinner::Multi, '#success' do
-  let(:output) { StringIO.new('', 'w+') }
-
-  it 'stops registerd multi spinner and emits a :success message' do
+  it "stops registerd multi spinner and emits a :success message" do
     spinners = TTY::Spinner::Multi.new(":spinner", output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -20,10 +18,10 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
 
     expect(sp1.success?).to eq(true)
     expect(sp2.success?).to eq(true)
-    expect(callbacks).to match_array([:success, :done])
+    expect(callbacks).to match_array(%i[success done])
   end
 
-  it 'stops unregistered multi spinner and emits a :success message' do
+  it "stops unregistered multi spinner and emits a :success message" do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -40,7 +38,7 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
 
     expect(sp1.success?).to eq(true)
     expect(sp2.success?).to eq(true)
-    expect(callbacks).to match_array([:success, :done])
+    expect(callbacks).to match_array(%i[success done])
   end
 
   it "stops all registered spinners under top level and emits a :success message" do
@@ -60,7 +58,7 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
     sp2.success
 
     expect(spinners.success?).to eq(true)
-    expect(callbacks).to match_array([:success, :done])
+    expect(callbacks).to match_array(%i[success done])
   end
 
   it "stops all registered spinners and emits a success message" do
@@ -80,10 +78,10 @@ RSpec.describe TTY::Spinner::Multi, '#success' do
     sp2.success
 
     expect(spinners.success?).to eq(true)
-    expect(callbacks).to match_array([:success, :done])
+    expect(callbacks).to match_array(%i[success done])
   end
 
-  it 'returns false when a spinner has errored' do
+  it "returns false when a spinner has errored" do
     spinners = TTY::Spinner::Multi.new(output: output)
 
     sp1 = spinners.register("")

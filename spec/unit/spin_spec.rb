@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#spin' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#spin" do
+  let(:output) { StringIO.new("", "w+") }
   let(:save)    { TTY::Cursor.save }
   let(:restore) { TTY::Cursor.restore }
 

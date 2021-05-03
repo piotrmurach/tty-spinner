@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#stop' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#stop" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "doesn't reprint stop message" do
     spinner = TTY::Spinner.new(output: output)
@@ -11,7 +9,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     expect(output.read).to eq([
       "\e[1G|",
       "\e[0m\e[2K",
-      "\e[1G|\n",
+      "\e[1G|\n"
     ].join)
   end
 
@@ -34,7 +32,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     spinner = TTY::Spinner.new(output: output)
     5.times do |n|
       spinner.spin
-      spinner.stop('Done!') if n == 1
+      spinner.stop("Done!") if n == 1
     end
     output.rewind
     expect(output.read).to eq([
@@ -51,7 +49,7 @@ RSpec.describe TTY::Spinner, '#stop' do
     spinner = TTY::Spinner.new("Loading ... :spinner", output: output)
     5.times do |n|
       spinner.spin
-      spinner.stop('Done!') if n == 1
+      spinner.stop("Done!") if n == 1
     end
     output.rewind
     expect(output.read).to eq([

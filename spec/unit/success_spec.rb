@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#success' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#success" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "marks spinner as success" do
     spinner = TTY::Spinner.new(output: output)
@@ -22,7 +20,7 @@ RSpec.describe TTY::Spinner, '#success' do
   it "marks spinner as success with message" do
     spinner = TTY::Spinner.new(output: output)
     3.times { spinner.spin }
-    spinner.success('Successful')
+    spinner.success("Successful")
     output.rewind
     expect(output.read).to eq([
       "\e[1G|",
@@ -36,8 +34,8 @@ RSpec.describe TTY::Spinner, '#success' do
   end
 
   it "changes success spinner marker" do
-    spinner = TTY::Spinner.new(success_mark: '*', output: output)
-    spinner.success('(successful)')
+    spinner = TTY::Spinner.new(success_mark: "*", output: output)
+    spinner.success("(successful)")
     output.rewind
     expect(output.read).to eq("\e[0m\e[2K\e[1G* (successful)\n")
 

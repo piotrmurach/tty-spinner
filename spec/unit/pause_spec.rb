@@ -1,7 +1,5 @@
-# encoding: utf-8
-
-RSpec.describe TTY::Spinner, '#pause' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#pause" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "allows to pause auto spinning" do
     spinner = TTY::Spinner.new(output: output, interval: 100)

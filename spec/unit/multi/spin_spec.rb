@@ -1,7 +1,5 @@
-# encoding: utf-8
-
-RSpec.describe TTY::Spinner::Multi, '#spin' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner::Multi, "#spin" do
+  let(:output) { StringIO.new("", "w+") }
   let(:save)    { TTY::Cursor.save }
   let(:restore) { TTY::Cursor.restore }
   let(:top) { TTY::Spinner::Multi::DEFAULT_INSET[:top] }

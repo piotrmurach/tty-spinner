@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 if ENV["COVERAGE"] == "true"
-  require 'simplecov'
-  require 'coveralls'
+  require "simplecov"
+  require "coveralls"
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
@@ -10,13 +10,13 @@ if ENV["COVERAGE"] == "true"
   ])
 
   SimpleCov.start do
-    command_name 'spec'
-    add_filter 'spec'
+    command_name "spec"
+    add_filter "spec"
   end
 end
 
-require 'tty-spinner'
-require 'stringio'
+require "tty-spinner"
+require "stringio"
 
 class StringIO
   def tty?
@@ -41,7 +41,7 @@ RSpec.configure do |config|
   config.warnings = true
 
   if config.files_to_run.one?
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   end
 
   config.profile_examples = 2

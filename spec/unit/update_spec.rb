@@ -1,13 +1,11 @@
-# encoding: utf-8
-
-RSpec.describe TTY::Spinner, '#update' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#update" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "updates message content with custom token" do
     spinner = TTY::Spinner.new(":title :spinner", output: output, interval: 100)
-    spinner.update(title: 'task')
+    spinner.update(title: "task")
     5.times { spinner.spin }
-    spinner.stop('done')
+    spinner.stop("done")
     output.rewind
     expect(output.read).to eq([
       "\e[1Gtask |",
@@ -23,11 +21,11 @@ RSpec.describe TTY::Spinner, '#update' do
   it "updates message many times before stopping" do
     spinner = TTY::Spinner.new(":title :spinner", output: output)
 
-    spinner.update(title: 'task_a')
+    spinner.update(title: "task_a")
     2.times { spinner.spin }
-    spinner.update(title: 'task_b')
+    spinner.update(title: "task_b")
     2.times { spinner.spin }
-    spinner.stop('done')
+    spinner.stop("done")
     output.rewind
 
     expect(output.read).to eq([
@@ -44,14 +42,14 @@ RSpec.describe TTY::Spinner, '#update' do
   it "updates message after stopping" do
     spinner = TTY::Spinner.new(":title :spinner", output: output)
 
-    spinner.update(title: 'task_a')
+    spinner.update(title: "task_a")
     2.times { spinner.spin }
-    spinner.stop('done')
+    spinner.stop("done")
 
     spinner.start
-    spinner.update(title: 'task_b')
+    spinner.update(title: "task_b")
     2.times { spinner.spin }
-    spinner.stop('done')
+    spinner.stop("done")
 
     output.rewind
     expect(output.read).to eq([
@@ -70,18 +68,18 @@ RSpec.describe TTY::Spinner, '#update' do
     spinner = TTY::Spinner.new(":foo :bar", output: output)
     expect(spinner.tokens).to eq({})
 
-    spinner.update(foo: 'FOO')
-    spinner.update(bar: 'BAR')
+    spinner.update(foo: "FOO")
+    spinner.update(bar: "BAR")
 
-    expect(spinner.tokens).to include({foo: 'FOO', bar: 'BAR'})
+    expect(spinner.tokens).to include({foo: "FOO", bar: "BAR"})
   end
 
   it "updates more than one token" do
     spinner = TTY::Spinner.new(":foo :bar", output: output)
     expect(spinner.tokens).to eq({})
 
-    spinner.update(foo: 'FOO', bar: 'BAR')
+    spinner.update(foo: "FOO", bar: "BAR")
 
-    expect(spinner.tokens).to include({foo: 'FOO', bar: 'BAR'})
+    expect(spinner.tokens).to include({foo: "FOO", bar: "BAR"})
   end
 end

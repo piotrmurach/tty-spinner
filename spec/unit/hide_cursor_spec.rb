@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, ':hide_cursor' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, ":hide_cursor" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "hides cursor" do
     spinner = TTY::Spinner.new(output: output, hide_cursor: true)
@@ -22,7 +20,7 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
   it "restores cursor on success" do
     spinner = TTY::Spinner.new(output: output, hide_cursor: true)
     4.times { spinner.spin }
-    spinner.success('success')
+    spinner.success("success")
     output.rewind
     expect(output.read).to eq([
       "\e[?25l\e[1G|",
@@ -38,7 +36,7 @@ RSpec.describe TTY::Spinner, ':hide_cursor' do
   it "restores cursor on error" do
     spinner = TTY::Spinner.new(output: output, hide_cursor: true)
     4.times { spinner.spin }
-    spinner.error('error')
+    spinner.error("error")
     output.rewind
     expect(output.read).to eq([
       "\e[?25l\e[1G|",

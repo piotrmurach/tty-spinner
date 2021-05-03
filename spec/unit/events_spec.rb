@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, 'events' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "events" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "emits :done event" do
     events = []
@@ -21,7 +19,7 @@ RSpec.describe TTY::Spinner, 'events' do
 
     spinner.success
 
-    expect(events).to match_array([:done, :success])
+    expect(events).to match_array(%i[done success])
   end
 
   it "emits :error event" do
@@ -32,6 +30,6 @@ RSpec.describe TTY::Spinner, 'events' do
 
     spinner.error
 
-    expect(events).to match_array([:done, :error])
+    expect(events).to match_array(%i[done error])
   end
 end

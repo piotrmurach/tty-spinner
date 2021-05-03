@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#join' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#join" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "raises exception when not spinning" do
     spinner = TTY::Spinner.new(output: output)

@@ -1,9 +1,7 @@
-# encoding: utf-8
+RSpec.describe TTY::Spinner::Multi, "#stop" do
+  let(:output) { StringIO.new("", "w+") }
 
-RSpec.describe TTY::Spinner::Multi, '#stop' do
-  let(:output) { StringIO.new('', 'w+') }
-
-  it 'stops unregisterd multi spinner and emits a :done message' do
+  it "stops unregisterd multi spinner and emits a :done message" do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -23,7 +21,7 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(callbacks).to eq([:done])
   end
 
-  it 'stops registerd multi spinner and emits a :done message' do
+  it "stops registerd multi spinner and emits a :done message" do
     spinners = TTY::Spinner::Multi.new(":spinner", output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -43,7 +41,7 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(callbacks).to eq([:done])
   end
 
-  it 'stops all registered spinners and emits a :done message' do
+  it "stops all registered spinners and emits a :done message" do
     spinners = TTY::Spinner::Multi.new(output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -63,7 +61,7 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(callbacks).to eq([:done])
   end
 
-  it 'stops all registered spinners under multispinner and emits a :done message' do
+  it "stops all registered spinners under multispinner and emits a :done message" do
     spinners = TTY::Spinner::Multi.new(":spinner", output: output)
     callbacks = []
     sp1 = spinners.register "[:spinner] one"
@@ -83,7 +81,7 @@ RSpec.describe TTY::Spinner::Multi, '#stop' do
     expect(callbacks).to eq([:done])
   end
 
-  it 'returns true when spinner is done' do
+  it "returns true when spinner is done" do
     spinners = TTY::Spinner::Multi.new(output: output)
 
     sp1 = spinners.register "[:spinner] one"

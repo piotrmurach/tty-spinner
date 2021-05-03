@@ -1,7 +1,5 @@
-# encoding: utf-8
-
-RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner::Multi, "#auto_spin" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "doesn't auto spin top level spinner" do
     spinners = TTY::Spinner::Multi.new("Top level spinner", output: output)
@@ -24,11 +22,11 @@ RSpec.describe TTY::Spinner::Multi, '#auto_spin' do
     spinners = TTY::Spinner::Multi.new("top", output: output)
     jobs = []
 
-    spinners.register("one") { |sp| jobs << 'one'; sp.success }
-    spinners.register("two") { |sp| jobs << 'two'; sp.success }
+    spinners.register("one") { |sp| jobs << "one"; sp.success }
+    spinners.register("two") { |sp| jobs << "two"; sp.success }
 
     spinners.auto_spin
 
-    expect(jobs).to match_array(['one', 'two'])
+    expect(jobs).to match_array(%w[one two])
   end
 end

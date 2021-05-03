@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#auto_spin' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#auto_spin" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "starts and auto spins" do
     spinner = TTY::Spinner.new(output: output, interval: 100)
@@ -18,7 +16,7 @@ RSpec.describe TTY::Spinner, '#auto_spin' do
     spinner = TTY::Spinner.new(output: output, hide_cursor: true)
 
     spinner.auto_spin {
-      raise 'boom'
+      raise "boom"
     }
 
     output.rewind

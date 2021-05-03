@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner::Multi, '#register' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner::Multi, "#register" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "registers a TTY::Spinner instance from a pattern" do
     spinners = TTY::Spinner::Multi.new(output: output, interval: 100)
@@ -27,8 +25,8 @@ RSpec.describe TTY::Spinner::Multi, '#register' do
   it "raises an erro when given neither a string or spinner instance" do
     spinners = TTY::Spinner::Multi.new(output: output, interval: 100)
 
-    expect { spinners.register [] }.
-      to raise_error(
+    expect { spinners.register [] }
+      .to raise_error(
         ArgumentError,
         "Expected a pattern or spinner, got: Array"
       )
@@ -42,6 +40,7 @@ RSpec.describe TTY::Spinner::Multi, '#register' do
 
     spinners.register "[:spinner]"
 
-    expect(TTY::Spinner).to have_received(:new).with("[:spinner]", {interval: 100, output: output})
+    expect(TTY::Spinner).to have_received(:new)
+      .with("[:spinner]", {interval: 100, output: output})
   end
 end

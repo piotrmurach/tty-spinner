@@ -1,7 +1,5 @@
-# coding: utf-8
-
-RSpec.describe TTY::Spinner, '#run' do
-  let(:output) { StringIO.new('', 'w+') }
+RSpec.describe TTY::Spinner, "#run" do
+  let(:output) { StringIO.new("", "w+") }
 
   it "runs animation while executing block" do
     spinner = TTY::Spinner.new(output: output, interval: 100)
@@ -11,12 +9,12 @@ RSpec.describe TTY::Spinner, '#run' do
   end
 
   it "runs animation and executes block within context" do
-    context = spy('context')
+    context = spy("context")
     spinner = TTY::Spinner.new(":title", output: output)
 
     spinner.run("done") do
       context.call
-      spinner.update(title: 'executing')
+      spinner.update(title: "executing")
     end
 
     expect(context).to have_received(:call).once
