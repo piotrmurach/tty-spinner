@@ -59,6 +59,8 @@ Or install it yourself as:
   * [2.6 update](#26-update)
   * [2.7 reset](#27-reset)
   * [2.8 join](#28-join)
+  * [2.9 tty?](#29-tty)
+  * [2.10 log](#210-log)
 * [3. Configuration](#3-configuration)
   * [3.1 :format](#31-format)
   * [3.2 :frames](#32-frames)
@@ -311,6 +313,14 @@ The spinner will not write any output if the output stream is not a TTY. You can
 
 ```ruby
 spinner.tty?
+```
+
+### 2.10 log
+
+To output log messages to the console above a spinner use the `log` method:
+
+```ruby
+spinner.log("Print this log message to the console")
 ```
 
 ## 3. Configuration
