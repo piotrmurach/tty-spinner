@@ -272,11 +272,17 @@ module TTY
 
     # Pause spinner automatic animation
     #
+    # @param [String] mark
+    #   the custom mark to replace the spinner
+    #
     # @api public
-    def pause
-      return if paused?
+    def pause(mark: nil)
+      return if paused? || done?
 
       synchronize do
+        data = message.gsub(MATCHER, mark || @frames[@current])
+        data = replace_tokens(data)
+        write(data, true)
         @thread["pause"] = true if @thread
       end
     end
