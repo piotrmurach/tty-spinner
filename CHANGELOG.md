@@ -5,6 +5,7 @@
 ### Added
 * Add Spinner#log method for logging messages above the spinner
 * Add new formats (:pulse_4, :toss, :lighthouse, :points, :points_2)
+* Add ability to specify a custom mark for error, success and stop methods
 
 ### Changed
 * Change gemspec to include rake and rspec as dev dependencies

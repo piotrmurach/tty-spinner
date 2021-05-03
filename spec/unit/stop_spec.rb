@@ -61,4 +61,30 @@ RSpec.describe TTY::Spinner, '#stop' do
       "\e[1GLoading ... / Done!\n"
     ].join)
   end
+
+  it "sets a custom mark when done" do
+    spinner = TTY::Spinner.new("[:spinner]", output: output)
+    2.times { spinner.spin }
+    spinner.stop(mark: "!")
+
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1G[|]\e[1G[/]",
+      "\e[0m\e[2K",
+      "\e[1G[!]\n"
+    ].join)
+  end
+
+  it "sets a custom message and mark when done" do
+    spinner = TTY::Spinner.new("[:spinner]", output: output)
+    2.times { spinner.spin }
+    spinner.stop("Done", mark: "!")
+
+    output.rewind
+    expect(output.read).to eq([
+      "\e[1G[|]\e[1G[/]",
+      "\e[0m\e[2K",
+      "\e[1G[!] Done\n"
+    ].join)
+  end
 end

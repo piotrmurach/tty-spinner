@@ -43,4 +43,13 @@ RSpec.describe TTY::Spinner, '#success' do
 
     expect(spinner.success?).to be(true)
   end
+
+  it "changes success spinner marker per method call" do
+    spinner = TTY::Spinner.new(success_mark: "*", output: output)
+    spinner.success("(success)", mark: "V")
+    output.rewind
+    expect(output.read).to eq("\e[0m\e[2K\e[1GV (success)\n")
+
+    expect(spinner.success?).to be(true)
+  end
 end

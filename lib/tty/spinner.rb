@@ -390,16 +390,18 @@ module TTY
     #
     # @param [String] stop_message
     #   the stop message to print
+    # @param [String] mark
+    #   the custom mark to replace the spinner
     #
     # @api public
-    def stop(stop_message = "")
+    def stop(stop_message = "", mark: nil)
       mon_enter
       return if done?
 
       clear_line
       return if @clear
 
-      data = message.gsub(MATCHER, next_char)
+      data = message.gsub(MATCHER, mark || next_char)
       data = replace_tokens(data)
       if !stop_message.empty?
         data << " " + stop_message
@@ -438,26 +440,36 @@ module TTY
 
     # Finish spinning and set state to :success
     #
+    # @param [String] stop_message
+    #   the message to display on success
+    # @param [String] mark
+    #   the custom mark to replace the spinner
+    #
     # @api public
-    def success(stop_message = "")
+    def success(stop_message = "", mark: nil)
       return if done?
 
       synchronize do
         @succeeded = :success
-        stop(stop_message)
+        stop(stop_message, mark: mark)
         emit(:success)
       end
     end
 
     # Finish spinning and set state to :error
     #
+    # @param [String] stop_message
+    #   the message to display on error
+    # @param [String] mark
+    #   the custom mark to replace the spinner
+    #
     # @api public
-    def error(stop_message = "")
+    def error(stop_message = "", mark: nil)
       return if done?
 
       synchronize do
         @succeeded = :error
-        stop(stop_message)
+        stop(stop_message, mark: mark)
         emit(:error)
       end
     end

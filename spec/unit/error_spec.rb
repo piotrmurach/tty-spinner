@@ -43,4 +43,13 @@ RSpec.describe TTY::Spinner, '#error' do
 
     expect(spinner.error?).to be(true)
   end
+
+  it "changes error spinner marker per method call" do
+    spinner = TTY::Spinner.new(error_mark: "x", output: output)
+    spinner.error("(error)", mark: "!")
+    output.rewind
+    expect(output.read).to eq("\e[0m\e[2K\e[1G! (error)\n")
+
+    expect(spinner.error?).to be(true)
+  end
 end
