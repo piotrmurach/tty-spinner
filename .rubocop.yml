@@ -1,3 +1,18 @@
+AllCops:
+  NewCops: enable
+
+Layout/FirstArrayElementIndentation:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 82
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
 Lint/AssignmentInCondition:
   Enabled: false
 
@@ -7,7 +22,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   CountComments: true
   Max: 25
-  ExcludedMethods: []
+  IgnoredMethods: []
   Exclude:
     - "spec/**/*"
 
@@ -17,11 +32,12 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
-  Max: 80
-
 Metrics/MethodLength:
   Max: 20
+
+Naming/FileName:
+  Exclude:
+    - "lib/tty-spinner.rb"
 
 Naming/BinaryOperatorParameterName:
   Enabled: false
@@ -29,20 +45,34 @@ Naming/BinaryOperatorParameterName:
 Style/AsciiComments:
   Enabled: false
 
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - "spec/**/*"
+
 Style/LambdaCall:
   SupportedStyles:
   - call
   - braces
 
+Style/Semicolon:
+  Exclude:
+    - "spec/**/*"
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/SymbolProc:
+  Exclude:
+    - "spec/**/*"
+
 Style/TrivialAccessors:
-  Enabled: false
-
-# { ... } for multi-line blocks is okay
-Style/BlockDelimiters:
-  Enabled: false
-
-Style/CommentedKeyword:
   Enabled: false
