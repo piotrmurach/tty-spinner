@@ -567,13 +567,17 @@ multi_spinner = TTY::Spinner::Multi.new("[:spinner] parent", style: {
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/piotrmurach/tty-spinner. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/piotrmurach/tty-spinner. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/piotrmurach/tty-spinner/blob/master/CODE_OF_CONDUCT.md).
 
 1. Fork it ( https://github.com/piotrmurach/tty-spinner/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Code of Conduct
+
+Everyone interacting in the TTY::Spinner project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/piotrmurach/tty-spinner/blob/master/CODE_OF_CONDUCT.md).
 
 ## Copyright
 
