@@ -1,4 +1,6 @@
-require_relative '../lib/tty-spinner'
+# frozen_string_literal: true
+
+require_relative "../lib/tty-spinner"
 
 spinner = TTY::Spinner.new("[:spinner] Task name")
 20.times do
@@ -6,4 +8,4 @@ spinner = TTY::Spinner.new("[:spinner] Task name")
   sleep(0.1)
 end
 
-spinner.success('(successful)')
+spinner.success("(successful)")

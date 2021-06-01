@@ -1,6 +1,8 @@
-require_relative '../lib/tty-spinner'
+# frozen_string_literal: true
 
-TTY::Formats::FORMATS.keys.each do |token|
+require_relative "../lib/tty-spinner"
+
+TTY::Formats::FORMATS.each_key do |token|
   options = {format: token, hide_cursor: true}
   spinner = TTY::Spinner.new("#{token}: :spinner", options)
   20.times do

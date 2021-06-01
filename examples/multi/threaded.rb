@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/tty-spinner'
+require_relative "../../lib/tty-spinner"
 
 def spinner_options
   [
     ":spinner \e[1mNo\e[0m :number Row :line",
     format: :dots,
-    error_mark: '✖',
+    error_mark: "✖",
     success_mark: "\e[1m\e[32m✓\e[0m\e[0m"
   ]
 end

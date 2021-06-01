@@ -1,4 +1,6 @@
-require_relative '../../lib/tty-spinner'
+# frozen_string_literal: true
+
+require_relative "../../lib/tty-spinner"
 
 spinners = TTY::Spinner::Multi.new("[:spinner]")
 

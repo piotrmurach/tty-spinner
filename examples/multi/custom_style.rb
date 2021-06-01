@@ -1,10 +1,12 @@
-require_relative '../../lib/tty-spinner'
+# frozen_string_literal: true
+
+require_relative "../../lib/tty-spinner"
 
 opts = {
   style: {
     top: ". ",
     middle: "|-> ",
-    bottom: "|__ ",
+    bottom: "|__ "
   },
   format: :bouncing_ball
 }
