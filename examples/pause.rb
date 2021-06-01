@@ -1,19 +1,24 @@
-require_relative '../lib/tty-spinner'
+# frozen_string_literal: true
 
-spinner = TTY::Spinner.new("[:spinner] Task name")
+require_relative "../lib/tty-spinner"
+
+spinner = TTY::Spinner.new("[:spinner] :title")
+spinner.update(title: "Task name")
 
 spinner.auto_spin
 
 sleep(2)
 
-spinner.pause
+spinner.update(title: "Paused task name")
+spinner.pause(mark: "?")
 
 sleep(2)
 
 spinner.resume
+spinner.update(title: "Task name")
 
 sleep(2)
 
-spinner.stop
+spinner.stop("done...")
 
 puts
