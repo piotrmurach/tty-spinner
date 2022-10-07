@@ -504,15 +504,22 @@ module TTY
     #
     # @param [String] text
     #   the message to log out
+    # @param [Boolean] trailing_newline
+    #   automatically add a trailing new line if message is missing one (using LF)
     #
     # @api public
-    def log(text)
+    def log(text, trailing_newline: true)
       synchronize do
         cleared_text = text.to_s.lines.map do |line|
           TTY::Cursor.clear_line + line
         end.join
 
-        write("#{cleared_text}#{"\n" unless cleared_text.end_with?("\n")}", false)
+        if trailing_newline
+          write("#{cleared_text}#{"\n" unless cleared_text.end_with?("\n")}", false)
+        else
+          write(cleared_text, false)
+        end
+
         render
       end
     end
