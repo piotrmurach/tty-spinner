@@ -62,10 +62,10 @@ RSpec.describe TTY::Spinner, "#log" do
     it "logs a message above a spinner" do
       spinner = TTY::Spinner.new(output: output)
 
-      2.times {
+      2.times do
         spinner.log "foo\r", trailing_newline: false
         spinner.spin
-      }
+      end
       output.rewind
 
       expect(output.read).to eq([
