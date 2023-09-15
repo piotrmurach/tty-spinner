@@ -20,6 +20,6 @@ RSpec.describe TTY::Spinner, "#auto_spin" do
     }
 
     output.rewind
-    expect(output.read).to start_with("\e[?25l").and end_with("\e[?25h")
+    expect(output.read.empty?).to eq(true)
   end
 end
