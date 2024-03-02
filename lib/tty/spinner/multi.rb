@@ -344,6 +344,9 @@ module TTY
           if done?
             @top_spinner.stop if @top_spinner && !error? && !success?
             emit(:done)
+          elsif @options[:hide_cursor]
+            # Undo show cursor done by subspinners
+            @spinners.first.redraw_indent(rehide: true)
           end
         end
       end
