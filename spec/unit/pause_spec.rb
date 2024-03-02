@@ -34,10 +34,6 @@ RSpec.describe TTY::Spinner, "#pause" do
     spinner.auto_spin
 
     output.rewind
-    expect(output.read).to eq([
-      "\e[1G[|]",
-      "\e[1G[?]",
-      "\e[1G[|]"
-    ].join)
+    expect(output.read).to eq("\e[1G[?]")
   end
 end

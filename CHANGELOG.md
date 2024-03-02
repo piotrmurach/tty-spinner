@@ -11,6 +11,9 @@
 * Change gemspec to include rake and rspec as dev dependencies
 * Change all built-in formats to use consistent frames formatting
 
+### Fixed
+* Fix cursor hiding in threaded run
+
 ## [v0.9.3] - 2020-01-28
 
 ### Changed

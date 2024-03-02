@@ -27,4 +27,20 @@ RSpec.describe TTY::Spinner, "#run" do
       spinner.run("done", &job)
     }.to yield_with_args(spinner)
   end
+
+  it "restores cursor when error is raised" do
+    spinner = TTY::Spinner.new(output: output, hide_cursor: true)
+
+    Thread.report_on_exception = false
+    begin
+      spinner.run do
+        raise "boom"
+      end
+    rescue RuntimeError
+    end
+    Thread.report_on_exception = true
+
+    output.rewind
+    expect(output.read).to start_with("\e[?25l").and end_with("\e[?25h")
+  end
 end

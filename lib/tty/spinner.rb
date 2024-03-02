@@ -242,22 +242,24 @@ module TTY
         start
         sleep_time = 1.0 / @interval
 
-        spin
         @thread = Thread.new do
-          sleep(sleep_time)
-          while @started_at
-            if Thread.current["pause"]
-              Thread.stop
-              Thread.current["pause"] = false
-            end
+          # rubocop:disable Style/RedundantBegin
+          begin
+            # rubocop:enable Style/RedundantBegin
             spin
             sleep(sleep_time)
+            while @started_at
+              if Thread.current["pause"]
+                Thread.stop
+                Thread.current["pause"] = false
+              end
+              spin
+              sleep(sleep_time)
+            end
+          rescue StandardError
+            write(TTY::Cursor.show, false) if @hide_cursor
           end
         end
-      end
-    ensure
-      if @hide_cursor
-        write(TTY::Cursor.show, false)
       end
     end
 
