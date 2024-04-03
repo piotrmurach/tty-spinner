@@ -5,13 +5,13 @@
 # TTY::Spinner
 
 [![Gem Version](https://badge.fury.io/rb/tty-spinner.svg)][gem]
-[![Actions CI](https://github.com/piotrmurach/tty-spinner/workflows/CI/badge.svg?branch=master)][gh_actions_ci]
+[![Actions CI](https://github.com/piotrmurach/tty-spinner/actions/workflows/ci.yml/badge.svg)][gh_actions_ci]
 [![Build status](https://ci.appveyor.com/api/projects/status/2i5lx3tvyi5l8x3j?svg=true)][appveyor]
 [![Maintainability](https://api.codeclimate.com/v1/badges/d5ae2219e194ac99be58/maintainability)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/piotrmurach/tty-spinner/badge.svg)][coverage]
 
 [gem]: https://badge.fury.io/rb/tty-spinner
-[gh_actions_ci]: https://github.com/piotrmurach/tty-spinner/actions?query=workflow%3ACI
+[gh_actions_ci]: https://github.com/piotrmurach/tty-spinner/actions/workflows/ci.yml
 [appveyor]: https://ci.appveyor.com/project/piotrmurach/tty-spinner
 [codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner/maintainability
 [coverage]: https://coveralls.io/r/piotrmurach/tty-spinner
