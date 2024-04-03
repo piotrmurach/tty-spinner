@@ -10,7 +10,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d5ae2219e194ac99be58/maintainability)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/piotrmurach/tty-spinner/badge.svg)][coverage]
 
-[gem]: http://badge.fury.io/rb/tty-spinner
+[gem]: https://badge.fury.io/rb/tty-spinner
 [gh_actions_ci]: https://github.com/piotrmurach/tty-spinner/actions?query=workflow%3ACI
 [appveyor]: https://ci.appveyor.com/project/piotrmurach/tty-spinner
 [codeclimate]: https://codeclimate.com/github/piotrmurach/tty-spinner/maintainability
