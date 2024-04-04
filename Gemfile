@@ -9,11 +9,9 @@ if RUBY_VERSION == "2.0.0"
   gem "rake", "12.3.3"
 end
 gem "pastel", "~> 0.8.0"
+gem "yardstick", "~> 0.9.9"
+
 if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.5.0")
   gem "coveralls_reborn", "~> 0.21.0"
   gem "simplecov", "~> 0.21.0"
-end
-
-group :metrics do
-  gem "yardstick", "~> 0.9.9"
 end
