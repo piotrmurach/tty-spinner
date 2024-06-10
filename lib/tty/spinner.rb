@@ -384,8 +384,8 @@ module TTY
     # Redraw the indent for this spinner, if it exists
     #
     # @api private
-    def redraw_indent
-      if @hide_cursor && !spinning?
+    def redraw_indent(rehide: false)
+      if @hide_cursor && (rehide || !spinning?)
         write(TTY::Cursor.hide)
       end
 
