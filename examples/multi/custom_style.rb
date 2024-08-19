@@ -4,9 +4,9 @@ require_relative "../../lib/tty-spinner"
 
 opts = {
   style: {
-    top: ". ",
-    middle: "|-> ",
-    bottom: "|__ "
+    top:    "╭─➤ ",
+    middle: "├──➤ ",
+    bottom: "╰──➤ "
   },
   format: :bouncing_ball
 }
